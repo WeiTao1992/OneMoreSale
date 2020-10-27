@@ -4,7 +4,9 @@ This is a second sale market place.
 
 ## Frontend
 ### How to run frontend?
+
 ```
+cd frontend
 npm install
 npm start
 ```
