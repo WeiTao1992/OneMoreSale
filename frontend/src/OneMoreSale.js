@@ -5,6 +5,12 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import Home from "./home/Home";
+import Account from "./account/Account";
+import Item from "./item/Item";
+import Register from "./register/Register";
+import Login from "./login/Login";
+import Sell from "./sell/Sell";
 
 export default function OneMoreSale() {
   return (
@@ -13,16 +19,16 @@ export default function OneMoreSale() {
         <nav>
           <ul>
             <li>
-              <Link to="/">Main</Link>
+              <Link to="/">Home</Link>
             </li>
             <li>
               <Link to="/account">Account</Link>
             </li>
             <li>
-              <Link to="/postedit">PostEdit</Link>
+              <Link to="/sell">Sell</Link>
             </li>
             <li>
-              <Link to="/signin">SignIn</Link>
+              <Link to="/login">Login</Link>
             </li>
             <li>
               <Link to="/register">Register</Link>
@@ -37,11 +43,11 @@ export default function OneMoreSale() {
           <Route path="/account">
             <Account />
           </Route>
-          <Route path="/postedit">
-            <PostEdit />
+          <Route path="/sell">
+            <Sell />
           </Route>
-          <Route path="/signin">
-            <SignIn />
+          <Route path="/login">
+            <Login />
           </Route>
           <Route path="/register">
             <Register />
@@ -50,34 +56,10 @@ export default function OneMoreSale() {
             <Item />
           </Route>
           <Route path="/">
-            <Main />
+            <Home />
           </Route>
         </Switch>
       </div>
     </Router>
   );
-}
-
-function Main() {
-  return <h2>Main</h2>;
-}
-
-function Account() {
-  return <h2>Account</h2>;
-}
-
-function PostEdit() {
-  return <h2>PostEdit</h2>;
-}
-
-function SignIn() {
-  return <h2>SignIn</h2>;
-}
-
-function Register() {
-  return <h2>Register</h2>;
-}
-
-function Item() {
-  return <h2>Item</h2>;
 }
