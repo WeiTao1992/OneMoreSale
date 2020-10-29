@@ -1,10 +1,10 @@
-package com.onemoresale.OneMoreSale;
+package com.OneMoreSale.OneMoreSaleServer;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class OneMoreSaleApplicationTests {
+class OneMoreSaleServerApplicationTests {
 
 	@Test
 	void contextLoads() {
