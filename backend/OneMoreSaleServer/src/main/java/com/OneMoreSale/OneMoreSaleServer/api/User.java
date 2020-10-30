@@ -10,6 +10,7 @@ public class User {
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
 
+    // greeting is just a Hello World demo.
     @GetMapping("/greeting")
     public Greetings greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
         return new Greetings(counter.incrementAndGet(), String.format(template, name));
