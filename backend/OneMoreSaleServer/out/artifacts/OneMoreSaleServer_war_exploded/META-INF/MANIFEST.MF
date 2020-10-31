@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Created-By: IntelliJ IDEA
-Built-By: Ming
-Build-Jdk: 14.0.1
-Implementation-Title: OneMoreSaleServer
-Implementation-Version: 0.0.1-SNAPSHOT
-Implementation-Vendor-Id: com.OneMoreSale
-Main-Class: ${start-class}
-
