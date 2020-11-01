@@ -1,6 +1,7 @@
 package com.OneMoreSale.OneMoreSaleServer.model;
 
 
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -26,6 +27,7 @@ public class TransactionMethod implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
+
 
     public Post getPost() {
         return post;

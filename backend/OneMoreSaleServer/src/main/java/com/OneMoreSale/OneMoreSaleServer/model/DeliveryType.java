@@ -7,7 +7,9 @@ import java.io.Serializable;
 @Table(name = "delivery_type")
 public class DeliveryType implements Serializable {
 
+
     private static final long serialVersionUID = 6291084930954657897L;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,6 +28,7 @@ public class DeliveryType implements Serializable {
         this.id = id;
     }
 
+
     public Post getPost() {
         return post;
     }
@@ -33,6 +36,7 @@ public class DeliveryType implements Serializable {
     public void setPost(Post post) {
         this.post = post;
     }
+
 
     public String getDeliveryType() {
         return deliveryType;
