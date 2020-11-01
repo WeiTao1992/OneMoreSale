@@ -37,7 +37,6 @@ public class Post implements Serializable {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
 
-    
     private List<PostImage> postImage;
 
     private Timestamp postDate;
