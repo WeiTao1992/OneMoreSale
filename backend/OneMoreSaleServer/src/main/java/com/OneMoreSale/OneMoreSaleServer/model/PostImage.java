@@ -7,7 +7,9 @@ import java.io.Serializable;
 @Table(name = "post_image")
 public class PostImage implements Serializable {
 
+
     private static final long serialVersionUID = 7851737009378303347L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -25,6 +27,7 @@ public class PostImage implements Serializable {
         this.id = id;
     }
 
+
     public Post getPost() {
         return post;
     }
@@ -32,6 +35,7 @@ public class PostImage implements Serializable {
     public void setPost(Post post) {
         this.post = post;
     }
+
 
     public String getPostImage() {
         return postImage;

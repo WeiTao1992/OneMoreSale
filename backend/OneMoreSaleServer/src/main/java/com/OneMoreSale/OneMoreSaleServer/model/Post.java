@@ -1,7 +1,9 @@
 package com.OneMoreSale.OneMoreSaleServer.model;
 
+
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,6 +21,7 @@ public class Post implements Serializable {
     @ManyToOne
     private User user;
 
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<DeliveryType> deliveryType;
@@ -33,6 +36,8 @@ public class Post implements Serializable {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
+
+    
     private List<PostImage> postImage;
 
     private Timestamp postDate;
@@ -47,6 +52,7 @@ public class Post implements Serializable {
     private String postPhone;
     private String postZipcode;
     private String postAddress;
+
 
     public int getPostId() {
         return postId;
