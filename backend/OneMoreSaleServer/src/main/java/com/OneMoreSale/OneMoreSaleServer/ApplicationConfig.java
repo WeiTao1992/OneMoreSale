@@ -1,6 +1,8 @@
 package com.OneMoreSale.OneMoreSaleServer;
 
+import com.OneMoreSale.OneMoreSaleServer.model.Account;
 import com.OneMoreSale.OneMoreSaleServer.model.Greetings;
+import com.OneMoreSale.OneMoreSaleServer.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,10 +22,12 @@ public class ApplicationConfig {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         //This is a way for setting only one class to sessionFactory
-        //sessionFactory.setAnnotatedClasses(new Class[]{Greetings.class});
+//        sessionFactory.setAnnotatedClasses(new Class[]{Greetings.class});
 
         // This is one way to scan entire package
         sessionFactory.setPackagesToScan("com.OneMoreSale.OneMoreSaleServer.model");
+//        sessionFactory.setAnnotatedClasses(new Class[]{Account.class});
+//        sessionFactory.setAnnotatedClasses(new Class[]{User.class});
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }
