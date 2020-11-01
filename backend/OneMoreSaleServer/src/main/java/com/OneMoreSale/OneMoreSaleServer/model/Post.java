@@ -1,5 +1,10 @@
 package com.OneMoreSale.OneMoreSaleServer.model;
 
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -16,16 +21,23 @@ public class Post implements Serializable {
     @ManyToOne
     private User user;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<DeliveryType> deliveryType;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<TransactionMethod> transactionMethod;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Keyword> keyword;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+
+    
     private List<PostImage> postImage;
 
     private Timestamp postDate;
@@ -35,27 +47,12 @@ public class Post implements Serializable {
     private String postDescription;
     private String postOwner;
     private String postStatus;
-    private float postPrice;
+    private double postPrice;
     private String postEmail;
     private String postPhone;
     private String postZipcode;
     private String postAddress;
 
-    public String getPostZipcode() {
-        return postZipcode;
-    }
-
-    public void setPostZipcode(String postZipcode) {
-        this.postZipcode = postZipcode;
-    }
-
-    public String getPostOwner() {
-        return postOwner;
-    }
-
-    public void setPostOwner(String postOwner) {
-        this.postOwner = postOwner;
-    }
 
     public int getPostId() {
         return postId;
@@ -63,6 +60,46 @@ public class Post implements Serializable {
 
     public void setPostId(int postId) {
         this.postId = postId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<DeliveryType> getDeliveryType() {
+        return deliveryType;
+    }
+
+    public void setDeliveryType(List<DeliveryType> deliveryType) {
+        this.deliveryType = deliveryType;
+    }
+
+    public List<TransactionMethod> getTransactionMethod() {
+        return transactionMethod;
+    }
+
+    public void setTransactionMethod(List<TransactionMethod> transactionMethod) {
+        this.transactionMethod = transactionMethod;
+    }
+
+    public List<Keyword> getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(List<Keyword> keyword) {
+        this.keyword = keyword;
+    }
+
+    public List<PostImage> getPostImage() {
+        return postImage;
+    }
+
+    public void setPostImage(List<PostImage> postImage) {
+        this.postImage = postImage;
     }
 
     public Timestamp getPostDate() {
@@ -105,6 +142,14 @@ public class Post implements Serializable {
         this.postDescription = postDescription;
     }
 
+    public String getPostOwner() {
+        return postOwner;
+    }
+
+    public void setPostOwner(String postOwner) {
+        this.postOwner = postOwner;
+    }
+
     public String getPostStatus() {
         return postStatus;
     }
@@ -113,11 +158,11 @@ public class Post implements Serializable {
         this.postStatus = postStatus;
     }
 
-    public float getPostPrice() {
+    public double getPostPrice() {
         return postPrice;
     }
 
-    public void setPostPrice(float postPrice) {
+    public void setPostPrice(double postPrice) {
         this.postPrice = postPrice;
     }
 
@@ -135,6 +180,14 @@ public class Post implements Serializable {
 
     public void setPostPhone(String postPhone) {
         this.postPhone = postPhone;
+    }
+
+    public String getPostZipcode() {
+        return postZipcode;
+    }
+
+    public void setPostZipcode(String postZipcode) {
+        this.postZipcode = postZipcode;
     }
 
     public String getPostAddress() {

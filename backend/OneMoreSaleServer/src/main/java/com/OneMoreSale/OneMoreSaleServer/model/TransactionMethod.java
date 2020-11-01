@@ -1,6 +1,6 @@
 package com.OneMoreSale.OneMoreSaleServer.model;
 
-import net.bytebuddy.dynamic.loading.InjectionClassLoader;
+
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -26,6 +26,15 @@ public class TransactionMethod implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     public String getTransactionMethod() {
