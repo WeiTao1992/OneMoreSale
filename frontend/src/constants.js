@@ -1,0 +1,1 @@
+export const API_ROOT = 'https://my-json-server.typicode.com/stinkycc/SHMTest';
