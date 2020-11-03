@@ -31,15 +31,17 @@ public class UserInfoApi {
     @RequestMapping(value = "/UpdatePassword", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> updatePassword(@RequestParam(name = "email") String email, @RequestParam(name = "username") String username,
+
     @RequestParam(name = "password") String password){
         return userInfoService.updatePassword(email, username, password);
+
     }
 
     @RequestMapping(value = "/UpdateAddress", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> updateAddress(@RequestParam(name = "email") String email, @RequestParam(name = "phone") String phone,
                                             @RequestParam(name = "address") String address){
+
         return userInfoService.updateAddress(email, phone, address);
     }
-
 }

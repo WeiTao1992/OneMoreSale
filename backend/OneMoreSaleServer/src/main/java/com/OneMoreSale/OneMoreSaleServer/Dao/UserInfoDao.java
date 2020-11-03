@@ -30,6 +30,7 @@ public class UserInfoDao {
             return user;
         return null;
     }
+  
     public ResponseEntity<?> updateAddress(String email, String phone, String address) {
         Account account = null;
         try (Session session = sessionFactory.openSession()) {
