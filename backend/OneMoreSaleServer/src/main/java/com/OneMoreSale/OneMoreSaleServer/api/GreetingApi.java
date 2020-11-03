@@ -6,6 +6,7 @@ import com.OneMoreSale.OneMoreSaleServer.service.GreetingService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -81,20 +82,25 @@ public class GreetingApi {
 
             DeliveryType deliveryType = new DeliveryType();
             deliveryType.setDeliveryType("pick up");
+            deliveryType.setPost(post1);
             post1.setDeliveryType(Arrays.asList(deliveryType));
 
             TransactionMethod transactionMethod = new TransactionMethod();
             transactionMethod.setTransactionMethod("cash");
+            transactionMethod.setPost(post1);
             post1.setTransactionMethod(Arrays.asList(transactionMethod));
 
             Keyword keyword1 = new Keyword();
             Keyword keyword2 = new Keyword();
             keyword1.setPostKeyword("iphone");
             keyword2.setPostKeyword("blue");
+            keyword1.setPost(post1);
+            keyword2.setPost(post1);
             post1.setKeyword(Arrays.asList(keyword1, keyword2));
 
             PostImage postImage = new PostImage();
             postImage.setPostImage("usl//............");
+            postImage.setPost(post1);
             post1.setPostImage(Arrays.asList(postImage));
 
             post1.setPostCategory("mobile");
@@ -115,5 +121,47 @@ public class GreetingApi {
                 session.close();
             }
         }
+    }
+    @GetMapping("/delete")
+    public void delete(@RequestParam(value = "id") int postId){
+        Session session = null;
+        try{
+            session = sessionFactory.openSession();
+            Post post = session.get(Post.class, postId);
+            User user = post.getUser();
+            List<Post> postList = user.getPostList();
+            postList.remove(post);
+            session.beginTransaction();
+            session.delete(post);
+            session.getTransaction().commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            if (session != null){
+                session.close();
+            }
+        }
+    }
+
+    @GetMapping("/getAll")
+    public List<Post> getAll(@RequestParam(value = "id") int userId){
+        try(Session session = sessionFactory.openSession()){
+            User user = session.get(User.class, userId);
+            return user.getPostList();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    @GetMapping("getPost")
+    public Post getPost(@RequestParam(value = "id") int postId){
+        try(Session session = sessionFactory.openSession()){
+            return session.get(Post.class, postId);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }
