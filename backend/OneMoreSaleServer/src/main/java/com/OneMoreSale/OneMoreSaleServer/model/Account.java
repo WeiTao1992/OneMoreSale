@@ -1,6 +1,8 @@
 package com.OneMoreSale.OneMoreSaleServer.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -15,6 +17,7 @@ public class Account implements Serializable {
     private int emailId;
 
     @OneToOne(mappedBy = "account")
+    @JsonIgnoreProperties({"account"})
     private User user;
 
     private String email;
@@ -31,8 +34,7 @@ public class Account implements Serializable {
         this.emailId = emailId;
     }
 
-    public User getUser() {
-        return user;
+    public User getUser() { return user;
     }
 
     public void setUser(User user) {
