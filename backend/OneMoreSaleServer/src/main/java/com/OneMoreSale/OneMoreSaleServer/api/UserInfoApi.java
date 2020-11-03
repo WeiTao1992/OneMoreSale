@@ -31,45 +31,17 @@ public class UserInfoApi {
     @RequestMapping(value = "/UpdatePassword", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> updatePassword(@RequestParam(name = "email") String email, @RequestParam(name = "username") String username,
-    @RequestParam(name = "password") String password, @RequestParam(name = "passwordCF") String passwordCF){
-        Account account = null;
-        try (Session session = sessionFactory.openSession()) {
-            Criteria criteria = session.createCriteria(Account.class);
-            account = (Account) criteria.add(Restrictions.eq("email", email)).uniqueResult();
-            account.setPassword(password);
-            User user = account.getUser();
-            user.setUserName(username);
-            account.setUser(user);
-            session.beginTransaction();
-            session.update(account);
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+
+    @RequestParam(name = "password") String password){
+        return userInfoService.updatePassword(email, username, password);
+
     }
 
     @RequestMapping(value = "/UpdateAddress", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> updateAddress(@RequestParam(name = "email") String email, @RequestParam(name = "phone") String phone,
                                             @RequestParam(name = "address") String address){
-        Account account = null;
-        try (Session session = sessionFactory.openSession()) {
-            Criteria criteria = session.createCriteria(Account.class);
-            account = (Account) criteria.add(Restrictions.eq("email", email)).uniqueResult();
-            User user = account.getUser();
-            user.setPhone(phone);
-            user.setAddress(address);
-            account.setUser(user);
-            session.beginTransaction();
-            session.update(account);
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
+        return userInfoService.updateAddress(email, phone, address);
+    }
 }
