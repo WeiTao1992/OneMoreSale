@@ -24,7 +24,9 @@ public class User implements Serializable{
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(unique = true)
+    @JsonIgnoreProperties({"user"})
     private Account account;
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Post> postList;
