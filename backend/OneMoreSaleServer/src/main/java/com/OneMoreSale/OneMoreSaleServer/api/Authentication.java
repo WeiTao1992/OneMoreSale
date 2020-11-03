@@ -35,7 +35,7 @@ public class Authentication {
         user.setPhone("120");
         user.setUserName("Monkey");
         user.setZipCode("95116");
-
+        authenticationService.register(user);
         return user;
     }
 
