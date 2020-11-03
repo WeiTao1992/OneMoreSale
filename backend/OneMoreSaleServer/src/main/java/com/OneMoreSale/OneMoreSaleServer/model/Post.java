@@ -1,6 +1,7 @@
 package com.OneMoreSale.OneMoreSaleServer.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -19,6 +20,7 @@ public class Post implements Serializable {
     private int postId;
 
     @ManyToOne
+    @JsonIgnore
     private User user;
 
 

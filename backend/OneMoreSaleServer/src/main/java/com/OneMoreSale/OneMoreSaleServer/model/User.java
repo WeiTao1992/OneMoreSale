@@ -1,6 +1,8 @@
 package com.OneMoreSale.OneMoreSaleServer.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -22,6 +24,7 @@ public class User implements Serializable{
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(unique = true)
+    @JsonIgnoreProperties({"user"})
     private Account account;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
