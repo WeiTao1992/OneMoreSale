@@ -67,7 +67,6 @@ public class GreetingApi {
             }
         }
 
-
     }
     // use for testing.
     @GetMapping("/saveposts")
