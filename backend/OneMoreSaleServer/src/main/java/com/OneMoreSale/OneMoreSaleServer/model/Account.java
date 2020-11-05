@@ -26,7 +26,7 @@ public class Account implements Serializable {
     private String firstName;
     private String lastName;
     private String password;
-    private boolean status;
+    private boolean status = true;
 
     public int getEmailId() {
         return emailId;
