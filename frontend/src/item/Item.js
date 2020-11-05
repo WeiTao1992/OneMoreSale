@@ -20,7 +20,12 @@ const useStyles = makeStyles((theme) => ({
     gridItem:{
         marginTop:3,
         marginBottom:1,
-        width:'50%',
+        width:'60%',
+    },
+    gridImg:{
+        marginTop:3,
+        marginBottom:1,
+        width:'40%',
     },
     gridList: {
         flexWrap: 'nowrap',
@@ -29,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
     title:{
         variant:'h4',
         align:'left',
+    },
+    carousel: {
+        margin: theme.spacing(2),
     },
     item:{
         color:'textSecondary',
@@ -73,7 +81,7 @@ export default function Item() {
     const [post, setPost] = useState("");
     const[imgs, setImgs] = useState([]);
     const classes = useStyles();
-    const space = 1;
+    const space = 5;
     useEffect(() => {
         getItems(setPost);
         getImgs(setImgs);
@@ -96,13 +104,13 @@ export default function Item() {
                 </Grid>
                 <Divider/>
                 <Grid container spacing={space} >
-                    <Grid item className={classes.gridItem} spacing={space} alignItems="center">
+                    <Grid item  className={classes.gridImg} spacing={space} alignItems="center">
                     {/* <AliceCarousel >
                         <img src="https://source.unsplash.com/aZjw7xI3QAA/1144x763" />
                         <img src="https://source.unsplash.com/c77MgFOt7e0/1144x763" />
                         <img src="https://source.unsplash.com/QdBHnkBdu4g/1144x763" />
                     </AliceCarousel>  */}
-                    <Carousel>
+                    <Carousel  heightMode="current">
                     {
                         imgs.map((tile) => (
                             <img src={tile.img}/>
