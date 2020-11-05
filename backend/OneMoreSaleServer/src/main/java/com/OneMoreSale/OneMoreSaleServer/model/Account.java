@@ -20,7 +20,9 @@ public class Account implements Serializable {
     @JsonIgnoreProperties({"account"})
     private User user;
 
+    @Column(unique=true)
     private String email;
+
     private String firstName;
     private String lastName;
     private String password;
@@ -34,8 +36,7 @@ public class Account implements Serializable {
         this.emailId = emailId;
     }
 
-    public User getUser() { return user;
-    }
+    public User getUser() { return user; }
 
     public void setUser(User user) {
         this.user = user;

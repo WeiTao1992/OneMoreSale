@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +31,6 @@ public class GreetingApi {
         greetings.setContent(name);
         greetings.setId(counter.incrementAndGet());
         greetingService.getGreetings(greetings);
-
         return greetings;
     }
 
