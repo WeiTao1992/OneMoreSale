@@ -14,25 +14,25 @@ public class AuthenticationDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public boolean validateEmail(String email){
-        Session session = null;
-
-        try {
-            session = sessionFactory.openSession();
-            session.beginTransaction();
-            session.get(Account.class, email);
-
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-        return true;
-    }
+//    public boolean validateEmail(String email){
+//        Session session = null;
+//
+//        try {
+//            session = sessionFactory.openSession();
+//            session.beginTransaction();
+//            session.get(Account.class, email);
+//
+//            session.getTransaction().commit();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            session.getTransaction().rollback();
+//        } finally {
+//            if (session != null) {
+//                session.close();
+//            }
+//        }
+//        return true;
+//    }
 
 
 
@@ -46,9 +46,9 @@ public class AuthenticationDao {
             session.save(user);
             session.getTransaction().commit();
         } catch (Exception e) {
+            validEmail = false;
             e.printStackTrace();
             session.getTransaction().rollback();
-            validEmail = false;
         } finally {
             if (session != null) {
                 session.close();

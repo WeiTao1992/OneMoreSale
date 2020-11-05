@@ -17,7 +17,9 @@ public class Authentication {
     @Autowired
     private AuthenticationService authenticationService;
 
-
+    /**
+     * TODO: .../register 需要阻止已存在的email进行二次注册
+     * */
     @GetMapping("/register")
     public ResponseEntity<?> register(
             @RequestParam(value = "email") String email,
@@ -27,8 +29,6 @@ public class Authentication {
             @RequestParam(value = "phone") String phone,
             @RequestParam(value = "zipcode") String zipcode
     ) {
-
-
         Account account = new Account();
         User user = new User();
 
