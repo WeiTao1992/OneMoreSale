@@ -40,14 +40,14 @@ public class AuthenticationApi {
     @ResponseBody
     public String register(@RequestBody @NonNull User user, HttpServletResponse response
     ) throws IOException {
+        // sanity check
 
-        String email = user.getAccount().getEmail();
-        if (email == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "please input email");
+        if (user == null || user.getAccount().getEmail() == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "please input data");
             return "Register Failed";
         }
         // 检查是否email已存在
-        int userId = authenticationService.getUserIdByEmail(email);
+        int userId = authenticationService.getUserIdByEmail(user.getAccount().getEmail());
         if (userId != -1) {
             response.sendError(HttpServletResponse.SC_CONFLICT, "user existed");
             return "Register Failed";
@@ -68,7 +68,7 @@ public class AuthenticationApi {
      */
     @PostMapping("/login")
     @ResponseBody
-    public void login(@RequestBody Credential credential, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void login(@RequestBody @NonNull Credential credential, HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 验证用户是否已登陆
         if (!HttpUtil.sessionInvalid(request)) {    // already logged in
             response.getWriter().print("user already logged in");
