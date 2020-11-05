@@ -22,6 +22,11 @@ const useStyles = makeStyles((theme) => ({
         marginBottom:1,
         width:'60%',
     },
+    gridInItem:{
+        marginTop:2,
+        marginBottom:1,
+        width:'50%',
+    },
     gridImg:{
         marginTop:3,
         marginBottom:1,
@@ -120,11 +125,11 @@ export default function Item() {
                     <Grid item className={classes.gridItem} >
                         <Typography gutterBottom variant="h6" align="left">{post.title}</Typography>
                         <Grid container spacing={space}>
-                            <Grid item className={classes.gridItem}>
+                            <Grid item className={classes.gridInItem}>
                                 <Typography color="textSecondary" variant="body2" align="left">Seller: {post.user}</Typography>
                                 <Typography color="textSecondary" variant="body2" align="left">Price: {post.price}</Typography>
                             </Grid>
-                            <Grid item className={classes.gridItem}>
+                            <Grid item className={classes.gridInItem}>
                                 <Typography color="textSecondary" variant="body2" align="left">Relaase: {post.data}</Typography>
                                 <Typography color="textSecondary" variant="body2" align="left">Status: {post.status}</Typography>
                             </Grid>
