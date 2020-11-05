@@ -1,5 +1,6 @@
 package com.OneMoreSale.OneMoreSaleServer.api;
 
+import com.OneMoreSale.OneMoreSaleServer.HttpUtil;
 import com.OneMoreSale.OneMoreSaleServer.model.Account;
 import com.OneMoreSale.OneMoreSaleServer.model.User;
 import com.OneMoreSale.OneMoreSaleServer.service.UserInfoService;
@@ -11,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/userinfo")
@@ -45,4 +50,13 @@ public class UserInfoApi {
 
         return userInfoService.updateAddress(email, phone, address);
     }
+
+    /**
+     *
+     *  test方法会验证session.
+     *      如果用户已登陆 --> 返回unauthorized
+     *             未登陆 --> 返回成功
+     *
+     * */
+
 }
