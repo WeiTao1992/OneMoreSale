@@ -17,24 +17,25 @@ public class Authentication {
     public User register(
             @RequestParam(value = "email") String email,
             @RequestParam(value = "password") String password,
-            @RequestParam(value = "firstname") String firstName,
-            @RequestParam(value = "lastname") String lastName
+            @RequestParam(value = "username") String userName,
+            @RequestParam(value = "addresss") String address,
+            @RequestParam(value = "phone") String phone
             ) {
 
         Account account = new Account();
         User user = new User();
 
-        account.setFirstName(firstName);
-        account.setLastName(lastName);
+        account.setUserNmae(userName);
+        account.setAddress(address);
         account.setEmail(email);
+        account.setPhone(phone);
         account.setPassword(password);
         account.setStatus(true);
 
         user.setAccount(account);
-        user.setAddress("San jose");
-        user.setPhone("120");
-        user.setUserName("Monkey");
-        user.setZipCode("95116");
+        user.setAddress(address);
+        user.setPhone(phone);
+        user.setUserName(userName);
 
         return user;
     }
