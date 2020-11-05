@@ -120,7 +120,7 @@ export default function PrimarySearchAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            OneMoreSale
+            <img src="OneMoreSaleLogo.png" height="80" width="100" />
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
