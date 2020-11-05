@@ -8,7 +8,7 @@ import {useState, useEffect} from 'react';
 import Typography from '@material-ui/core/Typography';
 import Carousel from 'nuka-carousel';
 //import AliceCarousel from 'react-alice-carousel';
-import 'react-alice-carousel/lib/alice-carousel.css';
+
 
 const API_ROOT = 'https://my-json-server.typicode.com/stinkycc/SHMTest'
 const useStyles = makeStyles((theme) => ({
