@@ -111,18 +111,10 @@ function getItems(setItems) {
 }
 export default function Item() {
     const[post, setPost] = useState("");
-    //const[deliverytypes, setDeliverytypes] = useState("");
     const classes = useStyles();
     const space = 5;
     useEffect(() => {
-        getItems(setPost);
-        // if(post.deliverytypes != null){
-        //     let temp = "";
-        //      for(let item of post.deliverytypes){
-        //         temp +="&#9737; " + item.deliverytype + " ";
-        //      }
-        //      setDeliverytypes(temp);
-        // }  
+        getItems(setPost); 
     });
 
     
