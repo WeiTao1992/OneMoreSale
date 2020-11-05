@@ -1,6 +1,7 @@
 package com.OneMoreSale.OneMoreSaleServer.Dao;
 
 
+import com.OneMoreSale.OneMoreSaleServer.model.Account;
 import com.OneMoreSale.OneMoreSaleServer.model.Greetings;
 import com.OneMoreSale.OneMoreSaleServer.model.User;
 import org.hibernate.Session;
@@ -13,12 +14,14 @@ public class AuthenticationDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public void register(User user){
+    public boolean validateEmail(String email){
         Session session = null;
+
         try {
             session = sessionFactory.openSession();
             session.beginTransaction();
-            session.save(user);
+            session.get(Account.class, email);
+
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -28,6 +31,30 @@ public class AuthenticationDao {
                 session.close();
             }
         }
+        return true;
+    }
+
+
+
+    public boolean register(User user){
+        Session session = null;
+        boolean validEmail = true;
+
+        try {
+            session = sessionFactory.openSession();
+            session.beginTransaction();
+            session.save(user);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+            validEmail = false;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return validEmail;
     }
 
 }

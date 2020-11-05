@@ -12,8 +12,9 @@ public class AuthenticationService {
     @Autowired
     private AuthenticationDao authenticationDao;
 
-    public void register(User user){
-        authenticationDao.register(user);
+    public boolean register(User user){
+        return authenticationDao.register(user);
     }
 
+    // public boolean validateEmail(String email){ return authenticationDao.validateEmail(email); }
 }
