@@ -39,8 +39,10 @@ public class PostDao {
             session = sessionFactory.openSession();
             Post post = session.get(Post.class, postId);
             User user = post.getUser();
-            List<Post> postList = user.getPostList();
-            postList.remove(post);
+            if (user != null){
+                List<Post> postList = user.getPostList();
+                postList.remove(post);
+            }
             session.beginTransaction();
             session.delete(post);
             session.getTransaction().commit();

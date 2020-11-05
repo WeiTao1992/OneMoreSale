@@ -1,5 +1,8 @@
 package com.OneMoreSale.OneMoreSaleServer.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -16,6 +19,7 @@ public class DeliveryType implements Serializable {
     private int id;
 
     @ManyToOne
+    @JsonIgnore
     private Post post;
 
     private String deliveryType;
