@@ -2,14 +2,57 @@ import React, { Component } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
-import Link from '@material-ui/core/Link';
 import Container from '@material-ui/core/Container';
 import {useState, useEffect} from 'react';
 import Typography from '@material-ui/core/Typography';
 import Carousel from 'nuka-carousel';
+import { Link } from "react-router-dom";
 //import AliceCarousel from 'react-alice-carousel';
+import { GoogleMap, LoadScript } from '@react-google-maps/api';
 
+const containerStyle = {
+    width: '100%',
+    height: '200px'
+  };
+   
+  const center = {
+    lat: 37,
+    lng: -121
+  };
+   
+function MapComponent() {
+    const [map, setMap] = React.useState(null)
+   
+    const onLoad = React.useCallback(function callback(map) {
+      const bounds = new window.google.maps.LatLngBounds();
+      map.fitBounds(bounds);
+      setMap(map)
+    }, [])
+   
+    const onUnmount = React.useCallback(function callback(map) {
+      setMap(null)
+    }, [])
+   
+    return (
+      <LoadScript
+        googleMapsApiKey="AIzaSyDhvKaFteSG7EhPIskgB_6LUlmZOIoTH20"
+      >
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={10}
+          onLoad={onLoad}
+          onUnmount={onUnmount}
+        >
+          { /* Child components, such as markers, info windows, etc. */ }
+          <></>
+        </GoogleMap>
+      </LoadScript>
+    )
+  }
+React.memo(MapComponent)
 
+const AnyReactComponent = ({ text }) => <div>{text}</div>;
 const API_ROOT = 'https://my-json-server.typicode.com/stinkycc/SHMTest'
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,8 +71,8 @@ const useStyles = makeStyles((theme) => ({
         width:'50%',
     },
     gridImg:{
-        marginTop:3,
-        marginBottom:1,
+        marginTop:5,
+        marginBottom:3,
         width:'40%',
     },
     gridList: {
@@ -97,17 +140,15 @@ export default function Item() {
         <Container component="main" maxWidth="l">
             <div >
                 
-                <Grid container alignItems="center">
-                    <Link
-                        component="button"
-                        onClick={() => {
-                            getItems(setPost);
-                        }}
-                    >
-                        Back to result
-                    </Link>
+                <Grid container align='left'>
+                <Link to="/">
+                    Back to result
+                </Link>
+                
+
                 </Grid>
                 <Divider/>
+                <br></br>
                 <Grid container spacing={space} >
                     <Grid item  className={classes.gridImg} spacing={space} alignItems="center">
                     {/* <AliceCarousel >
@@ -148,7 +189,7 @@ export default function Item() {
                 </Grid>
                 <Divider/>
                 <Grid container spacing={space}>
-                    <Grid item className={classes.gridItem} spacing={space}>
+                    <Grid item className={classes.gridImg} spacing={space}>
                         <Typography gutterBottom variant="h6" align="left">Contact Info</Typography>
                         <Typography color="textSecondary" variant="body2" align="left">Email: {post.email}</Typography>
                         <Typography color="textSecondary" variant="body2" align="left">Phone: {post.phone}</Typography>
@@ -156,7 +197,7 @@ export default function Item() {
                     </Grid>
                     <Grid item className={classes.gridItem} spacing={space}>
                    
-         
+                    <MapComponent></MapComponent>
                     </Grid>
                 </Grid>
             
@@ -167,3 +208,4 @@ export default function Item() {
 
     );
 }
+
