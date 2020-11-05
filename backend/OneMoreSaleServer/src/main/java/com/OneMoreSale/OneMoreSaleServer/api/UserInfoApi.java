@@ -50,13 +50,4 @@ public class UserInfoApi {
 
         return userInfoService.updateAddress(email, phone, address);
     }
-
-    /**
-     *
-     *  test方法会验证session.
-     *      如果用户已登陆 --> 返回unauthorized
-     *             未登陆 --> 返回成功
-     *
-     * */
-
 }
