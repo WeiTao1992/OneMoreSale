@@ -15,5 +15,4 @@ public class GreetingService {
     public void getGreetings(Greetings greetings){
         greatingDao.addgreatings(greetings);
     }
-
 }

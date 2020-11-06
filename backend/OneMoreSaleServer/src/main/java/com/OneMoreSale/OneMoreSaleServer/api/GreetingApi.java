@@ -23,6 +23,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -52,7 +53,6 @@ public class GreetingApi {
         greetings.setContent(name);
         greetings.setId(counter.incrementAndGet());
         greetingService.getGreetings(greetings);
-
         return greetings;
     }
 
