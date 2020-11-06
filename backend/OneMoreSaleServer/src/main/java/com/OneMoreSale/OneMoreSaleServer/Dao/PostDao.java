@@ -38,6 +38,7 @@ public class PostDao {
         try{
             session = sessionFactory.openSession();
             Post post = session.get(Post.class, postId);
+            if (post == null) return;
             User user = post.getUser();
             if (user != null){
                 List<Post> postList = user.getPostList();
