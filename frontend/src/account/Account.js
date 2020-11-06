@@ -6,87 +6,101 @@ import Grid from '@material-ui/core/Grid';
 import { Link } from "react-router-dom";
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
+import FormLabel from '@material-ui/core/FormLabel';
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: '100%',
-        maxWidth: '100%',
-        flexGrow:1,
-    },
-    gridItem:{
-        marginTop:3,
-        marginBottom:1,
-        width:'60%',
-    },
-    gridInItem:{
-        marginTop:2,
-        marginBottom:1,
-        width:'50%',
-    },
-    gridImg:{
-        marginTop:5,
-        marginBottom:3,
-        width:'40%',
-    },
-    gridList: {
-        flexWrap: 'nowrap',
-        transform: 'translateZ(0)',
-    },
-    title:{
-        variant:'h4',
-        align:'left',
-    },
-    carousel: {
-        margin: theme.spacing(2),
-    },
-    item:{
-        color:'textSecondary',
-        variant:'body2',
-        align:'left',
+        flexGrow: 1,
     },
     paper: {
-        padding: theme.spacing(5),
-        textAlign: 'center',
+        padding: theme.spacing(2),
         color: theme.palette.text.secondary,
-        whiteSpace: 'nowrap',
         marginBottom: theme.spacing(2),
     },
     avatar:{
-        display: 'flex',
-    '& > *': {
-        marginTop: theme.spacing(8),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
+         marginTop: theme.spacing(3),
+         display: 'flex',
+         flexDirection: 'column',
+         alignItems: 'center',
     },
-}
 }));
 
 export default function Account() {
     const classes = useStyles();
+    
     return (
     <Container maxWidth="lg">
-    <div>
-        <Grid 
-            container 
-            direction="row" 
-            justify="space-between" 
-            alignItems="baseline"
-        >
-            <Link to="/">
-                    Back to home
-            </Link>
+        <Grid container direction="row" justify="space-between" alignItems="baseline">
+            <Link to="/">Back to Home</Link>
         </Grid>
         <Divider variant="fullWidth"/>
-        <div className={classes.avatar}>
-            <Avatar alt="Remy Sharp" src="grey_avatar.png" />
-        </div>
-        <Paper className={classes.paper}>xs=1</Paper>
-        <Paper className={classes.paper}>xs=2</Paper>
-        <Paper className={classes.paper}>xs=3</Paper>
-    </div>
 
-</Container>
+        <div className={classes.avatar}>
+            <Avatar alt="avatar example" src="grey_avatar.png" />
+                <Typography variant="subtitle1">
+                    UserName
+                </Typography>
+        </div>
+
+        <div className={classes.root}>
+            <Grid container wrap="nowrap" alignItems="flex-start">
+                <Typography variant="h6">
+                    Login and Security
+                </Typography>
+            </Grid>
+            <Paper className={classes.paper} variant="outlined">
+                <Grid container wrap="nowrap" spacing={2} direction="column" alignItems="flex-start">
+                    <Grid item>
+                        <FormLabel>Email: haha@gmail.com</FormLabel>
+                    </Grid>    
+                    <Grid item >
+                        <FormLabel>UserName: haha</FormLabel>
+                    </Grid>      
+                    <Grid item >
+                        <FormLabel>Password: *****</FormLabel>
+                    </Grid>  
+                </Grid>
+            </Paper>
+        </div>
+
+        <div className={classes.root}>
+            <Grid container wrap="nowrap" alignItems="flex-start">
+                <Typography variant="h6">
+                    Address
+                </Typography>
+            </Grid>
+            <Paper className={classes.paper} variant="outlined">
+                <Grid container wrap="nowrap" spacing={2} direction="column" alignItems="flex-start">
+                    <Grid item>
+                        <FormLabel>Phone: 12315</FormLabel>
+                    </Grid>    
+                    <Grid item >
+                        <FormLabel>Address: 12 Ave, CA, 12345</FormLabel>
+                    </Grid>      
+                </Grid>
+            </Paper>
+        </div>
+
+        <div className={classes.root}>
+            <Grid container wrap="nowrap" alignItems="flex-start">
+                <Typography variant="h6">
+                    My Items
+                </Typography>
+            </Grid>
+            <Paper className={classes.paper} variant="outlined">
+                <Grid container wrap="nowrap" spacing={2} direction="column" alignItems="flex-start">
+                    <Grid item>
+                        <FormLabel>item1</FormLabel>
+                    </Grid>    
+                    <Grid item >
+                        <FormLabel>item2</FormLabel>
+                    </Grid>      
+                </Grid>
+            </Paper>
+        </div>
+
+    </Container>
 );
 }
