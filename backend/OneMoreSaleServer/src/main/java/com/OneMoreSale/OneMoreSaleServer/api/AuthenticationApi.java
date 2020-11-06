@@ -92,6 +92,7 @@ public class AuthenticationApi {
         // 登陆成功，为用户的登陆状态生成session
         HttpSession session = request.getSession();
         session.setAttribute("user_id", authenticationService.getUserIdByEmail(credential.getEmail()));
+        session.setAttribute("email", credential.getEmail());
         logger.info("user {} logged in", credential.getEmail());
     }
 
