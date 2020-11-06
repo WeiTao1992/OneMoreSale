@@ -30,7 +30,9 @@ public class UserInfoDao {
         return null;
     }
 
+
     public void updateAddress(String email, String phone, String address) {
+
         Account account = null;
         try (Session session = sessionFactory.openSession()) {
             Criteria criteria = session.createCriteria(Account.class);
