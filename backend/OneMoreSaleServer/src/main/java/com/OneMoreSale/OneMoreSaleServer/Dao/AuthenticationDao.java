@@ -1,6 +1,7 @@
 package com.OneMoreSale.OneMoreSaleServer.Dao;
 
 
+
 import com.OneMoreSale.OneMoreSaleServer.model.Account;
 import com.OneMoreSale.OneMoreSaleServer.model.Credential;
 import com.OneMoreSale.OneMoreSaleServer.model.Greetings;
@@ -9,6 +10,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Repository;
 public class AuthenticationDao {
     @Autowired
     private SessionFactory sessionFactory;
+
 
 //    public boolean validateEmail(String email){
 //        Session session = null;
@@ -47,7 +50,9 @@ public class AuthenticationDao {
             session.save(user);
             session.getTransaction().commit();
         } catch (Exception e) {
+
             validEmail = false;
+
             e.printStackTrace();
             session.getTransaction().rollback();
         } finally {
@@ -55,6 +60,7 @@ public class AuthenticationDao {
                 session.close();
             }
         }
+
         return validEmail;
     }
 
@@ -87,6 +93,7 @@ public class AuthenticationDao {
             return account.getPassword().equals(credential.getPassword());
         }
         return false;
+
     }
 
 }
