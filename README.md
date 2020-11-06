@@ -23,3 +23,5 @@ After running these two commands, a new directory named "build" will be created.
 
 ## Backend
 
+RESTful APIs supported by Spring Boot.
+base url: http://3.15.9.180/oms/
