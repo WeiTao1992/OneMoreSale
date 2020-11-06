@@ -2,14 +2,57 @@ import React, { Component } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
-import Link from '@material-ui/core/Link';
 import Container from '@material-ui/core/Container';
 import {useState, useEffect} from 'react';
 import Typography from '@material-ui/core/Typography';
 import Carousel from 'nuka-carousel';
+import { Link } from "react-router-dom";
 //import AliceCarousel from 'react-alice-carousel';
+import { GoogleMap, LoadScript } from '@react-google-maps/api';
 
+const containerStyle = {
+    width: '100%',
+    height: '200px'
+  };
+   
+  const center = {
+    lat: 37,
+    lng: -121
+  };
+   
+function MapComponent() {
+    const [map, setMap] = React.useState(null)
+   
+    const onLoad = React.useCallback(function callback(map) {
+      const bounds = new window.google.maps.LatLngBounds();
+      map.fitBounds(bounds);
+      setMap(map)
+    }, [])
+   
+    const onUnmount = React.useCallback(function callback(map) {
+      setMap(null)
+    }, [])
+   
+    return (
+      <LoadScript
+        googleMapsApiKey="AIzaSyDhvKaFteSG7EhPIskgB_6LUlmZOIoTH20"
+      >
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={10}
+          onLoad={onLoad}
+          onUnmount={onUnmount}
+        >
+          { /* Child components, such as markers, info windows, etc. */ }
+          <></>
+        </GoogleMap>
+      </LoadScript>
+    )
+  }
+React.memo(MapComponent)
 
+const AnyReactComponent = ({ text }) => <div>{text}</div>;
 const API_ROOT = 'https://my-json-server.typicode.com/stinkycc/SHMTest'
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,8 +71,8 @@ const useStyles = makeStyles((theme) => ({
         width:'50%',
     },
     gridImg:{
-        marginTop:3,
-        marginBottom:1,
+        marginTop:5,
+        marginBottom:3,
         width:'40%',
     },
     gridList: {
@@ -66,66 +109,38 @@ function getItems(setItems) {
         console.error(e);
     });
 }
-function getImgs(setItems) {
-    fetch(`${API_ROOT}/posts`, {
-        method: 'GET',
-    })
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error('Failed to load post');
-        })
-        .then(data => {
-            setItems(data);
-        }).catch((e) => {
-        console.error(e);
-    });
-}
 export default function Item() {
-    const [post, setPost] = useState("");
-    const[imgs, setImgs] = useState([]);
+    const[post, setPost] = useState("");
     const classes = useStyles();
     const space = 5;
     useEffect(() => {
-        getItems(setPost);
-        getImgs(setImgs);
+        getItems(setPost); 
     });
 
     
     return (
         <Container component="main" maxWidth="l">
             <div >
-                
-                <Grid container alignItems="center">
-                    <Link
-                        component="button"
-                        onClick={() => {
-                            getItems(setPost);
-                        }}
-                    >
-                        Back to result
-                    </Link>
+                <Grid container align='left'>
+                <Link to="/">
+                    Back to result
+                </Link>
                 </Grid>
                 <Divider/>
+                <br></br>
                 <Grid container spacing={space} >
                     <Grid item  className={classes.gridImg} spacing={space} alignItems="center">
-                    {/* <AliceCarousel >
-                        <img src="https://source.unsplash.com/aZjw7xI3QAA/1144x763" />
-                        <img src="https://source.unsplash.com/c77MgFOt7e0/1144x763" />
-                        <img src="https://source.unsplash.com/QdBHnkBdu4g/1144x763" />
-                    </AliceCarousel>  */}
                     <Carousel  heightMode="current">
-                    {
-                        imgs.map((tile) => (
-                            <img src={tile.img}/>
-                    ))}
+                    {                
+                        post.imgs != null ? post.imgs.map((tile) => (<img src={tile.img}/>)) : <p></p>
+                    }
                     </Carousel>
                     </Grid>
                     <Grid item className={classes.gridItem} >
                         <Typography gutterBottom variant="h6" align="left">{post.title}</Typography>
                         <Grid container spacing={space}>
                             <Grid item className={classes.gridInItem}>
+                                
                                 <Typography color="textSecondary" variant="body2" align="left">Seller: {post.user}</Typography>
                                 <Typography color="textSecondary" variant="body2" align="left">Price: {post.price}</Typography>
                             </Grid>
@@ -137,8 +152,13 @@ export default function Item() {
                         <Divider/>
                         <Grid item className={classes.gridItem} spacing={space}>
                             <Typography color="textSecondary" variant="body2" align="left">Condition: {post.condition}</Typography>
-                            <Typography color="textSecondary" variant="body2" align="left">Transaction: &#9737; cash</Typography>
-                            <Typography color="textSecondary" variant="body2" align="left">Delivery typ: &#9737; pick up &#9737; mail</Typography>
+                            <Typography color="textSecondary" variant="body2" align="left">Transaction:{                
+                                post.transactions != null ? post.transactions.map((item) => (<a>&#9737; {item.transaction} </a>)) : <p></p>
+                            }</Typography>
+                            <Typography color="textSecondary" variant="body2" align="left">Delivery type:  
+                            {                
+                                post.deliverytypes != null ? post.deliverytypes.map((item) => (<a>&#9737; {item.deliverytype} </a>)) : <p></p>
+                            }</Typography>
                         </Grid>
                         <Divider/>
                         <Grid item className={classes.gridItem} spacing={space}>
@@ -148,15 +168,14 @@ export default function Item() {
                 </Grid>
                 <Divider/>
                 <Grid container spacing={space}>
-                    <Grid item className={classes.gridItem} spacing={space}>
+                    <Grid item className={classes.gridImg} spacing={space}>
                         <Typography gutterBottom variant="h6" align="left">Contact Info</Typography>
                         <Typography color="textSecondary" variant="body2" align="left">Email: {post.email}</Typography>
                         <Typography color="textSecondary" variant="body2" align="left">Phone: {post.phone}</Typography>
                         <Typography color="textSecondary" variant="body2" align="left">Loaction: {post.address} ZipCode:{post.zipcodes}</Typography>
                     </Grid>
                     <Grid item className={classes.gridItem} spacing={space}>
-                   
-         
+                        <MapComponent></MapComponent>
                     </Grid>
                 </Grid>
             
@@ -167,3 +186,4 @@ export default function Item() {
 
     );
 }
+
