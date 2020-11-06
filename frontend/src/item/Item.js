@@ -35,7 +35,7 @@ function MapComponent() {
    
     return (
       <LoadScript
-        googleMapsApiKey="AIzaSyDhvKaFteSG7EhPIskgB_6LUlmZOIoTH20"
+        googleMapsApiKey="*********"
       >
         <GoogleMap
           mapContainerStyle={containerStyle}
@@ -175,7 +175,7 @@ export default function Item() {
                         <Typography color="textSecondary" variant="body2" align="left">Loaction: {post.address} ZipCode:{post.zipcodes}</Typography>
                     </Grid>
                     <Grid item className={classes.gridItem} spacing={space}>
-                        <MapComponent></MapComponent>
+                        {/* <MapComponent></MapComponent> */}
                     </Grid>
                 </Grid>
             
