@@ -1,6 +1,9 @@
 package com.OneMoreSale.OneMoreSaleServer.api;
 
 import com.OneMoreSale.OneMoreSaleServer.Dao.GreatingDao;
+
+import com.OneMoreSale.OneMoreSaleServer.HttpUtil;
+
 import com.OneMoreSale.OneMoreSaleServer.Dao.PostDao;
 import com.OneMoreSale.OneMoreSaleServer.MonkeyLearn.APIUtils;
 import com.OneMoreSale.OneMoreSaleServer.MonkeyLearn.Body;
@@ -23,6 +26,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,6 +58,18 @@ public class GreetingApi {
         greetings.setId(counter.incrementAndGet());
         greetingService.getGreetings(greetings);
         return greetings;
+    }
+
+
+    @GetMapping("/greetinguser")
+    public String greetingByUser(HttpServletRequest request) {
+
+        if (HttpUtil.sessionInvalid(request)) {
+            return "invalid session";
+        }
+
+        Integer userId = (Integer) request.getSession().getAttribute("user_id");
+        return "hello from " + userId;
     }
 
     // This request only use for testing user and account entity. Check if this value can be saved into Database

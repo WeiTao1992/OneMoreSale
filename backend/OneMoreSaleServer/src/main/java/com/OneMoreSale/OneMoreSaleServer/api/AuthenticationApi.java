@@ -41,7 +41,6 @@ public class AuthenticationApi {
     public String register(@RequestBody @NonNull User user, HttpServletResponse response
     ) throws IOException {
         // sanity check
-
         if (user == null || user.getAccount().getEmail() == null) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "please input data");
             return "Register Failed";
@@ -55,6 +54,9 @@ public class AuthenticationApi {
         // 成功注册
         authenticationService.register(user);
         logger.info("[registered] user {} registered!", userId);
+       //  .info, warn, debug, error, ...
+
+
         return "Register Success";
     }
 
@@ -66,6 +68,11 @@ public class AuthenticationApi {
      * "password":"1234567"
      * }
      */
+    // createPost() {
+    //  if ()
+    // }
+
+
     @PostMapping("/login")
     @ResponseBody
     public void login(@RequestBody @NonNull Credential credential, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -85,6 +92,7 @@ public class AuthenticationApi {
         // 登陆成功，为用户的登陆状态生成session
         HttpSession session = request.getSession();
         session.setAttribute("user_id", authenticationService.getUserIdByEmail(credential.getEmail()));
+        session.setAttribute("email", credential.getEmail());
         logger.info("user {} logged in", credential.getEmail());
     }
 
