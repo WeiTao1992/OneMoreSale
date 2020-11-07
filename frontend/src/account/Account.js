@@ -17,6 +17,12 @@ import Grid from '@material-ui/core/Grid';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 
@@ -49,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
       },
     select: {
         margin: theme.spacing(16),
-    }
+    },
 }));
 
 function generate(element) {
@@ -62,6 +68,15 @@ function generate(element) {
 
 export default function Account() {
     const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     return (
     <Container maxWidth="lg">
@@ -86,7 +101,40 @@ export default function Account() {
             <Paper className={classes.paper} variant="outlined">
                 <Grid container direction="row" justify="space-between">
                     <Typography>Email:haha@gmail.com</Typography>
-                    <Button variant="contained">Edit</Button>
+                    <Button variant="contained" onClick={handleClickOpen}>
+                        Edit
+                    </Button>
+                    <Dialog fullWidth='true' open={open} onClose={handleClose}>
+                        <DialogTitle id="form-dialog-title">Login</DialogTitle>
+                            <DialogContent>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    label="Email Address"
+                                    type="email"
+                                    fullWidth/>
+                            </DialogContent>
+                            <DialogContent>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    label="UserName"
+                                    type="text"
+                                    fullWidth/>
+                            </DialogContent>
+                            <DialogContent>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    label="Password"
+                                    type="text"
+                                    fullWidth/>
+                            </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose} color="primary">Cancel</Button>
+                            <Button onClick={handleClose} color="primary">Save</Button>
+                        </DialogActions>
+                    </Dialog>
                 </Grid>
                 <div align="left">
                     <FormLabel>UserName: haha</FormLabel>
@@ -107,7 +155,32 @@ export default function Account() {
             <Paper className={classes.paper} variant="outlined">
                 <Grid container direction="row" justify="space-between">
                     <FormLabel>Phone: 123-456-7890</FormLabel>
-                    <Button variant="contained">Edit</Button>       
+                    <Button variant="contained">
+                        Edit
+                    </Button> 
+                    <Dialog fullWidth='true' open={open} onClose={handleClose}>
+                        <DialogTitle id="form-dialog-title">Address</DialogTitle>
+                            <DialogContent>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    label="Phone"
+                                    type="number"
+                                    fullWidth/>
+                            </DialogContent>
+                            <DialogContent>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    label="Address"
+                                    type="text"
+                                    fullWidth/>
+                            </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose} color="primary">Cancel</Button>
+                            <Button onClick={handleClose} color="primary">Save</Button>
+                        </DialogActions>
+                    </Dialog>      
                 </Grid> 
                 <div align="left">
                     <FormLabel>Address: 123 Ave, CA, 12345</FormLabel>   
@@ -133,9 +206,6 @@ export default function Account() {
                         <ListItemText primary="Price"/>
                         
                         <Select className={classes.select}>
-                            <MenuItem value="jaflkjfs;d">
-                                <em>status</em> 
-                            </MenuItem> 
                             <MenuItem value={0}>Sold</MenuItem>
                             <MenuItem value={1}>Unsold</MenuItem>
                         </Select>
