@@ -121,6 +121,7 @@ const getPosts = async () => {
     const response = await fetch(`${API_ROOT}/post`)
     return response.json()
   }
+
 export default function Item() {
     //const {status, post, isFetching, error} = useQuery('post', getPosts)
     const[post, setPost] = useState("");
