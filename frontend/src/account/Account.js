@@ -9,30 +9,34 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
-import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+
+
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
     },
+    list: {
+        width: "100%",
+        backgroundColor: theme.palette.background.default,
+    },
+
     paper: {
         padding: theme.spacing(2),
         color: theme.palette.text.secondary,
         marginBottom: theme.spacing(2),
+    },
+    paper1: {
+        margin: theme.spacing(2),
     },
     avatar:{
          marginTop: theme.spacing(3),
@@ -40,16 +44,12 @@ const useStyles = makeStyles((theme) => ({
          flexDirection: 'column',
          alignItems: 'center',
     },
-    root1: {
-        flexGrow: 1,
-        maxWidth: 752,
-      },
-    demo: {
-        backgroundColor: theme.palette.background.paper,
-      },
     title: {
         margin: theme.spacing(4, 0, 2),
       },
+    select: {
+        margin: theme.spacing(16),
+    }
 }));
 
 function generate(element) {
@@ -62,9 +62,7 @@ function generate(element) {
 
 export default function Account() {
     const classes = useStyles();
-    const [dense, setDense] = React.useState(false);
-    const [secondary, setSecondary] = React.useState(false);
-    
+
     return (
     <Container maxWidth="lg">
         <Grid container direction="row" justify="space-between" alignItems="baseline">
@@ -73,9 +71,9 @@ export default function Account() {
         <Divider variant="fullWidth"/>
 
         <div className={classes.avatar}>
-            <Avatar alt="avatar example" src="grey_avatar.png" />
+            <Avatar alt="avatar example" src="grey_avatar.png" />   
                 <Typography variant="subtitle1">
-                    UserName
+                 UserName
                 </Typography>
         </div>
 
@@ -107,55 +105,52 @@ export default function Account() {
                 </Typography>
             </Grid>
             <Paper className={classes.paper} variant="outlined">
-                <Grid container wrap="nowrap" spacing={2} direction="column" alignItems="flex-start">
-                    <Grid item>
-                        <FormLabel>Phone: 12315</FormLabel>
-                    </Grid>    
-                    <Grid item >
-                        <FormLabel>Address: 12 Ave, CA, 12345</FormLabel>
-                    </Grid>      
-                </Grid>
+                <Grid container direction="row" justify="space-between">
+                    <FormLabel>Phone: 123-456-7890</FormLabel>
+                    <Button variant="contained">Edit</Button>       
+                </Grid> 
+                <div align="left">
+                    <FormLabel>Address: 123 Ave, CA, 12345</FormLabel>   
+                </div> 
             </Paper>
         </div>
 
-        <div className={classes.root1}>
+        <div className={classes.root}>
             <Grid container wrap="nowrap" alignItems="flex-start">
                 <Typography variant="h6">
                     My Items
                 </Typography>
-            </Grid>
-            <Paper className={classes.paper} variant="outlined">
-        
-                <Grid item xs={12} md={6}>
-                    <div className={classes.demo}>
-                        <List dense={dense}>
-                            {generate(
-                                <ListItem>
-                                <Grid Container alignItems="flex-start">
-                                    <Avatar alt="avatar example" src="grey_avatar.png" />
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        > 
-                                        <MenuItem value={0}>Sold</MenuItem>
-                                        <MenuItem value={1}>Unsold</MenuItem>
-                                    </Select>
-                                    <ListItemText primary="Item Name"
-                                    secondary={secondary ? 'Condition' : null}/>
-                                </Grid>
-                                <ListItemSecondaryAction>
-                                    <IconButton edge="end" aria-label="delete">
-                                    <DeleteIcon />
-                                    </IconButton>
-                                </ListItemSecondaryAction>
-                                </ListItem>,
-                            )}
-                        </List>
-                    </div>
-                </Grid>
+            </Grid> 
 
+            <Paper className={classes.paper} variant="outlined">
+                <List className={classes.list}>{generate(
+                    <ListItem>
+                        <Paper className={classes.paper1} elevation={0}>
+                            <img src="grey_item.png" />
+                        </Paper>
+
+                        <ListItemText primary="Item Name" secondary="condition"/>
+                        <ListItemText primary="Price"/>
+                        
+                        <Select className={classes.select}>
+                            <MenuItem value="jaflkjfs;d">
+                                <em>status</em> 
+                            </MenuItem> 
+                            <MenuItem value={0}>Sold</MenuItem>
+                            <MenuItem value={1}>Unsold</MenuItem>
+                        </Select>
+                        
+                        <ListItemSecondaryAction>
+                            <IconButton edge="end" aria-label="delete">
+                            <DeleteIcon />
+                            </IconButton>
+                        </ListItemSecondaryAction>
+
+                    </ListItem>)}
+                </List>
             </Paper>
         </div>
+
     </Container>
 );
 }
