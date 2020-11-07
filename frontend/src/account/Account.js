@@ -21,7 +21,6 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 
@@ -69,13 +68,24 @@ function generate(element) {
 export default function Account() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
+    const [open1, setOpen1] = React.useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
+        setOpen1(false);
+    };
+
+    const handleClickOpen1 = () => {
+        setOpen(false);
+        setOpen1(true);
     };
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const handleClose1 = () => {
+        setOpen1(false);
     };
 
 
@@ -157,10 +167,10 @@ export default function Account() {
             <Paper className={classes.paper} variant="outlined">
                 <Grid container direction="row" justify="space-between">
                     <FormLabel>Phone: 123-456-7890</FormLabel>
-                    <Button variant="contained" onClick={handleClickOpen}>
+                    <Button variant="contained" onClick={handleClickOpen1}>
                         Edit
                     </Button> 
-                    <Dialog fullWidth='true' open={open} onClose={handleClose}>
+                    <Dialog fullWidth='true' open={open1} onClose={handleClose1}>
                         <DialogTitle id="form-dialog-title">Address</DialogTitle>
                             <DialogContent>
                                 <TextField
@@ -179,8 +189,8 @@ export default function Account() {
                                     fullWidth/>
                             </DialogContent>
                         <DialogActions>
-                            <Button onClick={handleClose} color="primary">Cancel</Button>
-                            <Button onClick={handleClose} color="primary">Save</Button>
+                            <Button onClick={handleClose1} color="primary">Cancel</Button>
+                            <Button onClick={handleClose1} color="primary">Save</Button>
                         </DialogActions>
                     </Dialog>      
                 </Grid> 
