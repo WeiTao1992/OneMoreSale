@@ -43,16 +43,13 @@ public class AuthenticationDao {
     public boolean register(User user){
         Session session = null;
         boolean validEmail = true;
-
         try {
             session = sessionFactory.openSession();
             session.beginTransaction();
             session.save(user);
             session.getTransaction().commit();
         } catch (Exception e) {
-
             validEmail = false;
-
             e.printStackTrace();
             session.getTransaction().rollback();
         } finally {
@@ -60,7 +57,6 @@ public class AuthenticationDao {
                 session.close();
             }
         }
-
         return validEmail;
     }
 
