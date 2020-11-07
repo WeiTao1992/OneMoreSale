@@ -10,6 +10,7 @@ import Price from './Price';
 import Postdate from './Postdate';
 import ResultPagination from './ResultPagination';
 import ItemList from './ItemList';
+import Condition from './Condition';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,9 +39,13 @@ export default function Home() {
         <Grid align="right" item xs={6}>
           <Rank />
         </Grid>
-        <Grid item xs={3}>
+        <Grid align="left" item xs={3}>
           <Category />
+          <br/>
+          <Condition />
+          <br/>
           <Price />
+          <br/>
           <Postdate />
         </Grid>
         <Grid item xs={9}>
