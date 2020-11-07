@@ -78,6 +78,7 @@ export default function Account() {
         setOpen(false);
     };
 
+
     return (
     <Container maxWidth="lg">
         <Grid container direction="row" justify="space-between" alignItems="baseline">
@@ -104,7 +105,8 @@ export default function Account() {
                     <Button variant="contained" onClick={handleClickOpen}>
                         Edit
                     </Button>
-                    <Dialog fullWidth='true' open={open} onClose={handleClose}>
+                    <Dialog fullWidth='true' open={open} onClose={handleClose}
+                        aria-labelledby>
                         <DialogTitle id="form-dialog-title">Login</DialogTitle>
                             <DialogContent>
                                 <TextField
@@ -155,7 +157,7 @@ export default function Account() {
             <Paper className={classes.paper} variant="outlined">
                 <Grid container direction="row" justify="space-between">
                     <FormLabel>Phone: 123-456-7890</FormLabel>
-                    <Button variant="contained">
+                    <Button variant="contained" onClick={handleClickOpen}>
                         Edit
                     </Button> 
                     <Dialog fullWidth='true' open={open} onClose={handleClose}>
