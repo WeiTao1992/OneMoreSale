@@ -20,7 +20,6 @@ public class UserInfoDao {
     public User getUser(int userId) {
         User user = null;
         try (Session session = sessionFactory.openSession()) {
-
             Criteria criteria = session.createCriteria(User.class);
             user = (User) criteria.add(Restrictions.eq("userId", userId)).uniqueResult();
         } catch (Exception e) {
@@ -30,8 +29,10 @@ public class UserInfoDao {
             return user;
         return null;
     }
-  
-    public ResponseEntity<?> updateAddress(String email, String phone, String address) {
+
+
+    public void updateAddress(String email, String phone, String address) {
+
         Account account = null;
         try (Session session = sessionFactory.openSession()) {
             Criteria criteria = session.createCriteria(Account.class);
@@ -45,12 +46,10 @@ public class UserInfoDao {
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public ResponseEntity<?> updatePassword(String email, String username, String password) {
+    public void updatePassword(String email, String username, String password) {
         Account account = null;
         try (Session session = sessionFactory.openSession()) {
             Criteria criteria = session.createCriteria(Account.class);
@@ -64,8 +63,20 @@ public class UserInfoDao {
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public boolean validateUserId(int userId) {
+        User user = null;
+        try (Session session = sessionFactory.openSession()) {
+            Criteria criteria = session.createCriteria(User.class);
+            user = (User) criteria.add(Restrictions.eq("userId", userId)).uniqueResult();
+            if (user == null) {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }

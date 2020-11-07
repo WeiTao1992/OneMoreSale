@@ -2,6 +2,7 @@ package com.OneMoreSale.OneMoreSaleServer.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -37,14 +38,13 @@ public class Post implements Serializable {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
-
-    
     private List<PostImage> postImage;
 
     private Timestamp postDate;
     private String postTitle;
     private String postCategory;
     private String postCondition;
+    @Column(length = 600)
     private String postDescription;
     private String postOwner;
     private String postStatus;

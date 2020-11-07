@@ -18,10 +18,14 @@ public class UserInfoService {
     public User getUserById(int userId) {
         return userInfoDao.getUser(userId);
     }
-    public ResponseEntity<?> updateAddress(String email, String phone, String address) {
-        return userInfoDao.updateAddress(email,phone,address);
+
+    public void updateAddress(String email, String phone, String address) {
+        userInfoDao.updateAddress(email,phone,address);
     }
-    public ResponseEntity<?> updatePassword(String email, String username, String password) {
-        return userInfoDao.updatePassword(email, username, password);
+    public void updatePassword(String email, String username, String password) {
+        userInfoDao.updatePassword(email, username, password);
+    }
+    public boolean validateUserId(int userId){
+        return userInfoDao.validateUserId(userId);
     }
 }

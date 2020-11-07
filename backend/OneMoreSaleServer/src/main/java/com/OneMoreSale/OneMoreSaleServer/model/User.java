@@ -16,7 +16,7 @@ public class User implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int userId;
 
-    private String userName;
+    private String userName = "Anonymous";
     private String address;
     private String zipCode;
     private String phone;
