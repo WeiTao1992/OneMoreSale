@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CenteredGrid() {
+export default function Home() {
   const classes = useStyles();
 
   return (
@@ -32,26 +32,22 @@ export default function CenteredGrid() {
           
           <Greeting />
         </Grid>
-        <Grid item xs={6}>
+        <Grid align="left" item xs={6}>
           <Result />
         </Grid>
-        <Grid item xs={6}>
+        <Grid align="right" item xs={6}>
           <Rank />
         </Grid>
         <Grid item xs={3}>
           <Category />
+          <Price />
+          <Postdate />
         </Grid>
         <Grid item xs={9}>
           <ItemList />
-        </Grid>
-        <Grid item xs={3}>
-          <Price />
-        </Grid>
-        <Grid item xs={9}>
+        </Grid>      
+        <Grid  item xs={12}>
           <ResultPagination />
-        </Grid>
-        <Grid item xs={3}>
-          <Postdate />
         </Grid>
       </Grid>
     </div>

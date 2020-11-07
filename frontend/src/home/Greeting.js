@@ -2,6 +2,10 @@ import React from "react";
 import greeting from './greeting.jpg';
 
 export default function Greeting(){
-    
-    return (<img src={greeting} alt="Logo" />);
+    const imgStyle = {
+        height: "40vh",
+        width: "100vw",
+    }
+
+    return (<img src={greeting} alt="Logo" style={imgStyle}/>);
 }

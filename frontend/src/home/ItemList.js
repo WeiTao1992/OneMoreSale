@@ -22,16 +22,25 @@ export default function ItemList() {
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-            <Item />
+          <Paper className={classes.paper}>
+            <Item />       
+          </Paper>
+            
         </Grid>
         <Grid item xs={12}>
-            <Item />
+          <Paper className={classes.paper}>
+            <Item />       
+          </Paper>
         </Grid>
         <Grid item xs={12}>
-            <Item />
+          <Paper className={classes.paper}>
+            <Item />       
+          </Paper>
         </Grid>
         <Grid item xs={12}>
-            <Item />
+          <Paper className={classes.paper}>
+            <Item />       
+          </Paper>
         </Grid>
       </Grid>
     </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import greeting from './greeting.jpg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,16 +22,19 @@ export default function Item() {
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={3}>
-          <Paper className={classes.paper}>img</Paper>
+          <img src={greeting} alt="Logo" height="80" width="100"/>
         </Grid>
         <Grid item xs={5}>
-          <Paper className={classes.paper}>name</Paper>
+          <p> Item Name </p>
+          <p> Condition </p>
+          <p> Location </p>
+          <p> Seller </p>      
         </Grid>
         <Grid item xs={2}>
-          <Paper className={classes.paper}>price</Paper>
+          <p> Price </p>
         </Grid>
         <Grid item xs={2}>
-          <Paper className={classes.paper}>states</Paper>
+          <p> Status </p>
         </Grid>
       </Grid>
     </div>
