@@ -9,6 +9,8 @@ import Carousel from 'nuka-carousel';
 import { Link } from "react-router-dom";
 //import AliceCarousel from 'react-alice-carousel';
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import { useQuery } from 'react-query'
+import Moment from 'react-moment'
 
 const containerStyle = {
     width: '100%',
@@ -54,12 +56,17 @@ React.memo(MapComponent)
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 const API_ROOT = 'https://my-json-server.typicode.com/stinkycc/SHMTest'
+//const API_ROOT = '3.15.9.180/oms'
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
         maxWidth: '100%',
         flexGrow:1,
     },
+    button: {
+        margin: theme.spacing(1),
+    },
+
     gridItem:{
         marginTop:3,
         marginBottom:1,
@@ -94,6 +101,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getItems(setItems) {
+    //fetch(`${API_ROOT}/post/getpostbyid?id=224`, {
     fetch(`${API_ROOT}/post`, {
         method: 'GET',
     })
@@ -109,18 +117,30 @@ function getItems(setItems) {
         console.error(e);
     });
 }
+const getPosts = async () => {
+    const response = await fetch(`${API_ROOT}/post`)
+    return response.json()
+  }
 export default function Item() {
+    //const {status, post, isFetching, error} = useQuery('post', getPosts)
     const[post, setPost] = useState("");
     const classes = useStyles();
     const space = 5;
+    
     useEffect(() => {
-        getItems(setPost); 
-    });
-
+        getItems(setPost);
+    },[]);
+    // if (status === 'loading') {
+    //     return <div>loading...</div> // loading state
+    // }
+    
+    // if (status === 'error') {
+    //     return <div>{error.message}</div> // error state
+    // }
     
     return (
         <Container component="main" maxWidth="l">
-            <div >
+ <div>
                 <Grid container align='left'>
                 <Link to="/">
                     Back to result
@@ -132,37 +152,38 @@ export default function Item() {
                     <Grid item  className={classes.gridImg} spacing={space} alignItems="center">
                     <Carousel  heightMode="current">
                     {                
-                        post.imgs != null ? post.imgs.map((tile) => (<img src={tile.img}/>)) : <p></p>
+                        post.postImage != null ? post.postImage.map((tile) => (<img src={tile.img}/>)) : <p></p>
                     }
                     </Carousel>
                     </Grid>
                     <Grid item className={classes.gridItem} >
-                        <Typography gutterBottom variant="h6" align="left">{post.title}</Typography>
+                        <Typography gutterBottom variant="h6" align="left">{post.postTitle}</Typography>
                         <Grid container spacing={space}>
                             <Grid item className={classes.gridInItem}>
                                 
-                                <Typography color="textSecondary" variant="body2" align="left">Seller: {post.user}</Typography>
-                                <Typography color="textSecondary" variant="body2" align="left">Price: {post.price}</Typography>
+                                <Typography color="textSecondary" variant="body2" align="left">Seller: {post.postOwner}</Typography>
+                                <Typography color="textSecondary" variant="body2" align="left">Price: {post.postPrice}</Typography>
                             </Grid>
                             <Grid item className={classes.gridInItem}>
-                                <Typography color="textSecondary" variant="body2" align="left">Relaase: {post.data}</Typography>
+                                
+                                <Typography color="textSecondary" variant="body2" align="left">Relaase: <Moment format="YYYY/MM/DD">{post.postDate}</Moment></Typography>
                                 <Typography color="textSecondary" variant="body2" align="left">Status: {post.status}</Typography>
                             </Grid>
                         </Grid>
                         <Divider/>
                         <Grid item className={classes.gridItem} spacing={space}>
-                            <Typography color="textSecondary" variant="body2" align="left">Condition: {post.condition}</Typography>
+                            <Typography color="textSecondary" variant="body2" align="left">Condition: {post.postCondition}</Typography>
                             <Typography color="textSecondary" variant="body2" align="left">Transaction:{                
-                                post.transactions != null ? post.transactions.map((item) => (<a>&#9737; {item.transaction} </a>)) : <p></p>
+                                post.transactionMethod != null ? post.transactionMethod.map((item) => (<a>&#9737; {item.transactionMethod} </a>)) : <p></p>
                             }</Typography>
                             <Typography color="textSecondary" variant="body2" align="left">Delivery type:  
                             {                
-                                post.deliverytypes != null ? post.deliverytypes.map((item) => (<a>&#9737; {item.deliverytype} </a>)) : <p></p>
+                                post.deliveryType != null ? post.deliveryType.map((item) => (<a>&#9737; {item.deliveryType} </a>)) : <p></p>
                             }</Typography>
                         </Grid>
                         <Divider/>
                         <Grid item className={classes.gridItem} spacing={space}>
-                            <Typography color="textSecondary" variant="body2" align="left">Description: {post.description}</Typography>
+                            <Typography color="textSecondary" variant="body2" align="left">Description: {post.postDescription}</Typography>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -170,18 +191,16 @@ export default function Item() {
                 <Grid container spacing={space}>
                     <Grid item className={classes.gridImg} spacing={space}>
                         <Typography gutterBottom variant="h6" align="left">Contact Info</Typography>
-                        <Typography color="textSecondary" variant="body2" align="left">Email: {post.email}</Typography>
-                        <Typography color="textSecondary" variant="body2" align="left">Phone: {post.phone}</Typography>
-                        <Typography color="textSecondary" variant="body2" align="left">Loaction: {post.address} ZipCode:{post.zipcodes}</Typography>
+                        <Typography color="textSecondary" variant="body2" align="left">Email: {post.postEmail}</Typography>
+                        <Typography color="textSecondary" variant="body2" align="left">Phone: {post.postPhone}</Typography>
+                        <Typography color="textSecondary" variant="body2" align="left">Loaction: {post.postAddress} ZipCode:{post.postZipcode}</Typography>
                     </Grid>
                     <Grid item className={classes.gridItem} spacing={space}>
-                        {/* <MapComponent></MapComponent> */}
+                         {/* <MapComponent></MapComponent> */}
                     </Grid>
-                </Grid>
-            
-    
+                </Grid> 
             </div>
-
+    
         </Container>
 
     );
