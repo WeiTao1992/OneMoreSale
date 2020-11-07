@@ -9,6 +9,7 @@ import Category from './Category';
 import Price from './Price';
 import Postdate from './Postdate';
 import ResultPagination from './ResultPagination';
+import ItemList from './ItemList';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,7 +42,7 @@ export default function CenteredGrid() {
           <Category />
         </Grid>
         <Grid item xs={9}>
-          <Paper className={classes.paper}>xs=3</Paper>
+          <ItemList />
         </Grid>
         <Grid item xs={3}>
           <Price />
