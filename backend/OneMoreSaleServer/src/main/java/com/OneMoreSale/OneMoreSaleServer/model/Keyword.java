@@ -1,10 +1,15 @@
 package com.OneMoreSale.OneMoreSaleServer.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "keyword")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Keyword implements Serializable {
 
     private static final long serialVersionUID = 7461252604378704848L;
@@ -13,8 +18,10 @@ public class Keyword implements Serializable {
     private int id;
 
     @ManyToOne
+    @JsonIgnore
     private Post post;
 
+    @JsonProperty("parsed_value")
     private String postKeyword;
 
     public int getId() {

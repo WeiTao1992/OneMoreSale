@@ -2,7 +2,7 @@ import React from "react";
 import { Container } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
-import Link from '@material-ui/core/Link';
+import { Link } from "react-router-dom";
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -19,7 +19,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useState } from "react";
 import ImageUploader from "react-images-upload";
-import Carousel from 'nuka-carousel';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
@@ -56,18 +55,10 @@ const useStyles = makeStyles((theme) => ({
         padding: 6,
     },
 
-    carousel: {
-        margin: theme.spacing(2),
-    },
-
     uploadImage: {
         margin: theme.spacing(2),
-        marginTop: 50,
+        marginTop: 20,
         marginBottom: 50,
-    },
-
-    warning: {
-        marginLeft: 20,
     },
 
   }));
@@ -80,14 +71,16 @@ const UploadImage = props => {
     };
 
     return (
-      <ImageUploader
-        {...props}
-        withIcon={true}
-        onChange={onDrop}
-        imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-        maxFileSize={5242880}
-        label="Upload your images"
-      />
+        <ImageUploader
+            {...props}
+            withIcon={true}
+            onChange={onDrop}
+            imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+            maxFileSize={5242880}
+            withPreview={true}
+
+            label="Upload your images"
+        />
     );
 };
 
@@ -131,7 +124,7 @@ export default function Sell() {
                     justify="space-between" 
                     alignItems="baseline"
                 >
-                    <Link href="#" variant="body2">
+                    <Link to="/" variant="body2">
                         back to home
                     </Link>
         
@@ -141,6 +134,7 @@ export default function Sell() {
                         className={classes.button}
                         startIcon={<Icon>send</Icon>}
                         disableElevation
+                        href="/"
                     >
                         Post
                     </Button>
@@ -317,15 +311,7 @@ export default function Sell() {
                     </Grid>
 
                     <Grid item xs={4}>
-                        <Carousel className={classes.carousel} heightMode="current">
-                            <img src="https://source.unsplash.com/aZjw7xI3QAA/1144x763" />
-                            <img src="https://source.unsplash.com/c77MgFOt7e0/1144x763" />
-                            <img src="https://source.unsplash.com/QdBHnkBdu4g/1144x763" />
-                        </Carousel>
                         <UploadImage className={classes.uploadImage} />
-                        <Typography variant="caption" className={classes.warning}>
-                            Please make sure your information is correct.
-                        </Typography>
                     </Grid>
                 </Grid>
                 <Divider variant="fullWidth"/>

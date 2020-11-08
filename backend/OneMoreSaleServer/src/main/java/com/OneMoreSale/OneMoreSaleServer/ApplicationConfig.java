@@ -2,12 +2,18 @@ package com.OneMoreSale.OneMoreSaleServer;
 
 import com.OneMoreSale.OneMoreSaleServer.model.Account;
 import com.OneMoreSale.OneMoreSaleServer.model.Greetings;
+import com.OneMoreSale.OneMoreSaleServer.model.Keyword;
 import com.OneMoreSale.OneMoreSaleServer.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.sql.DataSource;
@@ -16,6 +22,8 @@ import java.util.Properties;
 @Configuration
 @EnableWebMvc
 public class ApplicationConfig {
+
+    private static final Logger log = LoggerFactory.getLogger(OneMoreSaleServerApplication.class);
 
     @Bean(name = "sessionFactory")
     public LocalSessionFactoryBean sessionFactory() {
@@ -26,8 +34,6 @@ public class ApplicationConfig {
 
         // This is one way to scan entire package
         sessionFactory.setPackagesToScan("com.OneMoreSale.OneMoreSaleServer.model");
-//        sessionFactory.setAnnotatedClasses(new Class[]{Account.class});
-//        sessionFactory.setAnnotatedClasses(new Class[]{User.class});
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }
