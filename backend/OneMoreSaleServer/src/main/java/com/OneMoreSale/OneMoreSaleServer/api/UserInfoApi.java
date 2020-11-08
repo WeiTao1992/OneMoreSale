@@ -39,7 +39,7 @@ public class UserInfoApi {
     public User getUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (HttpUtil.sessionInvalid(request)) { // session invalid
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            logger.warn("The user has not logged in yet");
+            logger.warn("[getUserInfo] The user has not logged in yet");
             return null;
         }
         Integer userId = (Integer)request.getSession().getAttribute("user_id");
@@ -68,7 +68,7 @@ public class UserInfoApi {
         //获取post body里面信息
         String username = postBody.get("username");
         String password = postBody.get("password");
-        logger.info("user {} Update Password", email);
+        logger.info("[userInfoUpdate] user {} Update Password", email);
         userInfoService.updatePassword(email, username, password);
         return new ResponseWrapper("Success");
     }
@@ -91,7 +91,7 @@ public class UserInfoApi {
         //获取post body里面信息
         String phone = postBody.get("phone");
         String address = postBody.get("address");
-        logger.info("user {} Update Address", email);
+        logger.info("[userInfoUpdate] user {} Update Address", email);
         userInfoService.updateAddress(email, phone, address);
         return new ResponseWrapper("Success");
     }
