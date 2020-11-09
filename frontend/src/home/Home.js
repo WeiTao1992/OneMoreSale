@@ -55,14 +55,14 @@ export default function Home() {
         <Grid  item xs={3}>
           
         </Grid>    
-        <Grid  item xs={3}>
+        <Grid  align="left"  item xs={3}>
           <span >共 xx 条</span>    
         </Grid>
         
         <Grid  item xs={3}>
           <ResultPagination />    
         </Grid>
-        <Grid  item xs={3}>
+        <Grid  align="right" item xs={3}>
           <span >前往 <input type="text" id="fname" name="fname"/> 页</span>       
         </Grid>
 
