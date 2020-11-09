@@ -134,7 +134,7 @@ export default function Sell() {
                         className={classes.button}
                         startIcon={<Icon>send</Icon>}
                         disableElevation
-                        href="/"
+                        href="/item"
                     >
                         Post
                     </Button>
