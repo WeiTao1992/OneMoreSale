@@ -25,7 +25,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 
-//change starts here... change again
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -97,24 +96,18 @@ export default function Account() {
         <Divider variant="fullWidth"/>
 
         <div className={classes.avatar}>
-            <Avatar alt="avatar example" src="grey_avatar.png" />   
-                <Typography variant="subtitle1">
-                 UserName
-                </Typography>
+            <Avatar alt="avatar example" src="grey_avatar.png" />  
+                <Typography variant="subtitle1">UserName</Typography>
         </div>
 
         <div className={classes.root}>
             <Grid container wrap="nowrap" alignItems="flex-start">
-                <Typography variant="h6">
-                    Login and Security
-                </Typography>
+                <Typography variant="h6">Login and Security</Typography>
             </Grid>
             <Paper className={classes.paper} variant="outlined">
                 <Grid container direction="row" justify="space-between">
                     <Typography>Email:haha@gmail.com</Typography>
-                    <Button variant="contained" onClick={handleClickOpen}>
-                        Edit
-                    </Button>
+                    <Button variant="contained" onClick={handleClickOpen}>Edit</Button>
                     <Dialog fullWidth='true' open={open} onClose={handleClose}
                         aria-labelledby>
                         <DialogTitle id="form-dialog-title">Login</DialogTitle>
@@ -160,16 +153,12 @@ export default function Account() {
 
         <div className={classes.root}>
             <Grid container wrap="nowrap" alignItems="flex-start">
-                <Typography variant="h6">
-                    Address
-                </Typography>
+                <Typography variant="h6">Address</Typography>
             </Grid>
             <Paper className={classes.paper} variant="outlined">
                 <Grid container direction="row" justify="space-between">
                     <FormLabel>Phone: 123-456-7890</FormLabel>
-                    <Button variant="contained" onClick={handleClickOpen1}>
-                        Edit
-                    </Button> 
+                    <Button variant="contained" onClick={handleClickOpen1}>Edit</Button> 
                     <Dialog fullWidth='true' open={open1} onClose={handleClose1}>
                         <DialogTitle id="form-dialog-title">Address</DialogTitle>
                             <DialogContent>
@@ -202,9 +191,7 @@ export default function Account() {
 
         <div className={classes.root}>
             <Grid container wrap="nowrap" alignItems="flex-start">
-                <Typography variant="h6">
-                    My Items
-                </Typography>
+                <Typography variant="h6">My Items</Typography>
             </Grid> 
 
             <Paper className={classes.paper} variant="outlined">
@@ -213,7 +200,7 @@ export default function Account() {
                         <Paper className={classes.paper1} elevation={0}>
                             <img src="grey_item.png" />
                         </Paper>
-
+                    
                         <ListItemText primary="Item Name" secondary="condition"/>
                         <ListItemText primary="Price"/>
                         
@@ -227,12 +214,10 @@ export default function Account() {
                             <DeleteIcon />
                             </IconButton>
                         </ListItemSecondaryAction>
-
                     </ListItem>)}
                 </List>
             </Paper>
         </div>
-
     </Container>
 );
 }
