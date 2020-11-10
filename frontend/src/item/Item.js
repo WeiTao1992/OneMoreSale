@@ -117,6 +117,7 @@ function getItems(setItems) {
         console.error(e);
     });
 }
+
 const getPosts = async () => {
     const response = await fetch(`${API_ROOT}/post`)
     return response.json()
