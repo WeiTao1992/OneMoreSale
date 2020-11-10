@@ -106,8 +106,7 @@ const useStyles = makeStyles((theme) => ({
 
 async function getItems() {
     const { data } = await axios.get(`${API_ROOT}/post`)
-    return data;
-    
+    return data;   
 }
 
 export default function Item(props) {
