@@ -12,6 +12,7 @@ import Moment from 'react-moment'
 import { useQuery } from 'react-query'
 import axios from "axios";
 import Button from '@material-ui/core/Button';
+import {useParams} from 'react-router-dom'
 // import defaultQueryFn from '../util/defaultQueryFn';
 
 const containerStyle = {
@@ -114,8 +115,10 @@ export default function Item(props) {
 
     //const data = props.postItem;
 
-    //const postId = props.postId;
-    //const { isLoading, isError, data } = useQuery(['postItem', `post/getpostbyid?id=${postId}`], defaultQueryFn);
+    //const { id } = useParams();
+    //const { isLoading, isError, data } = useQuery(['postItem', `post/getpostbyid?id=${id}`], defaultQueryFn);
+    
+    const { id } = useParams();
 
     const classes = useStyles();
     const space = 5;  
@@ -128,7 +131,7 @@ export default function Item(props) {
     }
     return (
         <Container component="main" maxWidth="l">
-            {/* <Button onClick={() => { console.log(data.transactionMethod) }}>test</Button> */}
+            {/* <Button onClick={() => { console.log(id) }}>hhhh{id}</Button> */}
             <div>
                 <Grid container align='left'>
                 <Link to="/">
