@@ -44,7 +44,7 @@ public class Post implements Serializable {
     private String postTitle;
     private String postCategory;
     private String postCondition;
-    @Column(length = 600)
+    @Column(length = 1000)
     private String postDescription;
     private String postOwner;
     private String postStatus;

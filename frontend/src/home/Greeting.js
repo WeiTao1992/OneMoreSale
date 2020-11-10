@@ -1,5 +1,6 @@
 import React from "react";
 import greeting from './greeting.jpg';
+import Logo from './Logo.png';
 
 export default function Greeting(){
     const imgStyle = {
@@ -7,5 +8,5 @@ export default function Greeting(){
         width: "100vw",
     }
 
-    return (<img src={greeting} alt="Logo" style={imgStyle}/>);
+    return (<img src={Logo} alt="Logo" style={imgStyle}/>);
 }

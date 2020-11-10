@@ -23,7 +23,7 @@ public class HttpUtil {
     }
 
     @ResponseBody
-    @GetMapping("/sessiondemo")
+    @GetMapping("/checkLogin")
     public String sessionDemo(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (HttpUtil.sessionInvalid(request)) { // session invalid
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
