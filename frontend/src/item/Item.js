@@ -117,14 +117,14 @@ function getItems(setItems) {
         console.error(e);
     });
 }
-<<<<<<< HEAD
+
+
 const getPosts = async () => {
     const response = await fetch(`${API_ROOT}/post`)
     return response.json()
   }
-=======
 
->>>>>>> 1c5dfa8... version1
+
 export default function Item() {
     //const {status, post, isFetching, error} = useQuery('post', getPosts)
     const[post, setPost] = useState("");
