@@ -25,7 +25,7 @@ import { useMutation } from 'react-query';
 import moment from 'moment';
 import defaultQueryFn from '../util/defaultQueryFn';
 import { useQuery } from 'react-query'
-
+import { useHistory } from 'react-router-dom';
 
 //------------------------------------------------------------------------------------------------------//
 
@@ -144,6 +144,7 @@ export default function Sell() {
         setDelivery({ ...delivery, [event.target.name]: event.target.checked });
     };
 
+    let history = useHistory();
     
     // Get QueryCache from the context
     const queryCache = useQueryCache();
@@ -177,8 +178,9 @@ export default function Sell() {
 
             queryCache.invalidateQueries(['home', '/'])
             queryCache.invalidateQueries(['UserAllInfo', 'userinfo/getUserInfo/'])
-
-            
+           
+            history.push("/item/224");
+                       
         } catch(e) {
             console.log(e)
         }
