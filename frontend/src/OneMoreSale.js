@@ -32,7 +32,7 @@ export default function OneMoreSale() {
             <Link to="/register">Register</Link>
           </li>
           <li>
-            <Link to="/item/224">Item</Link>
+            <Link to="/item/3">Item</Link>
           </li>
         </ul>
       </nav>

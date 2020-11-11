@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import Container from '@material-ui/core/Container';
-import {useState, useEffect} from 'react';
 import Typography from '@material-ui/core/Typography';
 import Carousel from 'nuka-carousel';
 import { Link } from "react-router-dom";
@@ -13,7 +12,9 @@ import { useQuery } from 'react-query'
 import axios from "axios";
 import Button from '@material-ui/core/Button';
 import {useParams} from 'react-router-dom'
-// import defaultQueryFn from '../util/defaultQueryFn';
+import defaultQueryFn from '../util/defaultQueryFn';
+import { useHistory } from "react-router-dom";
+
 
 const containerStyle = {
     width: '100%',
@@ -59,7 +60,7 @@ React.memo(MapComponent)
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
-const API_ROOT = 'https://my-json-server.typicode.com/stinkycc/SHMTest'
+const API_ROOT = 'https://my-json-server.typicode.com/stinkycc/SHMTest/post'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -104,33 +105,26 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-async function getItems() {
-    const { data } = await axios.get(`${API_ROOT}/post`)
+async function getItems(apiName, apiPath) {
+    const { data } = await axios.get(apiPath);
     return data;   
 }
 
-export default function Item(props) {
-    const { isLoading, isError, data } = useQuery(['postItem', 'post'], getItems);
-
-    //const data = props.postItem;
-
-    //const { id } = useParams();
-    //const { isLoading, isError, data } = useQuery(['postItem', `post/getpostbyid?id=${id}`], defaultQueryFn);
-    
+export default function Item() {
     const { id } = useParams();
+    const { isLoading, isError, data } = useQuery(['postItem', `post/getpostbyid?id=${id}`], defaultQueryFn);
 
     const classes = useStyles();
     const space = 5;  
     if (isLoading) {
-        return <div>loading...</div>
+        return <span>Loading...</span>
     }
 
     if (isError) {
-        return <div>Error</div>
+        return <span>Error!!!</span>
     }
     return (
         <Container component="main" maxWidth="l">
-            {/* <Button onClick={() => { console.log(id) }}>hhhh{id}</Button> */}
             <div>
                 <Grid container align='left'>
                 <Link to="/">

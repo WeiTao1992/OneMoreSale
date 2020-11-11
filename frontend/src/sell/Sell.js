@@ -22,9 +22,10 @@ import ImageUploader from "react-images-upload";
 import { sell } from '../util/apis';
 import { useQueryCache } from 'react-query';
 import { useMutation } from 'react-query';
-// import defaultQueryFn from '../util/defaultQueryFn';
-// import { useQuery } from 'react-query'
-
+import moment from 'moment';
+import defaultQueryFn from '../util/defaultQueryFn';
+import { useQuery } from 'react-query'
+import { useHistory } from 'react-router-dom';
 
 //------------------------------------------------------------------------------------------------------//
 
@@ -97,34 +98,38 @@ const UploadImage = props => {
 
 export default function Sell() {
     const classes = useStyles();
-    const [mutate, { isLoading  , isError,  }, ] = useMutation(sell);
-    //const { isLoading : il, isError: ie, data } = useQuery(['username', 'userinfo/getUserInfo/'], defaultQueryFn);
-    //const username = data.username;
-    //const curtime = new Date().toLocaleString('en-US');
+    const [mutate, { isLoading  , isError,  error, data : d1 }, ] = useMutation(sell);
+    const { isLoading : il, isError: ie, data : d2 } = useQuery(['username', 'userinfo/getUserInfo/'], defaultQueryFn);
+    
+    const userName = d2.username;
+    const defaultEmail = d2.account.email;
+    const defaultPhone = d2.phone;
+    const defaultZipcode = d2.zipcode;
+    const defaultAddress = d2.address;
 
     const [values, setValues] = React.useState({
         title: '',
         price: '',
-        email: '',
-        phone: '',
-        zipcode: '',
-        address: '',
+        email: defaultEmail,
+        phone: defaultPhone,
+        zipcode: defaultZipcode,
+        address: defaultAddress,
         category: '',
         condition: '',
         description: '',
-        status: 'Unsold',
+        status: 'On Sale',
     });
 
     const [transaction, setTransaction] = React.useState({
-        paypal: true,
-        quickpay: true,
-        venmo: true,
-        cash: true,
+        paypal: false,
+        quickpay: false,
+        venmo: false,
+        cash: false,
     });
 
     const [delivery, setDelivery] = React.useState({
-        dropoff: true,
-        pickup: true,
+        dropoff: false,
+        pickup: false,
     });
 
     const handleChange = (prop) => (event) => {
@@ -139,42 +144,54 @@ export default function Sell() {
         setDelivery({ ...delivery, [event.target.name]: event.target.checked });
     };
 
+    let history = useHistory();
+    
     // Get QueryCache from the context
     const queryCache = useQueryCache();
 
     const onPostClick = async () => {
         try {
-            let transactionArray = []
-            for (var i in transaction) {
-                if(transaction[i] === true) {
-                    transactionArray.push(i);
+            var trans = [];
+            for (var t in transaction) {
+                if(transaction[t] === true) {
+                    trans.push({
+                        key : "transactionMethod",
+                        value : t
+                    });
                 }
             }
 
-            let deliveryArray = []
-            for (var j in delivery) {
-                if(delivery[j] === true) {
-                    deliveryArray.push(j);
+            let deliv = []
+            for (var d in delivery) {
+                if(delivery[d] === true) {
+                    deliv.push({
+                        key : "deliveryType",
+                        value : d
+                    });
                 }
             }
 
-            const curtime = new Date().toLocaleString('en-US');
-            
-            const data = await mutate({ values, transactionArray, deliveryArray, curtime })
+            var curTime = moment();
+
+            const data = await mutate({ values, trans, deliv, curTime, userName})
             console.log(data)
 
             queryCache.invalidateQueries(['home', '/'])
-            queryCache.invalidateQueries(['account', '/account'])
+            queryCache.invalidateQueries(['UserAllInfo', 'userinfo/getUserInfo/'])
+           
+            history.push("/item/224");
+                       
         } catch(e) {
             console.log(e)
         }
     }
 
-    if (isLoading) {
+    if (isLoading || il) {
         return <span>Loading...</span>
     }
 
-    if (isError) {
+    if (isError || ie) {
+        console.log(error)
         return <span>Error!!!</span>
     }
 
@@ -200,7 +217,6 @@ export default function Sell() {
                         startIcon={<Icon>send</Icon>}
                         disableElevation
                         onClick={onPostClick}
-                        href="/item/224"
                     >
                         Post
                     </Button>
@@ -289,7 +305,6 @@ export default function Sell() {
                                 variant="outlined"
                                 value={values.description}
                                 onChange={handleChange('description')}
-                                defaultValue="Describe your item here..."
                             />
                             
                         </form>
@@ -303,7 +318,6 @@ export default function Sell() {
                                     variant="outlined"
                                     value={values.email}
                                     onChange={handleChange('email')}
-                                    //defaultValue={data.email}
                                 /> 
                             
                             <TextField
@@ -312,7 +326,6 @@ export default function Sell() {
                                     variant="outlined"
                                     value={values.phone}
                                     onChange={handleChange('phone')}
-                                    //defaultValue={data.phone}
                                 /> 
 
                             <TextField
@@ -321,7 +334,6 @@ export default function Sell() {
                                     variant="outlined"
                                     value={values.zipcode}
                                     onChange={handleChange('zipcode')}
-                                    //defaultValue={data.zipcode}
                                 /> 
 
                             <TextField
@@ -332,7 +344,6 @@ export default function Sell() {
                                     variant="outlined"
                                     value={values.address}
                                     onChange={handleChange('address')}
-                                    //defaultValue={data.address}
                                 />  
 
 
