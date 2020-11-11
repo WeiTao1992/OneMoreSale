@@ -19,11 +19,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useState } from "react";
 import ImageUploader from "react-images-upload";
-import { useQuery } from 'react-query'
 import { sell } from '../util/apis';
 import { useQueryCache } from 'react-query';
-import defaultQueryFn from '../util/defaultQueryFn';
 import { useMutation } from 'react-query';
+// import defaultQueryFn from '../util/defaultQueryFn';
+// import { useQuery } from 'react-query'
+
 
 //------------------------------------------------------------------------------------------------------//
 
@@ -96,12 +97,10 @@ const UploadImage = props => {
 
 export default function Sell() {
     const classes = useStyles();
-    //const { isLoading, isError, data } = useQuery(['username', 'userinfo/getUserInfo/'], defaultQueryFn);
-    const [mutate, { isLoading : il , isError: ie,  }, ] = useMutation(sell);
-
+    const [mutate, { isLoading  , isError,  }, ] = useMutation(sell);
+    //const { isLoading : il, isError: ie, data } = useQuery(['username', 'userinfo/getUserInfo/'], defaultQueryFn);
     //const username = data.username;
     //const curtime = new Date().toLocaleString('en-US');
-    const username = 'Helllo';
 
     const [values, setValues] = React.useState({
         title: '',
@@ -139,6 +138,7 @@ export default function Sell() {
     const handleDeliveryChange = (event) => {
         setDelivery({ ...delivery, [event.target.name]: event.target.checked });
     };
+
     // Get QueryCache from the context
     const queryCache = useQueryCache();
 
@@ -157,9 +157,11 @@ export default function Sell() {
                     deliveryArray.push(j);
                 }
             }
-            const curtime = new Date().toLocaleString('en-US');
 
-            const data = await mutate({ values, transactionArray, deliveryArray, curtime, username })
+            const curtime = new Date().toLocaleString('en-US');
+            console.log("Time :" + values.curTime);
+            
+            const data = await mutate({ values, transactionArray, deliveryArray, curtime })
             console.log(data)
 
             queryCache.invalidateQueries(['home', '/'])
@@ -169,11 +171,11 @@ export default function Sell() {
         }
     }
 
-    if (il) {
+    if (isLoading) {
         return <span>Loading...</span>
     }
 
-    if (ie) {
+    if (isError) {
         return <span>Error!!!</span>
     }
 

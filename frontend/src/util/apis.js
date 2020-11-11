@@ -9,11 +9,10 @@ export async function login( {email, password} ) {
       })
 } 
 
-export async function sell( { values, transactionArray, deliveryArray, curtime, username } ) {
-    console.log("Time :" + values.curTime);
+export async function sell( { values, transactionArray, deliveryArray, curtime } ) {
     axios.post('oms/post/createpost', {
-      postOwner : values.username,
-      postDate : values.curtime,
+      postOwner : " ",
+      postDate : curtime,
       postStatus : values.status,
       postTitle : values.title,
       postCategory : values.category,
