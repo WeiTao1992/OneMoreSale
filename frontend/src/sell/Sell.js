@@ -159,7 +159,6 @@ export default function Sell() {
             }
 
             const curtime = new Date().toLocaleString('en-US');
-            console.log("Time :" + values.curTime);
             
             const data = await mutate({ values, transactionArray, deliveryArray, curtime })
             console.log(data)
@@ -181,6 +180,7 @@ export default function Sell() {
 
 //--------------------------------------------------------------------------------------------------//
     return (
+        
         <Container maxWidth="lg">
             <div>
                 <Grid 
