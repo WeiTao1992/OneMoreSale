@@ -28,4 +28,29 @@ export async function sell( { values, trans, deliv, curTime, userName} ) {
     })
 } 
 
+//acount page
+export async function accountUpdatePassword( {username, password} ) {
+  axios.post('oms/userinfo/UpdatePassword', {
+      username : username,
+      password : password
+    })
+
+    // 'oms/userinfo/UpdatePassword?username={username}?
+}
+
+export async function accountUpdateAddress( {phone, address} ) {
+  axios.post('oms/userinfo/UpdateAddress', {
+      phone : phone,
+      address : address
+    })
+}
+
+export async function accountItemDelete(postId) {
+  // console.log("lalalal:" + `oms/post/deletepost?id=${postId}`)
+  axios.delete(`oms/post/deletepost?id=${postId}`,)
+}
+
+
+
+
 

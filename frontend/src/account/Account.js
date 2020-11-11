@@ -22,6 +22,13 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { useQuery } from 'react-query';
+import defaultQueryFn from '../util/defaultQueryFn';
+import { useMutation } from 'react-query';
+import { accountUpdatePassword } from '../util/apis';
+import { accountUpdateAddress } from '../util/apis';
+import { accountItemDelete } from '../util/apis';
+import { useQueryCache } from 'react-query';
 
 
 
@@ -56,18 +63,75 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function generate(element) {
-    return [0, 1].map((value) =>
-      React.cloneElement(element, {
-        key: value,
-      }),
-    );
-  }
+//---------------------------------------------------
+// function generate(element) {
+//     return [0, 1].map(
+//         (value) =>
+//       React.cloneElement(element, {
+//         key: value,
+//       }),
+//     );
+//   }
 
+//---------------------------------------------------
 export default function Account() {
     const classes = useStyles();
+
     const [open, setOpen] = React.useState(false);
     const [open1, setOpen1] = React.useState(false);
+
+    const { isLoading, isError, data } = useQuery(['UserAllInfo', 'userinfo/getUserInfo/'], defaultQueryFn);
+
+    const [ mutate ] = useMutation(accountUpdatePassword); 
+    const [ mutate1 ] = useMutation(accountUpdateAddress);
+    const [ mutate2 ] = useMutation(accountItemDelete);
+
+    const [username, setUsername] = React.useState();
+    const [password, setPassword] = React.useState();
+    const [address, setAddress] = React.useState();
+    const [phone, setPhone] = React.useState();
+    
+
+
+    const handleUsernameChange = (event) => {
+        setUsername(event.target.value);
+    };
+    const handlePasswordChange = (event) => {
+        setPassword(event.target.value);
+    };
+    const handleAddressChange = (event) => {
+        setAddress(event.target.value);
+    };
+    const handlePhoneChange = (event) => {
+        setPhone(event.target.value);
+    };
+
+    // Get QueryCache from the context
+    const queryCache = useQueryCache()
+
+    const handleSave = async () => {
+        try {
+        const UserInfoData = await mutate({ username, password })
+        console.log(UserInfoData)
+
+        queryCache.invalidateQueries(['UserAllInfo', 'userinfo/getUserInfo/'])
+        } catch(e) {
+        console.log(e)
+        }       
+        setOpen(false);
+    }
+
+    const handleSave1 = async () => {
+        try {
+        const UserAddressData = await mutate1({ address, phone })
+        console.log(UserAddressData)
+
+        queryCache.invalidateQueries(['UserAllInfo', 'userinfo/getUserInfo/'])
+        } catch(e) {
+        console.log(e)
+        }
+        setOpen1(false);
+    }
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -86,18 +150,44 @@ export default function Account() {
     const handleClose1 = () => {
         setOpen1(false);
     };
+    
+
+    //-----------------------------------------------------
+    if (isLoading) {
+        return <span>Loading...</span>
+    }
+
+    if (isError) {
+        return <span>Error!!!</span>
+    }
+
+    //handle corner case of address
+    let fullAddress = data.address;
+    if (data.zipCode) {
+        fullAddress += ', ' + data.zipCode;
+    }
 
 
     return (
     <Container maxWidth="lg">
+
+    {/* <div>test: {data.postList[0].postPrice}</div> */}
+    {/*      
+        { data.postList.map((ItemTest) => (
+                <div>heh{ItemTest.postPrice}</div>
+            ))
+        } */}
+            
+
         <Grid container direction="row" justify="space-between" alignItems="baseline">
             <Link to="/">Back to Home</Link>
         </Grid>
         <Divider variant="fullWidth"/>
 
         <div className={classes.avatar}>
-            <Avatar alt="avatar example" src="grey_avatar.png" />  
-                <Typography variant="subtitle1">UserName</Typography>
+             <Avatar src={data.userImage} />
+             {/* <Avatar src={data.userImage} />      */}
+             <Typography variant="subtitle1">{data.userName}</Typography>
         </div>
 
         <div className={classes.root}>
@@ -106,26 +196,18 @@ export default function Account() {
             </Grid>
             <Paper className={classes.paper} variant="outlined">
                 <Grid container direction="row" justify="space-between">
-                    <Typography>Email:haha@gmail.com</Typography>
+                    <Typography>Email: {data.account.email}</Typography>
                     <Button variant="contained" onClick={handleClickOpen}>Edit</Button>
-                    <Dialog fullWidth='true' open={open} onClose={handleClose}
-                        aria-labelledby>
+                    <Dialog fullWidth ={true} open={open} onClose={handleClose}>
                         <DialogTitle id="form-dialog-title">Login</DialogTitle>
-                            <DialogContent>
-                                <TextField
-                                    autoFocus
-                                    margin="dense"
-                                    label="Email Address"
-                                    type="email"
-                                    fullWidth/>
-                            </DialogContent>
                             <DialogContent>
                                 <TextField
                                     autoFocus
                                     margin="dense"
                                     label="UserName"
                                     type="text"
-                                    fullWidth/>
+                                    fullWidth
+                                    onChange={handleUsernameChange}/>
                             </DialogContent>
                             <DialogContent>
                                 <TextField
@@ -133,20 +215,21 @@ export default function Account() {
                                     margin="dense"
                                     label="Password"
                                     type="text"
-                                    fullWidth/>
+                                    fullWidth
+                                    onChange={handlePasswordChange}/>
                             </DialogContent>
                         <DialogActions>
                             <Button onClick={handleClose} color="primary">Cancel</Button>
-                            <Button onClick={handleClose} color="primary">Save</Button>
+                            <Button onClick={handleSave} color="primary">Save</Button>
                         </DialogActions>
                     </Dialog>
                 </Grid>
                 <div align="left">
-                    <FormLabel>UserName: haha</FormLabel>
+                    <FormLabel>UserName: {data.userName}</FormLabel>
                 </div>
                 <br></br>
                 <div align="left">
-                    <FormLabel>Password: *****</FormLabel>
+                    <FormLabel>Password: {data.account.password}</FormLabel>
                 </div>  
             </Paper>
         </div>
@@ -157,7 +240,7 @@ export default function Account() {
             </Grid>
             <Paper className={classes.paper} variant="outlined">
                 <Grid container direction="row" justify="space-between">
-                    <FormLabel>Phone: 123-456-7890</FormLabel>
+                    <FormLabel>Phone: {data.phone} </FormLabel>
                     <Button variant="contained" onClick={handleClickOpen1}>Edit</Button> 
                     <Dialog fullWidth='true' open={open1} onClose={handleClose1}>
                         <DialogTitle id="form-dialog-title">Address</DialogTitle>
@@ -167,7 +250,8 @@ export default function Account() {
                                     margin="dense"
                                     label="Phone"
                                     type="number"
-                                    fullWidth/>
+                                    fullWidth
+                                    onChange={handlePhoneChange}/>
                             </DialogContent>
                             <DialogContent>
                                 <TextField
@@ -175,16 +259,17 @@ export default function Account() {
                                     margin="dense"
                                     label="Address"
                                     type="text"
-                                    fullWidth/>
+                                    fullWidth
+                                    onChange={handleAddressChange}/>
                             </DialogContent>
                         <DialogActions>
                             <Button onClick={handleClose1} color="primary">Cancel</Button>
-                            <Button onClick={handleClose1} color="primary">Save</Button>
+                            <Button onClick={handleSave1} color="primary">Save</Button>
                         </DialogActions>
                     </Dialog>      
                 </Grid> 
                 <div align="left">
-                    <FormLabel>Address: 123 Ave, CA, 12345</FormLabel>   
+                    <FormLabel>Address: {fullAddress} </FormLabel>   
                 </div> 
             </Paper>
         </div>
@@ -194,27 +279,41 @@ export default function Account() {
                 <Typography variant="h6">My Items</Typography>
             </Grid> 
 
+            
             <Paper className={classes.paper} variant="outlined">
-                <List className={classes.list}>{generate(
-                    <ListItem>
+        
+                <List className={classes.list}>{
+                     data.postList.map((singleItem)=>(
+                        <ListItem>
                         <Paper className={classes.paper1} elevation={0}>
                             <img src="grey_item.png" />
                         </Paper>
                     
-                        <ListItemText primary="Item Name" secondary="condition"/>
-                        <ListItemText primary="Price"/>
+                        <ListItemText primary= {singleItem.postTitle} secondary= {singleItem.postCondition} />
+                        <ListItemText primary= {singleItem.postPrice} />
+                        <ListItemText primary= {singleItem.postId} />
                         
                         <Select className={classes.select}>
                             <MenuItem value={0}>Sold</MenuItem>
-                            <MenuItem value={1}>Unsold</MenuItem>
+                            <MenuItem value={1}>Unsell</MenuItem>
                         </Select>
                         
                         <ListItemSecondaryAction>
-                            <IconButton edge="end" aria-label="delete">
+                            <IconButton edge="end" aria-label="delete"
+                            onClick={ async ()=>{
+                                try {
+                                    const postItem = await mutate2(singleItem.postId)
+                                    console.log(postItem)
+                            
+                                    queryCache.invalidateQueries(['UserAllInfo', 'userinfo/getUserInfo/'])
+                                    } catch(e) {
+                                    console.log(e)
+                                    } 
+                            }}>
                             <DeleteIcon />
                             </IconButton>
                         </ListItemSecondaryAction>
-                    </ListItem>)}
+                    </ListItem>))}          
                 </List>
             </Paper>
         </div>
