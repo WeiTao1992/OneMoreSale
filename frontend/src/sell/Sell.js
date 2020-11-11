@@ -19,7 +19,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useState } from "react";
 import ImageUploader from "react-images-upload";
-import Typography from '@material-ui/core/Typography';
+import { useQuery } from 'react-query'
+import { sell } from '../util/apis';
+import { useQueryCache } from 'react-query';
+import defaultQueryFn from '../util/defaultQueryFn';
+import { useMutation } from 'react-query';
+
+//------------------------------------------------------------------------------------------------------//
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -63,6 +69,8 @@ const useStyles = makeStyles((theme) => ({
 
   }));
 
+//------------------------------------------------------------------------------------------------------//
+
 const UploadImage = props => {
     const [pictures, setPictures] = useState([]);
   
@@ -84,37 +92,92 @@ const UploadImage = props => {
     );
 };
 
+//------------------------------------------------------------------------------------------------------//
 
 export default function Sell() {
     const classes = useStyles();
+    //const { isLoading, isError, data } = useQuery(['username', 'userinfo/getUserInfo/'], defaultQueryFn);
+    const [mutate, { isLoading : il , isError: ie,  }, ] = useMutation(sell);
+
+    //const username = data.username;
+    //const curtime = new Date().toLocaleString('en-US');
+    const username = 'Helllo';
+
     const [values, setValues] = React.useState({
         title: '',
         price: '',
         email: '',
         phone: '',
-        postalcode: '',
+        zipcode: '',
         address: '',
         category: '',
         condition: '',
         description: '',
-        paypal: false,
-        quickpay: false,
-        venmo: false,
-        cash: false,
-        dropoff: false,
-        pickup: false,
+        status: 'Unsold',
+    });
+
+    const [transaction, setTransaction] = React.useState({
+        paypal: true,
+        quickpay: true,
+        venmo: true,
+        cash: true,
+    });
+
+    const [delivery, setDelivery] = React.useState({
+        dropoff: true,
+        pickup: true,
     });
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
-      };
+    };
     
-
-    const handleCheckboxChange = (event) => {
-        setValues({ ...values, [event.target.name]: event.target.checked });
+    const handleTransactionChange = (event) => {
+        setTransaction({ ...transaction, [event.target.name]: event.target.checked });
     };
 
+    const handleDeliveryChange = (event) => {
+        setDelivery({ ...delivery, [event.target.name]: event.target.checked });
+    };
+    // Get QueryCache from the context
+    const queryCache = useQueryCache();
 
+    const onPostClick = async () => {
+        try {
+            let transactionArray = []
+            for (var i in transaction) {
+                if(transaction[i] === true) {
+                    transactionArray.push(i);
+                }
+            }
+
+            let deliveryArray = []
+            for (var j in delivery) {
+                if(delivery[j] === true) {
+                    deliveryArray.push(j);
+                }
+            }
+            const curtime = new Date().toLocaleString('en-US');
+
+            const data = await mutate({ values, transactionArray, deliveryArray, curtime, username })
+            console.log(data)
+
+            queryCache.invalidateQueries(['home', '/'])
+            queryCache.invalidateQueries(['account', '/account'])
+        } catch(e) {
+            console.log(e)
+        }
+    }
+
+    if (il) {
+        return <span>Loading...</span>
+    }
+
+    if (ie) {
+        return <span>Error!!!</span>
+    }
+
+//--------------------------------------------------------------------------------------------------//
     return (
         <Container maxWidth="lg">
             <div>
@@ -134,7 +197,8 @@ export default function Sell() {
                         className={classes.button}
                         startIcon={<Icon>send</Icon>}
                         disableElevation
-                        href="/item"
+                        onClick={onPostClick}
+                        href="/item/224"
                     >
                         Post
                     </Button>
@@ -220,10 +284,10 @@ export default function Sell() {
                                 label="Description"
                                 multiline
                                 rows={10}
-                                defaultValue="Describe your item here..."
                                 variant="outlined"
                                 value={values.description}
                                 onChange={handleChange('description')}
+                                defaultValue="Describe your item here..."
                             />
                             
                         </form>
@@ -237,6 +301,7 @@ export default function Sell() {
                                     variant="outlined"
                                     value={values.email}
                                     onChange={handleChange('email')}
+                                    //defaultValue={data.email}
                                 /> 
                             
                             <TextField
@@ -245,14 +310,16 @@ export default function Sell() {
                                     variant="outlined"
                                     value={values.phone}
                                     onChange={handleChange('phone')}
+                                    //defaultValue={data.phone}
                                 /> 
 
                             <TextField
-                                    required id="item-postalcode"
-                                    label="Postal Code"
+                                    required id="item-zipcode"
+                                    label="Zip Code"
                                     variant="outlined"
-                                    value={values.postalcode}
-                                    onChange={handleChange('postalcode')}
+                                    value={values.zipcode}
+                                    onChange={handleChange('zipcode')}
+                                    //defaultValue={data.zipcode}
                                 /> 
 
                             <TextField
@@ -263,6 +330,7 @@ export default function Sell() {
                                     variant="outlined"
                                     value={values.address}
                                     onChange={handleChange('address')}
+                                    //defaultValue={data.address}
                                 />  
 
 
@@ -270,22 +338,22 @@ export default function Sell() {
                                 <FormLabel>Transction Methods</FormLabel>
                                 <FormGroup row>
                                     <FormControlLabel
-                                        control={<Checkbox  checked={values.paypal} onChange={handleCheckboxChange} color="primary" name="paypal" />}
+                                        control={<Checkbox  checked={transaction.paypal} onChange={handleTransactionChange} color="primary" name="paypal" />}
                                         className={classes.check2}
                                         label="PayPal"
                                     />
                                     <FormControlLabel
-                                        control={<Checkbox checked={values.quickpay} onChange={handleCheckboxChange} color="primary" name="quickpay" />}
+                                        control={<Checkbox checked={transaction.quickpay} onChange={handleTransactionChange} color="primary" name="quickpay" />}
                                         className={classes.check2}
                                         label="QuickPay"
                                     /> 
                                     <FormControlLabel
-                                        control={<Checkbox checked={values.venmo} onChange={handleCheckboxChange} color="primary" name="venmo" />}
+                                        control={<Checkbox checked={transaction.venmo} onChange={handleTransactionChange} color="primary" name="venmo" />}
                                         className={classes.check2}
                                         label="Venmo"
                                     />                                    
                                     <FormControlLabel
-                                        control={<Checkbox checked={values.cash} onChange={handleCheckboxChange} color="primary" name="cash" />}
+                                        control={<Checkbox checked={transaction.cash} onChange={handleTransactionChange} color="primary" name="cash" />}
                                         className={classes.check2}
                                         label="Cash"
                                     />                                    
@@ -296,12 +364,12 @@ export default function Sell() {
                                 <FormLabel>Delivery Methods</FormLabel>
                                 <FormGroup row >
                                     <FormControlLabel
-                                        control={<Checkbox checked={values.dropoff} onChange={handleCheckboxChange} color="primary" name="dropoff" />}
+                                        control={<Checkbox checked={delivery.dropoff} onChange={handleDeliveryChange} color="primary" name="dropoff" />}
                                         className={classes.check1}
                                         label="Drop off"
                                     />
                                     <FormControlLabel
-                                        control={<Checkbox checked={values.pickup} onChange={handleCheckboxChange} color="primary" name="pickup" />}
+                                        control={<Checkbox checked={delivery.pickup} onChange={handleDeliveryChange} color="primary" name="pickup" />}
                                         className={classes.check1}
                                         label="Pick Up"
                                     />
