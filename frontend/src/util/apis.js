@@ -9,22 +9,22 @@ export async function login( {email, password} ) {
       })
 } 
 
-export async function sell( { values, transactionArray, deliveryArray, curtime } ) {
+export async function sell( { values, trans, deliv, curTime, userName} ) {
     axios.post('oms/post/createpost', {
-      postOwner : " ",
-      postDate : curtime,
-      postStatus : values.status,
+      deliveryType : deliv,
+      transactionMethod : trans,
+      postDate : curTime,
       postTitle : values.title,
       postCategory : values.category,
       postCondition : values.condition,
       postDescription : values.description,
-      postPrice : values.price,
+      postOwner : userName,
+      postStatus : values.status,
+      postPrice : parseFloat(values.price),
       postEmail : values.email,
       postPhone : values.phone,
       postZipcode : values.zipcode,
-      postAddress : values.address,
-      deliveryType : transactionArray,
-      transactionMethod : deliveryArray
+      postAddress : values.address
     })
 } 
 
