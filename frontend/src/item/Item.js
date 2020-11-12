@@ -3,12 +3,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import Container from '@material-ui/core/Container';
-import {useState, useEffect} from 'react';
 import Typography from '@material-ui/core/Typography';
 import Carousel from 'nuka-carousel';
 import { Link } from "react-router-dom";
-//import AliceCarousel from 'react-alice-carousel';
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import Moment from 'react-moment'
+import { useQuery } from 'react-query'
+import axios from "axios";
+import Button from '@material-ui/core/Button';
+import {useParams} from 'react-router-dom'
+import defaultQueryFn from '../util/defaultQueryFn';
+import { useHistory } from "react-router-dom";
+
 
 const containerStyle = {
     width: '100%',
@@ -53,13 +59,19 @@ function MapComponent() {
 React.memo(MapComponent)
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
-const API_ROOT = 'https://my-json-server.typicode.com/stinkycc/SHMTest'
+
+const API_ROOT = 'https://my-json-server.typicode.com/stinkycc/SHMTest/post'
+
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
         maxWidth: '100%',
         flexGrow:1,
     },
+    button: {
+        margin: theme.spacing(1),
+    },
+
     gridItem:{
         marginTop:3,
         marginBottom:1,
@@ -93,34 +105,27 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function getItems(setItems) {
-    fetch(`${API_ROOT}/post`, {
-        method: 'GET',
-    })
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error('Failed to load post');
-        })
-        .then(data => {
-            setItems(data);
-        }).catch((e) => {
-        console.error(e);
-    });
+async function getItems(apiName, apiPath) {
+    const { data } = await axios.get(apiPath);
+    return data;   
 }
-export default function Item() {
-    const[post, setPost] = useState("");
-    const classes = useStyles();
-    const space = 5;
-    useEffect(() => {
-        getItems(setPost); 
-    });
 
-    
+export default function Item() {
+    const { id } = useParams();
+    const { isLoading, isError, data } = useQuery(['postItem', `post/getpostbyid?id=${id}`], defaultQueryFn);
+
+    const classes = useStyles();
+    const space = 5;  
+    if (isLoading) {
+        return <span>Loading...</span>
+    }
+
+    if (isError) {
+        return <span>Error!!!</span>
+    }
     return (
         <Container component="main" maxWidth="l">
-            <div >
+            <div>
                 <Grid container align='left'>
                 <Link to="/">
                     Back to result
@@ -132,37 +137,39 @@ export default function Item() {
                     <Grid item  className={classes.gridImg} spacing={space} alignItems="center">
                     <Carousel  heightMode="current">
                     {                
-                        post.imgs != null ? post.imgs.map((tile) => (<img src={tile.img}/>)) : <p></p>
+                        data.postImage != null ? data.postImage.map((tile) => (<img src={tile.img}/>)) : <p></p>
                     }
                     </Carousel>
                     </Grid>
                     <Grid item className={classes.gridItem} >
-                        <Typography gutterBottom variant="h6" align="left">{post.title}</Typography>
+                        <Typography gutterBottom variant="h6" align="left">{data.postTitle}</Typography>
                         <Grid container spacing={space}>
                             <Grid item className={classes.gridInItem}>
                                 
-                                <Typography color="textSecondary" variant="body2" align="left">Seller: {post.user}</Typography>
-                                <Typography color="textSecondary" variant="body2" align="left">Price: {post.price}</Typography>
+                                <Typography color="textSecondary" variant="body2" align="left">Seller: {data.postOwner}</Typography>
+                                <Typography color="textSecondary" variant="body2" align="left">Price: {data.postPrice}</Typography>
                             </Grid>
                             <Grid item className={classes.gridInItem}>
-                                <Typography color="textSecondary" variant="body2" align="left">Relaase: {post.data}</Typography>
-                                <Typography color="textSecondary" variant="body2" align="left">Status: {post.status}</Typography>
+                                
+                                <Typography color="textSecondary" variant="body2" align="left">Relaase: <Moment format="YYYY/MM/DD">{data.postDate}</Moment></Typography>
+                                <Typography color="textSecondary" variant="body2" align="left">Status: {data.postStatus}</Typography>
                             </Grid>
                         </Grid>
                         <Divider/>
                         <Grid item className={classes.gridItem} spacing={space}>
-                            <Typography color="textSecondary" variant="body2" align="left">Condition: {post.condition}</Typography>
+                            <Typography color="textSecondary" variant="body2" align="left">Condition: {data.postCondition}</Typography>
+
                             <Typography color="textSecondary" variant="body2" align="left">Transaction:{                
-                                post.transactions != null ? post.transactions.map((item) => (<a>&#9737; {item.transaction} </a>)) : <p></p>
+                                data.transactionMethod != null ? data.transactionMethod.map((item) => (<a>&#9737; {item.transactionMethod} </a>)) : <p></p>
                             }</Typography>
                             <Typography color="textSecondary" variant="body2" align="left">Delivery type:  
                             {                
-                                post.deliverytypes != null ? post.deliverytypes.map((item) => (<a>&#9737; {item.deliverytype} </a>)) : <p></p>
+                                data.deliveryType != null ? data.deliveryType.map((item) => (<a>&#9737; {item.deliveryType} </a>)) : <p></p>
                             }</Typography>
                         </Grid>
                         <Divider/>
                         <Grid item className={classes.gridItem} spacing={space}>
-                            <Typography color="textSecondary" variant="body2" align="left">Description: {post.description}</Typography>
+                            <Typography color="textSecondary" variant="body2" align="left">Description: {data.postDescription}</Typography>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -170,18 +177,16 @@ export default function Item() {
                 <Grid container spacing={space}>
                     <Grid item className={classes.gridImg} spacing={space}>
                         <Typography gutterBottom variant="h6" align="left">Contact Info</Typography>
-                        <Typography color="textSecondary" variant="body2" align="left">Email: {post.email}</Typography>
-                        <Typography color="textSecondary" variant="body2" align="left">Phone: {post.phone}</Typography>
-                        <Typography color="textSecondary" variant="body2" align="left">Loaction: {post.address} ZipCode:{post.zipcodes}</Typography>
+                        <Typography color="textSecondary" variant="body2" align="left">Email: {data.postEmail}</Typography>
+                        <Typography color="textSecondary" variant="body2" align="left">Phone: {data.postPhone}</Typography>
+                        <Typography color="textSecondary" variant="body2" align="left">Loaction: {data.postAddress} ZipCode:{data.postZipcode}</Typography>
                     </Grid>
                     <Grid item className={classes.gridItem} spacing={space}>
-                        {/* <MapComponent></MapComponent> */}
+                         {/* <MapComponent></MapComponent> */}
                     </Grid>
-                </Grid>
-            
-    
+                </Grid> 
             </div>
-
+    
         </Container>
 
     );

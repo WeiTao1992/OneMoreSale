@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { useMutation } from 'react-query';
+import { login } from '../util/apis';
+import { useQueryCache } from 'react-query';
 
 function Copyright() {
   return (
@@ -48,6 +51,39 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   const classes = useStyles();
+  const [ mutate, { isLoading, isError }, ] = useMutation(login); 
+  const [email, setEmail] = React.useState();
+  const [password, setPassword] = React.useState();
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  // Get QueryCache from the context
+  const queryCache = useQueryCache()
+
+  const onSignInClick = async () => {
+    try {
+      const data = await mutate({ email, password })
+      console.log(data)
+
+      queryCache.invalidateQueries(['username', 'userinfo/getUserInfo/'])
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
+  if (isLoading) {
+    return <span>Loading...</span>
+  }
+
+  if (isError) {
+    return <span>Error!!!</span>
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -69,6 +105,8 @@ export default function Login() {
             label="Email Address"
             name="email"
             autoComplete="email"
+            value={email}
+            onChange={handleEmailChange}
             autoFocus
           />
           <TextField
@@ -81,6 +119,8 @@ export default function Login() {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={password}
+            onChange={handlePasswordChange}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -92,6 +132,7 @@ export default function Login() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={onSignInClick}
           >
             Sign In
           </Button>
