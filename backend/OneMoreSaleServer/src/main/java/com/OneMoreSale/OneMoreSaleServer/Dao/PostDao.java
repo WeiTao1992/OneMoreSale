@@ -16,7 +16,7 @@ public class PostDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public void savePost(Post post){
+    public int savePost(Post post){
         Session session= null;
         try{
             session = sessionFactory.openSession();
@@ -31,6 +31,7 @@ public class PostDao {
                 session.close();
             }
         }
+        return post.getPostId();
     }
 
     public void deletePost(int postId){

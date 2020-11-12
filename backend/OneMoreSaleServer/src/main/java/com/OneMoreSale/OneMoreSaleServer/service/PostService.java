@@ -14,7 +14,7 @@ public class PostService {
     @Autowired
     private PostDao postDao;
 
-    public void savePost(Post post){
+    public int savePost(Post post){
         String description = post.getPostDescription();
         description += ", " + post.getPostTitle() + ", " + post.getPostCategory();
         List<Keyword> keywordsList = getKeyword(description);
@@ -42,7 +42,7 @@ public class PostService {
                 postImage.setPost(post);
             }
         }
-        postDao.savePost(post);
+        return postDao.savePost(post);
     }
 
     public void deletePost(int postId){
