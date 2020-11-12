@@ -52,7 +52,17 @@
             <artifactId>android-json</artifactId>
             <version>0.0.20131108.vaadin1</version>
             <scope>compile</scope>
+		</dependency>
+		<dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search-elasticsearch</artifactId>
+			<version>5.11.5.Final</version>
+		</dependency>
 
     </dependencies>
 

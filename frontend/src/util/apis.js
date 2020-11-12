@@ -9,23 +9,48 @@ export async function login( {email, password} ) {
       })
 } 
 
-export async function sell( { values, transactionArray, deliveryArray, curtime } ) {
+export async function sell( { values, trans, deliv, curTime, userName} ) {
     axios.post('oms/post/createpost', {
-      postOwner : " ",
-      postDate : curtime,
-      postStatus : values.status,
+      deliveryType : deliv,
+      transactionMethod : trans,
+      postDate : curTime,
       postTitle : values.title,
       postCategory : values.category,
       postCondition : values.condition,
       postDescription : values.description,
-      postPrice : values.price,
+      postOwner : userName,
+      postStatus : values.status,
+      postPrice : parseFloat(values.price),
       postEmail : values.email,
       postPhone : values.phone,
       postZipcode : values.zipcode,
-      postAddress : values.address,
-      deliveryType : transactionArray,
-      transactionMethod : deliveryArray
+      postAddress : values.address
     })
 } 
+
+//acount page
+export async function accountUpdatePassword( {username, password} ) {
+  axios.post('oms/userinfo/UpdatePassword', {
+      username : username,
+      password : password
+    })
+
+    // 'oms/userinfo/UpdatePassword?username={username}?
+}
+
+export async function accountUpdateAddress( {phone, address} ) {
+  axios.post('oms/userinfo/UpdateAddress', {
+      phone : phone,
+      address : address
+    })
+}
+
+export async function accountItemDelete(postId) {
+  // console.log("lalalal:" + `oms/post/deletepost?id=${postId}`)
+  axios.delete(`oms/post/deletepost?id=${postId}`,)
+}
+
+
+
 
 

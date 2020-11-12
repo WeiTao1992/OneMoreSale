@@ -29,13 +29,16 @@ public class PostApi {
     @PostMapping("/post/createpost")
     public void savePost(@RequestBody @NonNull Post post, HttpServletRequest httpServletRequest,
                          HttpServletResponse httpServletResponse) throws IOException {
+        
+        //TODO: Illegal Input
+        if (!HttpUtil.sessionInvalid(httpServletRequest)){ // already logged in
 
-        // TODO: Illegal Input 判断
-        if (!HttpUtil.sessionInvalid(httpServletRequest)){  // already logged in
             int userId = (int)httpServletRequest.getSession().getAttribute("user_id");
             User user = userInfoService.getUserById(userId);
             post.setUser(user);
-            postService.savePost(post);
+            int id =  postService.savePost(post);
+            httpServletResponse.setHeader("postid", Integer.toString(id));
+            httpServletResponse.getWriter().write("save successfully!");
             return;
         }
         httpServletResponse.getWriter().print("Please log in first");
