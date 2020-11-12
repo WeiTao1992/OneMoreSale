@@ -32,6 +32,7 @@ public class PostApi {
         
         //TODO: Illegal Input
         if (!HttpUtil.sessionInvalid(httpServletRequest)){ // already logged in
+
             int userId = (int)httpServletRequest.getSession().getAttribute("user_id");
             User user = userInfoService.getUserById(userId);
             post.setUser(user);
