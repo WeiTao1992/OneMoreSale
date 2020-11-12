@@ -98,6 +98,7 @@ const UploadImage = props => {
 
 export default function Sell() {
     const classes = useStyles();
+    let history = useHistory();
     const [mutate, { isLoading  , isError,  error, data : d1 }, ] = useMutation(sell);
     const { isLoading : il, isError: ie, data : d2 } = useQuery(['username', 'userinfo/getUserInfo/'], defaultQueryFn);
     
@@ -143,8 +144,6 @@ export default function Sell() {
     const handleDeliveryChange = (event) => {
         setDelivery({ ...delivery, [event.target.name]: event.target.checked });
     };
-
-    let history = useHistory();
     
     // Get QueryCache from the context
     const queryCache = useQueryCache();
@@ -179,7 +178,7 @@ export default function Sell() {
             queryCache.invalidateQueries(['home', '/'])
             queryCache.invalidateQueries(['UserAllInfo', 'userinfo/getUserInfo/'])
            
-            history.push("/item/224");
+            history.push(`/item/${d1.postId}`);
                        
         } catch(e) {
             console.log(e)
@@ -187,12 +186,16 @@ export default function Sell() {
     }
 
     if (isLoading || il) {
-        return <span>Loading...</span>
+        console.log("Loading")
     }
 
-    if (isError || ie) {
+    if (isError) {
         console.log(error)
-        return <span>Error!!!</span>
+    }
+
+    if (ie) {
+        console.log(error)
+        history.push("/login");
     }
 
 //--------------------------------------------------------------------------------------------------//
