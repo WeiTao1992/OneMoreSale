@@ -25,6 +25,8 @@ public class PostApi {
     @PostMapping("/post/createpost")
     public void savePost(@RequestBody @NonNull Post post, HttpServletRequest httpServletRequest,
                          HttpServletResponse httpServletResponse) throws IOException {
+        
+        //TODO: Illegal Input
         if (!HttpUtil.sessionInvalid(httpServletRequest)){ // already logged in
             int userId = (int)httpServletRequest.getSession().getAttribute("user_id");
             User user = userInfoService.getUserById(userId);
