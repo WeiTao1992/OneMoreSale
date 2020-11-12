@@ -32,7 +32,7 @@ export default function OneMoreSale() {
             <Link to="/register">Register</Link>
           </li>
           <li>
-            <Link to="/item">Item</Link>
+            <Link to="/item/3">Item</Link>
           </li>
         </ul>
       </nav>
@@ -50,7 +50,7 @@ export default function OneMoreSale() {
         <Route path="/register">
           <Register />
         </Route>
-        <Route path="/item">
+        <Route path="/item/:id">
           <Item />
         </Route>
         <Route path="/">

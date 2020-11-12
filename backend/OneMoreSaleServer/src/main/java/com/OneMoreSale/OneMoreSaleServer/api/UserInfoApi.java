@@ -2,6 +2,7 @@ package com.OneMoreSale.OneMoreSaleServer.api;
 
 import com.OneMoreSale.OneMoreSaleServer.HttpUtil;
 import com.OneMoreSale.OneMoreSaleServer.model.Account;
+import com.OneMoreSale.OneMoreSaleServer.model.ResponseWrapper;
 import com.OneMoreSale.OneMoreSaleServer.model.User;
 import com.OneMoreSale.OneMoreSaleServer.service.AuthenticationService;
 import com.OneMoreSale.OneMoreSaleServer.service.UserInfoService;
@@ -38,7 +39,7 @@ public class UserInfoApi {
     public User getUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (HttpUtil.sessionInvalid(request)) { // session invalid
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            logger.warn("The user has not logged in yet");
+            logger.warn("[getUserInfo] The user has not logged in yet");
             return null;
         }
         Integer userId = (Integer)request.getSession().getAttribute("user_id");
@@ -51,48 +52,47 @@ public class UserInfoApi {
 
     @RequestMapping(value = "/UpdatePassword", method = RequestMethod.POST)
     @ResponseBody
-    public void updatePassword(@RequestBody Map<String, String> postBody, HttpServletRequest request, HttpServletResponse response) throws IOException{
+    public ResponseWrapper updatePassword(@RequestBody Map<String, String> postBody, HttpServletRequest request, HttpServletResponse response) throws IOException{
         //判断session是否invalid
         if (HttpUtil.sessionInvalid(request)) { // session invalid
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().print("Session invalid");
-            return;
+            return new ResponseWrapper("Session Invalid");
         }
         //判断用户是否存在在数据库中
         String email = (String)request.getSession().getAttribute("email");
         int userId = authenticationService.getUserIdByEmail(email);
         if (userId == -1) {
-            response.sendError(HttpServletResponse.SC_CONFLICT, "user doesn't existed");
-            return;
+            response.sendError(HttpServletResponse.SC_CONFLICT, "user doesn't exist");
+            return new ResponseWrapper("User Doesn't Exist");
         }
         //获取post body里面信息
         String username = postBody.get("username");
         String password = postBody.get("password");
-        logger.info("user {} Update Password", email);
+        logger.info("[userInfoUpdate] user {} Update Password", email);
         userInfoService.updatePassword(email, username, password);
-
+        return new ResponseWrapper("Success");
     }
 
     @RequestMapping(value = "/UpdateAddress", method = RequestMethod.POST)
     @ResponseBody
-    public void updateAddress(@RequestBody Map<String, String> postBody, HttpServletRequest request, HttpServletResponse response)throws IOException{
+    public ResponseWrapper updateAddress(@RequestBody Map<String, String> postBody, HttpServletRequest request, HttpServletResponse response)throws IOException{
         //判断session是否invalid
         if (HttpUtil.sessionInvalid(request)) { // session invalid
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().print("session invalid");
-            return;
+            return new ResponseWrapper("Session Invalid");
         }
         //判断用户是否存在在数据库中
         String email = (String)request.getSession().getAttribute("email");
         int userId = authenticationService.getUserIdByEmail(email);
         if (userId == -1) {
-            response.sendError(HttpServletResponse.SC_CONFLICT, "user doesn't existed");
-            return;
+            response.sendError(HttpServletResponse.SC_CONFLICT, "User Doesn't Exist");
+            return new ResponseWrapper("User Doesn't Exist");
         }
         //获取post body里面信息
         String phone = postBody.get("phone");
         String address = postBody.get("address");
-        logger.info("user {} Update Address", email);
+        logger.info("[userInfoUpdate] user {} Update Address", email);
         userInfoService.updateAddress(email, phone, address);
+        return new ResponseWrapper("Success");
     }
 }

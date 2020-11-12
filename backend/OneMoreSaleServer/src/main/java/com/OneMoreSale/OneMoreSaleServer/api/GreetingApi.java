@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
+enum status {SUCCESS, FAILED};
 
 @RestController
 public class GreetingApi {
@@ -58,6 +59,11 @@ public class GreetingApi {
         greetings.setId(counter.incrementAndGet());
         greetingService.getGreetings(greetings);
         return greetings;
+    }
+
+    @GetMapping("/greetingEnum")
+    public status greeting() {
+        return status.SUCCESS;
     }
 
 

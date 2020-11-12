@@ -5,6 +5,8 @@ import com.OneMoreSale.OneMoreSaleServer.model.Post;
 import com.OneMoreSale.OneMoreSaleServer.model.User;
 import com.OneMoreSale.OneMoreSaleServer.service.PostService;
 import com.OneMoreSale.OneMoreSaleServer.service.UserInfoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -20,6 +22,8 @@ public class PostApi {
     @Autowired
     private PostService postService;
 
+    private static Logger logger = LoggerFactory.getLogger(AuthenticationApi.class);
+
     @Autowired
     private UserInfoService userInfoService;
     @PostMapping("/post/createpost")
@@ -28,6 +32,7 @@ public class PostApi {
         
         //TODO: Illegal Input
         if (!HttpUtil.sessionInvalid(httpServletRequest)){ // already logged in
+
             int userId = (int)httpServletRequest.getSession().getAttribute("user_id");
             User user = userInfoService.getUserById(userId);
             post.setUser(user);
@@ -37,6 +42,7 @@ public class PostApi {
             return;
         }
         httpServletResponse.getWriter().print("Please log in first");
+        logger.info("[Post] post was created with Title = {} ", post.getPostTitle());
     }
 
     @GetMapping("/user/getallposts")
@@ -44,6 +50,7 @@ public class PostApi {
                                  HttpServletResponse httpServletResponse) throws IOException{
         if (!HttpUtil.sessionInvalid(httpServletRequest)){ // already logged in
             int userId = (int)httpServletRequest.getSession().getAttribute("user_id");
+            logger.info("[getAllPost] all posts from user {} were fetched", userId);
             return postService.getAllPost(userId);
         }
         httpServletResponse.getWriter().print("Please log in first");
@@ -52,6 +59,7 @@ public class PostApi {
 
     @GetMapping("/post/getpostbyid")
     public Post getPostById(@RequestParam (value = "id") int postId){
+        logger.info("[Post] post created");
         return postService.searchPostById(postId);
     }
 
@@ -64,6 +72,4 @@ public class PostApi {
     public void deletePost(@RequestParam (value = "id") int postId){
         postService.deletePost(postId);
     }
-
-
 }
