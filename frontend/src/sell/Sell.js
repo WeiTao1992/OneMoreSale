@@ -173,13 +173,11 @@ export default function Sell() {
             var curTime = moment();
 
             const data = await mutate({ values, trans, deliv, curTime, userName})
-            console.log(data)
+            console.log(d1.postId)
 
             queryCache.invalidateQueries(['home', '/'])
             queryCache.invalidateQueries(['UserAllInfo', 'userinfo/getUserInfo/'])
-           
-            history.push(`/item/${d1.postId}`);
-                       
+            history.push(`/item/${d1.postId}`);            
         } catch(e) {
             console.log(e)
         }
@@ -189,11 +187,7 @@ export default function Sell() {
         console.log("Loading")
     }
 
-    if (isError) {
-        console.log(error)
-    }
-
-    if (ie) {
+    if (isError || ie) {
         console.log(error)
         history.push("/login");
     }
