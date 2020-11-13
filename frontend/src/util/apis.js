@@ -1,16 +1,18 @@
 import axios from "axios";
 
 export async function login( {email, password} ) {
-    // console.log("email: " + email);
-    // console.log("password: " + password);
-    axios.post('oms/login', {
+    return await axios.post('oms/login', {
         email: email,
         password: password
       })
 } 
 
+export async function logout () {
+    return await axios.post('oms/logout', {})
+}
+
 export async function sell( { values, trans, deliv, curTime, userName} ) {
-    axios.post('oms/post/createpost', {
+    return await axios.post('oms/post/createpost', {
       deliveryType : deliv,
       transactionMethod : trans,
       postDate : curTime,
