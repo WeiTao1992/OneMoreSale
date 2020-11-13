@@ -184,9 +184,7 @@ export default function PrimarySearchAppBar() {
                 edge="end"
                 color="white"
               > 
-                <AddCircle>
-                  
-                </AddCircle> 
+                <AddCircle />
               </IconButton> 
             </PostItemButton>
           </div>
