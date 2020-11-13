@@ -160,6 +160,7 @@ export default function Sell() {
                 }
             }
 
+
             let deliv = []
             for (var d in delivery) {
                 if(delivery[d] === true) {
@@ -173,11 +174,13 @@ export default function Sell() {
             var curTime = moment();
 
             const data = await mutate({ values, trans, deliv, curTime, userName})
-            console.log(d1.postId)
+            console.log("data")
+            console.log(data)
+            console.log(data.data.postId)
 
             queryCache.invalidateQueries(['home', '/'])
             queryCache.invalidateQueries(['UserAllInfo', 'userinfo/getUserInfo/'])
-            history.push(`/item/${d1.postId}`);            
+            history.push(`/item/${data.data.postId}`);            
         } catch(e) {
             console.log(e)
         }
