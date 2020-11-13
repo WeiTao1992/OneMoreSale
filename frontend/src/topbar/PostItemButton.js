@@ -1,16 +1,17 @@
 import { useQuery } from 'react-query';
+import Link from '@material-ui/core/Link';
 import defaultQueryFn from '../util/defaultQueryFn';
 
-export function UserNameSpan() {
+export function PostItemButton() {
     const { isLoading, isError, data } = useQuery(['username', 'userinfo/getUserInfo/'], defaultQueryFn);
 
     if (isLoading) {
-        return <span>Hello!</span>
+        return <span>Loading...</span>
     }
 
     if (isError) {
-        return <span>Hello! Ready to sign in?</span>
+        return <Link to="/login"/>
     }
 
-    return <span>Hello, { data.userName }! </span> 
+    return <Link to="/sell" />
 }
