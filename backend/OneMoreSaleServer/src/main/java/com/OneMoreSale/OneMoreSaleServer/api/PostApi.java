@@ -2,6 +2,7 @@ package com.OneMoreSale.OneMoreSaleServer.api;
 
 import com.OneMoreSale.OneMoreSaleServer.HttpUtil;
 import com.OneMoreSale.OneMoreSaleServer.model.Post;
+import com.OneMoreSale.OneMoreSaleServer.model.SavePostResponse;
 import com.OneMoreSale.OneMoreSaleServer.model.User;
 import com.OneMoreSale.OneMoreSaleServer.service.PostService;
 import com.OneMoreSale.OneMoreSaleServer.service.UserInfoService;
@@ -27,19 +28,21 @@ public class PostApi {
     @Autowired
     private UserInfoService userInfoService;
     @PostMapping("/post/createpost")
-    public void savePost(@RequestBody @NonNull Post post, HttpServletRequest httpServletRequest,
-                         HttpServletResponse httpServletResponse) throws IOException {
+    public SavePostResponse savePost(@RequestBody @NonNull Post post, HttpServletRequest httpServletRequest,
+                                     HttpServletResponse httpServletResponse) throws IOException {
+        
+        //TODO: legal Input
+        if (!HttpUtil.sessionInvalid(httpServletRequest)){ // already logged in
 
-        // TODO: Illegal Input 判断
-        if (!HttpUtil.sessionInvalid(httpServletRequest)){  // already logged in
             int userId = (int)httpServletRequest.getSession().getAttribute("user_id");
             User user = userInfoService.getUserById(userId);
             post.setUser(user);
-            postService.savePost(post);
-            return;
+            int id =  postService.savePost(post);
+            logger.info("[Post] post was created with Title = {} ", post.getPostTitle());
+            return new SavePostResponse(id, "save successfully");
         }
-        httpServletResponse.getWriter().print("Please log in first");
-        logger.info("[Post] post was created with Title = {} ", post.getPostTitle());
+        httpServletResponse.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        return new SavePostResponse(-1, "Please log in first");
     }
 
     @GetMapping("/user/getallposts")

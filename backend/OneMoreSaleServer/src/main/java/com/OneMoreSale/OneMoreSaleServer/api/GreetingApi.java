@@ -1,39 +1,26 @@
 package com.OneMoreSale.OneMoreSaleServer.api;
 
-import com.OneMoreSale.OneMoreSaleServer.Dao.GreatingDao;
-
 import com.OneMoreSale.OneMoreSaleServer.HttpUtil;
 
 import com.OneMoreSale.OneMoreSaleServer.Dao.PostDao;
 import com.OneMoreSale.OneMoreSaleServer.MonkeyLearn.APIUtils;
-import com.OneMoreSale.OneMoreSaleServer.MonkeyLearn.Body;
-import com.OneMoreSale.OneMoreSaleServer.MonkeyLearn.MonkeyLearnResponse;
 import com.OneMoreSale.OneMoreSaleServer.model.*;
-import com.OneMoreSale.OneMoreSaleServer.service.AuthenticationService;
 import com.OneMoreSale.OneMoreSaleServer.service.GreetingService;
 import com.OneMoreSale.OneMoreSaleServer.service.PostService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
-enum status {SUCCESS, FAILED};
+
+enum Status {
+    SUCCESS,
+    FAILED
+};
 
 @RestController
 public class GreetingApi {
@@ -62,8 +49,8 @@ public class GreetingApi {
     }
 
     @GetMapping("/greetingEnum")
-    public status greeting() {
-        return status.SUCCESS;
+    public Status greeting() {
+        return Status.SUCCESS;
     }
 
 
