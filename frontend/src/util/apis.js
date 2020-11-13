@@ -12,7 +12,7 @@ export async function logout () {
 }
 
 export async function sell( { values, trans, deliv, curTime, userName} ) {
-    axios.post('oms/post/createpost', {
+    return await axios.post('oms/post/createpost', {
       deliveryType : deliv,
       transactionMethod : trans,
       postDate : curTime,

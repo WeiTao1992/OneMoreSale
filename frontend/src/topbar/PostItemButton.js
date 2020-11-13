@@ -18,7 +18,6 @@ export function PostItemButton(props) {
         )
     }
 
-    console.log("go to sell page")
     return (
     <Link to="/sell">
       {props.children}
