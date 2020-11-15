@@ -56,7 +56,6 @@ export default function SignUp() {
   
   const [username, setUsername] = React.useState();
   const [setAddress, setaddress] = React.useState();
-  const [zipcode, setZipcode] = React.useState();
   const [setPhone, setphone] = React.useState();
   const [account, setAccount] = React.useState({
     email : "", 
@@ -73,10 +72,6 @@ export default function SignUp() {
     setaddress(event.target.value);
   };
 
-  const handleZipcodeChange = (event) => {
-    setZipcode(event.target.value);
-  };
-
   const handlePhoneChange = (event) => {
     setphone(event.target.value);
   };
@@ -91,7 +86,7 @@ export default function SignUp() {
   //const [failRegister, setFailRegister] = React.useState(false);
   const onRegisterClick = async() => {
     try {
-      const data = await mutate({username, setAddress, zipcode, setPhone, account})
+      const data = await mutate({username, setAddress, setPhone, account})
       console.log(data);
       if (data !== undefined) {
         history.push("/");
@@ -171,8 +166,8 @@ export default function SignUp() {
                 label="FirstName"
                 type="firstname"
                 id="firstname"
-                value = {account.firstname}
-                onChange = {handleAccountChange('firstname')}
+                value = {account.firstName}
+                onChange = {handleAccountChange('firstName')}
                 
               />
             </Grid>
@@ -186,8 +181,8 @@ export default function SignUp() {
                 label="LastName"
                 type="lastname"
                 id="lastname"
-                value = {account.lastname}
-                onChange = {handleAccountChange('lastname')}
+                value = {account.lastName}
+                onChange = {handleAccountChange('lastName')}
               />
             </Grid>
 
@@ -218,21 +213,6 @@ export default function SignUp() {
                 autoFocus
                 value = {setAddress}
                 onChange = {handleAddressChange}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                autoComplete="zipcode"
-                name="zipcode"
-                variant="outlined"
-                required
-                fullWidth
-                id="zipcode"
-                label="Zipcode"
-                autoFocus
-                value = {zipcode}
-                onChange = {handleZipcodeChange}
               />
             </Grid>
           </Grid>

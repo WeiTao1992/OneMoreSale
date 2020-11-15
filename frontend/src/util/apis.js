@@ -1,10 +1,9 @@
 import axios from "axios";
 
-export async function register( {username, setAddress, zipcode, setPhone, account} ){
+export async function register( {username, setAddress, setPhone, account} ){
   return await axios.post('oms/register', {
     userName : username,
     address : setAddress,
-    zipCode : zipcode,
     phone : setPhone,
     account : account,
   })
