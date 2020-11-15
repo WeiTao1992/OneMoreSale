@@ -59,8 +59,9 @@ export default function SignUp() {
   const [zipcode, setZipcode] = React.useState();
   const [setPhone, setphone] = React.useState();
   const [account, setAccount] = React.useState({
-    email : "", 
-    password : "",
+    email : null, 
+    password : null,
+    confirmPassword : null,
     firstname : "",
     lastname : ""
   });
@@ -91,9 +92,14 @@ export default function SignUp() {
   //const [failRegister, setFailRegister] = React.useState(false);
   const onRegisterClick = async() => {
     try {
-      const data = await mutate({username, setAddress, zipcode, setPhone, account})
-      console.log(data);
-      history.push("/");
+      if (account.password == account.confirmPassword){
+        const data = await mutate({username, setAddress, zipcode, setPhone, account})
+        console.log(data);
+        history.push("/");
+      }else{
+        console.log("Password not consistant");
+      }
+      
     } catch (e) {
       console.log(e);
     }
@@ -129,21 +135,6 @@ export default function SignUp() {
                 onChange = {handleAccountChange('email')}
               />
             </Grid>
-            
-            <Grid item xs={12}>
-              <TextField
-                autoComplete="username"
-                name="userName"
-                variant="outlined"
-                required
-                fullWidth
-                id="userName"
-                label="UserName"
-                value = {username}
-                autoFocus
-                onChange = {handleUsernameChange}
-              />
-            </Grid>
 
             <Grid item xs={12}>
               <TextField
@@ -157,6 +148,36 @@ export default function SignUp() {
                 autoComplete="current-password"
                 value = {account.password}
                 onChange = {handleAccountChange('password')}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="confirmPassword"
+                label="Confirm Password"
+                type="confirmPassword"
+                id="confirmPassword"
+                autoComplete="current-password"
+                value = {account.password}
+                onChange = {handleAccountChange('password')}
+              />
+            </Grid>
+            
+            <Grid item xs={12}>
+              <TextField
+                autoComplete="username"
+                name="userName"
+                variant="outlined"
+                required
+                fullWidth
+                id="userName"
+                label="UserName"
+                value = {username}
+                autoFocus
+                onChange = {handleUsernameChange}
               />
             </Grid>
 
@@ -188,6 +209,9 @@ export default function SignUp() {
                 onChange = {handleAccountChange('lastname')}
               />
             </Grid>
+
+            
+
 
             <Grid item xs={12}>
               <TextField
@@ -242,14 +266,16 @@ export default function SignUp() {
             </Grid>
           </Grid>
           <Button
-            type="submit"
+
             fullWidth
             variant="contained"
             color = "primary"
             className={classes.submit}
             onClick={onRegisterClick}
           >
-            SignUp
+            <Link href="/Login" variant="body2">
+              SignUp
+            </Link>
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
