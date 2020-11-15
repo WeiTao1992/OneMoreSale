@@ -1,5 +1,15 @@
 import axios from "axios";
 
+export async function register( {username, setAddress, setPhone, account} ){
+  return await axios.post('oms/register', {
+    userName : username,
+    address : setAddress,
+    phone : setPhone,
+    account : account,
+  })
+}
+
+
 export async function login( {email, password} ) {
     return await axios.post('oms/login', {
         email: email,

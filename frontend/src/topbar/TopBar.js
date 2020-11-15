@@ -15,6 +15,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import AddCircle from '@material-ui/icons/AddCircle';
 import { UserNameSpan } from './UserNameSpan';
 import { logout } from '../util/apis';
+import {AccountController} from './AccountController';
 import { PostItemButton} from './PostItemButton';
 
 
@@ -121,9 +122,7 @@ export default function PrimarySearchAppBar() {
         </Link>
       </MenuItem>
       <MenuItem>
-        <Link to="/account">
-          My account
-        </Link>  
+        <AccountController />
       </MenuItem>
       <MenuItem>
         <Link onClick={onSignOutClick}>
