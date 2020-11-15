@@ -97,7 +97,7 @@ public class SearchDao {
         Sort sort = new Sort(SortField.FIELD_SCORE, new SortField("time", SortField.Type.LONG, true));
         fullTextQuery.setSort(sort);
         fullTextQuery.setMaxResults(10);
-        fullTextQuery.setFirstResult(10 * (1-1));
+        fullTextQuery.setFirstResult(100 * (1-1));
 
         @SuppressWarnings("unchecked")
         List<Post> results = (List<Post>) fullTextQuery.getResultList();
