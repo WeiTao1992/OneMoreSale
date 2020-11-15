@@ -22,13 +22,14 @@ public class SearchApi {
     @Autowired
     private SearchService searchService;
 
+
     @GetMapping("/index/search")
-    public List<Post> searchPost(@RequestParam(value = "keyword") String keyword,
-                                 @RequestParam(value = "minPrice") double minPrice,
-                                 @RequestParam(value = "maxPrice") double maxPrice,
-                                 @RequestParam(value = "category") String category,
-                                 @RequestParam(value = "maxPerPage") int maxPerPage,
-                                 @RequestParam(value = "pageNumber") int pageNumber){
+    public List<Post> searchPost(@RequestParam(value = "keyword", defaultValue = "") String keyword,
+                                 @RequestParam(value = "minPrice", defaultValue = "10000000000") double minPrice,
+                                 @RequestParam(value = "maxPrice", defaultValue = "0") double maxPrice,
+                                 @RequestParam(value = "category", defaultValue = "") String category,
+                                 @RequestParam(value = "maxPerPage", defaultValue = "10") int maxPerPage,
+                                 @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber){
         return searchService .searchPost(keyword, minPrice, maxPrice, category, maxPerPage, pageNumber);
     }
 
