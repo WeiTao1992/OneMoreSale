@@ -28,7 +28,7 @@ public class SearchApi {
                                  @RequestParam(value = "minPrice", defaultValue = "0") double minPrice,
                                  @RequestParam(value = "maxPrice", defaultValue = "10000000000") double maxPrice,
                                  @RequestParam(value = "category", defaultValue = "") String category,
-                                 @RequestParam(value = "maxPerPage", defaultValue = "10") int maxPerPage,
+                                 @RequestParam(value = "maxPerPage", defaultValue = "100000") int maxPerPage,
                                  @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber){
         return searchService .searchPost(keyword, minPrice, maxPrice, category, maxPerPage, pageNumber);
     }
