@@ -61,8 +61,8 @@ export default function SignUp() {
   const [account, setAccount] = React.useState({
     email : "", 
     password : "",
-    firstname : "",
-    lastname : ""
+    firstName : "",
+    lastName : ""
   });
 
   const handleUsernameChange = (event) => {
