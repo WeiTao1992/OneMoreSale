@@ -25,6 +25,7 @@ public class SearchApi {
 
     @GetMapping("/index/search")
     public List<Post> searchPost(@RequestParam(value = "keyword", defaultValue = "") String keyword,
+
                                  @RequestParam(value = "minPrice", defaultValue = "0") double minPrice,
                                  @RequestParam(value = "maxPrice", defaultValue = "10000000000") double maxPrice,
                                  @RequestParam(value = "category", defaultValue = "") String category,
