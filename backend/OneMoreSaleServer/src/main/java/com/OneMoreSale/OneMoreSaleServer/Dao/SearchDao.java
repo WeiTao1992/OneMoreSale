@@ -3,6 +3,9 @@ package com.OneMoreSale.OneMoreSaleServer.Dao;
 import com.OneMoreSale.OneMoreSaleServer.model.Post;
 import org.apache.lucene.search.Query;
 
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
+import org.hibernate.search.annotations.SortableField;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
@@ -27,13 +30,6 @@ public class SearchDao {
         QueryBuilder queryBuilder =
                 fullTextEntityManager.getSearchFactory()
                         .buildQueryBuilder().forEntity(Post.class).get();
-        // create query search for keyword
-        Query similarToText = queryBuilder
-                .keyword().fuzzy()
-                .withEditDistanceUpTo(2)
-                .onFields("title", "description")
-                .matching(keyword)
-                .createQuery();
         // create query search for price
         Query rangeQuery = queryBuilder
                 .range()
@@ -41,24 +37,46 @@ public class SearchDao {
                 .from(minPrice).to(maxPrice)
                 .createQuery();
         // create query search for category
-        Query categoryQuery = queryBuilder
-                .keyword()
-                .onField("category")
-                .matching(category)
-                .createQuery();
-        // define final query
+        Query categoryQuery = null;
+        if (!category.equals("")) {
+            categoryQuery = queryBuilder
+                    .keyword()
+                    .onField("category")
+                    .matching(category)
+                    .createQuery();
+        }else{
+            categoryQuery = queryBuilder.all().createQuery();
+        }
+        // create query search for keyword
+        Query similarToText = null;
+        if (!keyword.equals("")){
+            similarToText = queryBuilder
+                    .keyword().fuzzy()
+                    .withEditDistanceUpTo(2)
+                    .onFields("title", "description")
+                    .matching(keyword)
+                    .createQuery();
+        }else {
+            similarToText = queryBuilder.all().createQuery();
+        }
+        //create final query
         Query finalQuery = queryBuilder.bool()
-                .must(categoryQuery)
-                .must(rangeQuery)
-                .should(similarToText)
-                .createQuery();
+                    .must(categoryQuery)
+                    .must(rangeQuery)
+                    .must(similarToText)
+                    .createQuery();
+
         FullTextQuery fullTextQuery = fullTextEntityManager
                 .createFullTextQuery(finalQuery, Post.class);
 
-        fullTextQuery.setSort(queryBuilder.sort().byScore().createSort());
+        // sort by score then by post time.
+        Sort sort = new Sort(SortField.FIELD_SCORE, new SortField("time", SortField.Type.LONG, true));
+        fullTextQuery.setSort(sort);
+//        fullTextQuery.setSort(queryBuilder.sort().byScore().andByField("time").desc().createSort());
+
 
         fullTextQuery.setMaxResults(maxPerPage);
-        fullTextQuery.setFirstResult(pageNumber);
+        fullTextQuery.setFirstResult(maxPerPage * (pageNumber-1));
 
         @SuppressWarnings("unchecked")
         List<Post> results = (List<Post>) fullTextQuery.getResultList();
@@ -66,28 +84,24 @@ public class SearchDao {
         return results;
     }
 
-    public List<Post> searchDemo(String keyword){
+    public List<Post> homepage() {
         FullTextEntityManager fullTextEntityManager =
                 Search.getFullTextEntityManager(entityManager);
         QueryBuilder queryBuilder =
                 fullTextEntityManager.getSearchFactory()
                         .buildQueryBuilder().forEntity(Post.class).get();
-        Query query = queryBuilder
-                .keyword()
-                .onFields("title", "description")
-                .matching(keyword)
-                .createQuery();
 
-        FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(query, Post.class);
+        Query finalQuery = queryBuilder.all().createQuery();
+        FullTextQuery fullTextQuery = fullTextEntityManager
+                .createFullTextQuery(finalQuery, Post.class);
+        Sort sort = new Sort(SortField.FIELD_SCORE, new SortField("time", SortField.Type.LONG, true));
+        fullTextQuery.setSort(sort);
+        fullTextQuery.setMaxResults(10);
+        fullTextQuery.setFirstResult(10 * (1-1));
 
         @SuppressWarnings("unchecked")
         List<Post> results = (List<Post>) fullTextQuery.getResultList();
+
         return results;
-
     }
-
-    public List<Post> homepage(){
-        return null;
-    }
-
 }

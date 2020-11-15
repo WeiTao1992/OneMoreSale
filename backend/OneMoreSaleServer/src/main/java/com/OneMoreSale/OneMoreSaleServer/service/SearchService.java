@@ -23,10 +23,6 @@ public class SearchService {
         return searchDao.searchPost(keyword, minPrice,maxPrice,category,maxPerPage, pageNumber);
     }
 
-    public List<Post> searchDemo(String keyword){
-        return searchDao.searchDemo(keyword);
-    }
-
     public List<Post> homePage(){
         return searchDao.homepage();
     }

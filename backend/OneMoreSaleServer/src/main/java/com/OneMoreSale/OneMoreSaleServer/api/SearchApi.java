@@ -33,10 +33,6 @@ public class SearchApi {
     }
 
 
-    @GetMapping("/index/searchDemo")
-    public List<Post> searchDemo(@RequestParam(value = "keyword") String keyword){
-        return searchService.searchDemo(keyword);
-    }
 
     @GetMapping("/index")
     public List<Post> homePage(){

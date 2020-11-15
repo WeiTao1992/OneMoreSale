@@ -3,18 +3,16 @@ package com.OneMoreSale.OneMoreSaleServer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sun.istack.NotNull;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -24,7 +22,6 @@ public class Post implements Serializable {
     private static final long serialVersionUID = 2022381782543163172L;
 
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int postId;
 
@@ -44,7 +41,10 @@ public class Post implements Serializable {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<PostImage> postImage;
 
-    private Timestamp postDate;
+    @Field(name = "time")
+    @SortableField(forField = "time")
+    @DateBridge(resolution = Resolution.DAY)
+    private Date postDate;
 
     @Field(name = "title",
             analyzer = @Analyzer())
@@ -110,7 +110,7 @@ public class Post implements Serializable {
         this.postImage = postImage;
     }
 
-    public Timestamp getPostDate() {
+    public Date getPostDate() {
         return postDate;
     }
 
