@@ -1,21 +1,16 @@
 package com.OneMoreSale.OneMoreSaleServer.api;
 
 import com.OneMoreSale.OneMoreSaleServer.HttpUtil;
-import com.OneMoreSale.OneMoreSaleServer.model.Account;
 import com.OneMoreSale.OneMoreSaleServer.model.Credential;
 import com.OneMoreSale.OneMoreSaleServer.model.ResponseWrapper;
 import com.OneMoreSale.OneMoreSaleServer.model.User;
 import com.OneMoreSale.OneMoreSaleServer.service.AuthenticationService;
-import org.apache.coyote.Response;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
