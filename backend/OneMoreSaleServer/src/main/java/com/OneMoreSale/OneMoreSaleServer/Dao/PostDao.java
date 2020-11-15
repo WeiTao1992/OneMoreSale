@@ -2,6 +2,7 @@ package com.OneMoreSale.OneMoreSaleServer.Dao;
 
 
 import com.OneMoreSale.OneMoreSaleServer.model.Post;
+import com.OneMoreSale.OneMoreSaleServer.model.PostImage;
 import com.OneMoreSale.OneMoreSaleServer.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,6 +17,8 @@ public class PostDao {
 
     @Autowired
     private SessionFactory sessionFactory;
+    @Autowired
+    private AWSS3DaoImpl awss3DaoImpl;
 
     public int savePost(Post post){
         Session session= null;
@@ -46,6 +49,13 @@ public class PostDao {
                 List<Post> postList = user.getPostList();
                 postList.remove(post);
             }
+            List<PostImage> postImages = post.getPostImage();
+            if (postImages != null) {
+                for (PostImage postImage : postImages) {
+                    awss3DaoImpl.deleteFile(postImage.getPostImage());
+                }
+            }
+
             session.beginTransaction();
             session.delete(post);
             session.getTransaction().commit();

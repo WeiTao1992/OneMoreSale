@@ -1,5 +1,6 @@
 import './App.css';
 import { QueryCache, ReactQueryCacheProvider } from 'react-query';
+import Box from '@material-ui/core/Box';
 import defaultQueryFn from "./util/defaultQueryFn";
 import {BrowserRouter as Router} from "react-router-dom";
 import TopBar from "./topbar/TopBar";
@@ -20,6 +21,7 @@ function App() {
       <ReactQueryCacheProvider queryCache={queryCache}>
         <Router>
           <TopBar position = "sticky" />
+          <Box m={6} />
           <OneMoreSale />
         </Router>
       </ReactQueryCacheProvider>

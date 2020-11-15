@@ -3,18 +3,18 @@ package com.OneMoreSale.OneMoreSaleServer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.web.client.RestTemplate;
+
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.persistence.EntityManagerFactory;
@@ -24,8 +24,8 @@ import java.util.Properties;
 @Configuration
 @EnableWebMvc
 public class ApplicationConfig {
-
     private static final Logger log = LoggerFactory.getLogger(OneMoreSaleServerApplication.class);
+    public final String dataSourceUrl = "jdbc:mysql://laiproject-instance.cu1ldqvc3ste.us-west-1.rds.amazonaws.com:3306/laiproject";
 
     @Bean(name = "entityManagerFactory")
     public LocalSessionFactoryBean sessionFactory() {
@@ -45,7 +45,7 @@ public class ApplicationConfig {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
-        dataSource.setUrl("jdbc:mysql://laiproject-instance.cu1ldqvc3ste.us-west-1.rds.amazonaws.com:3306/laiproject");
+        dataSource.setUrl(dataSourceUrl);
         dataSource.setUsername("admin");
         dataSource.setPassword("Stw%y!xU");
 
