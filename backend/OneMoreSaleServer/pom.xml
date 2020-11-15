@@ -64,6 +64,13 @@
 			<version>5.11.5.Final</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+			<version>1.11.897</version>
+		</dependency>
+
     </dependencies>
 
 	<build>
