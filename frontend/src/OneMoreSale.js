@@ -14,7 +14,7 @@ import Sell from "./sell/Sell";
 export default function OneMoreSale() {
   return (
     <div>
-      <nav>
+      {/* <nav>
         <ul>
           <li>
             <Link to="/">Home</Link>
@@ -35,7 +35,7 @@ export default function OneMoreSale() {
             <Link to="/item/3">Item</Link>
           </li>
         </ul>
-      </nav>
+      </nav> */}
 
       <Switch>
         <Route path="/account">
