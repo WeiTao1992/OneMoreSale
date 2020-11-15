@@ -93,7 +93,9 @@ export default function SignUp() {
     try {
       const data = await mutate({username, setAddress, zipcode, setPhone, account})
       console.log(data);
-      history.push("/");
+      if (data !== undefined) {
+        history.push("/");
+      }
     } catch (e) {
       console.log(e);
     }
@@ -233,16 +235,8 @@ export default function SignUp() {
                 onChange = {handleZipcodeChange}
               />
             </Grid>
-
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid>
           </Grid>
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color = "primary"

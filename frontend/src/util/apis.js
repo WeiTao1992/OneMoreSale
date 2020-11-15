@@ -6,10 +6,7 @@ export async function register( {username, setAddress, zipcode, setPhone, accoun
     address : setAddress,
     zipCode : zipcode,
     phone : setPhone,
-    email : account.email,
-    password : account.password,
-    firstname : account.firstname,
-    lastname : account.lastname,
+    account : account,
   })
 }
 
