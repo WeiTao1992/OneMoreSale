@@ -83,6 +83,10 @@ public class Post implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+        this.setPostEmail(user.getAccount().getEmail());
+        this.setPostOwner(user.getUserName());
+        this.setPostZipcode(user.getZipCode());
+        this.setPostPhone(user.getPhone());
     }
 
     public List<DeliveryType> getDeliveryType() {

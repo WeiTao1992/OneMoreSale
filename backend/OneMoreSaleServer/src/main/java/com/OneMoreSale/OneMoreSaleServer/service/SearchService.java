@@ -2,7 +2,6 @@ package com.OneMoreSale.OneMoreSaleServer.service;
 
 import com.OneMoreSale.OneMoreSaleServer.Dao.SearchDao;
 import com.OneMoreSale.OneMoreSaleServer.model.Post;
-import org.jboss.logging.annotations.Pos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
