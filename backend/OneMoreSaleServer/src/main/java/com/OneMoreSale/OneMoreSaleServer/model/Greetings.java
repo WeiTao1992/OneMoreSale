@@ -1,10 +1,16 @@
 package com.OneMoreSale.OneMoreSaleServer.model;
 
 
+
+//import org.hibernate.search.annotations.Analyzer;
+//import org.hibernate.search.annotations.Field;
+//import org.hibernate.search.annotations.Indexed;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+//@Indexed(index = "idx_greet")
 @Table(name = "greeting")
 public class Greetings implements Serializable{
 
@@ -15,6 +21,7 @@ public class Greetings implements Serializable{
     private long id;
 
     @Column
+//    @Field(name = "content")
     private String content;
 
 
