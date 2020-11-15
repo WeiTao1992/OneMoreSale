@@ -12,13 +12,16 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { useMutation, useQueryCache } from 'react-query';
+import { register } from '../util/apis';
+import { useHistory } from 'react-router-dom';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        OneMoreSale
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -49,6 +52,57 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
 
+  const [mutate, { isLoading }] = useMutation(register); 
+  
+  const [username, setUsername] = React.useState();
+  const [setAddress, setaddress] = React.useState();
+  const [zipcode, setZipcode] = React.useState();
+  const [setPhone, setphone] = React.useState();
+  const [account, setAccount] = React.useState({
+    email : "", 
+    password : "",
+    firstname : "",
+    lastname : ""
+  });
+
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const handleAddressChange = (event) => {
+    setaddress(event.target.value);
+  };
+
+  const handleZipcodeChange = (event) => {
+    setZipcode(event.target.value);
+  };
+
+  const handlePhoneChange = (event) => {
+    setphone(event.target.value);
+  };
+
+  const handleAccountChange = (prop) => (event) => {
+    setAccount({ ...account, [prop]: event.target.value });
+  };
+
+  const queryCache = useQueryCache();
+  const history = useHistory();
+
+  //const [failRegister, setFailRegister] = React.useState(false);
+  const onRegisterClick = async() => {
+    try {
+      const data = await mutate({username, setAddress, zipcode, setPhone, account})
+      console.log(data);
+      history.push("/");
+    } catch (e) {
+      console.log(e);
+    }
+  }  
+
+  if (isLoading) {
+    console.log("Registering...")
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -63,53 +117,31 @@ export default function SignUp() {
           <Grid container spacing={2}>
           <Grid item xs={12}>
               <TextField
-                autoComplete="Email"
-                name="Email"
+                autoComplete="email"
+                name="email"
                 variant="outlined"
                 required
                 fullWidth
-                id="Email"
+                id="email"
                 label="Email Address"
+                value = {account.email}
                 autoFocus
+                onChange = {handleAccountChange('email')}
               />
             </Grid>
             
             <Grid item xs={12}>
               <TextField
-                autoComplete="Username"
-                name="UserName"
+                autoComplete="username"
+                name="userName"
                 variant="outlined"
                 required
                 fullWidth
-                id="UserName"
+                id="userName"
                 label="UserName"
+                value = {username}
                 autoFocus
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                autoComplete="Phone"
-                name="Phone"
-                variant="outlined"
-                required
-                fullWidth
-                id="Phone"
-                label="Phone"
-                autoFocus
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                autoComplete="Address"
-                name="Phone"
-                variant="outlined"
-                required
-                fullWidth
-                id="Address"
-                label="Address"
-                autoFocus
+                onChange = {handleUsernameChange}
               />
             </Grid>
 
@@ -123,19 +155,82 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value = {account.password}
+                onChange = {handleAccountChange('password')}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="firstname"
+                label="FirstName"
+                type="firstname"
+                id="firstname"
+                value = {account.firstname}
+                onChange = {handleAccountChange('firstname')}
+                
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="lastname"
+                label="LastName"
+                type="lastname"
+                id="lastname"
+                value = {account.lastname}
+                onChange = {handleAccountChange('lastname')}
               />
             </Grid>
 
             <Grid item xs={12}>
               <TextField
+                autoComplete="phone"
+                name="phone"
                 variant="outlined"
                 required
                 fullWidth
-                name="confirmPassword"
-                label="Confirm Password"
-                type="confirmPassword"
-                id="confirmPassword"
-                autoComplete="current-password"
+                id="phone"
+                label="Phone"
+                autoFocus
+                value = {setPhone}
+                onChange = {handlePhoneChange}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                autoComplete="address"
+                name="address"
+                variant="outlined"
+                required
+                fullWidth
+                id="address"
+                label="Address"
+                autoFocus
+                value = {setAddress}
+                onChange = {handleAddressChange}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                autoComplete="zipcode"
+                name="zipcode"
+                variant="outlined"
+                required
+                fullWidth
+                id="zipcode"
+                label="Zipcode"
+                autoFocus
+                value = {zipcode}
+                onChange = {handleZipcodeChange}
               />
             </Grid>
 
@@ -150,10 +245,11 @@ export default function SignUp() {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
+            color = "primary"
             className={classes.submit}
+            onClick={onRegisterClick}
           >
-            Sign Up
+            SignUp
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
