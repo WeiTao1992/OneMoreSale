@@ -1,5 +1,13 @@
 package com.OneMoreSale.OneMoreSaleServer.api;
 
+import com.OneMoreSale.OneMoreSaleServer.model.Post;
+import com.OneMoreSale.OneMoreSaleServer.service.SearchService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
 public class SearchApi {
     /**
      *  Quesions remain:
@@ -9,7 +17,31 @@ public class SearchApi {
      *      4. 相关度排序
      * */
 
-    // TODO: search by keywords
+    // TODO: search by keywords, by min max price, by category, by pageNumber, by maxPerPage
 
-    //TODO: search by keywords & filter conditions
+    @Autowired
+    private SearchService searchService;
+
+    @GetMapping("/index/search")
+    public List<Post> searchPost(@RequestParam(value = "keyword") String keyword,
+                                 @RequestParam(value = "minPrice") double minPrice,
+                                 @RequestParam(value = "maxPrice") double maxPrice,
+                                 @RequestParam(value = "category") String category,
+                                 @RequestParam(value = "maxPerPage") int maxPerPage,
+                                 @RequestParam(value = "pageNumber") int pageNumber){
+        return searchService .searchPost(keyword, minPrice, maxPrice, category, maxPerPage, pageNumber);
+    }
+
+
+    @GetMapping("/index/searchDemo")
+    public List<Post> searchDemo(@RequestParam(value = "keyword") String keyword){
+        return searchService.searchDemo(keyword);
+    }
+
+    @GetMapping("/index")
+    public List<Post> homePage(){
+        return searchService.homePage();
+    }
+
+
 }

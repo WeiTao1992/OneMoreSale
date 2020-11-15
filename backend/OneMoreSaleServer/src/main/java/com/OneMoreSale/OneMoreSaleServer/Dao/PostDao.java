@@ -13,6 +13,7 @@ import java.util.List;
 
 @Repository
 public class PostDao {
+
     @Autowired
     private SessionFactory sessionFactory;
 
