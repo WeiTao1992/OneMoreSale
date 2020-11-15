@@ -36,7 +36,9 @@ public class PostService {
     }
 
     public void deletePost(int postId){
+
         postDao.deletePost(postId);
+
     }
 
     public void editPost(Post post){

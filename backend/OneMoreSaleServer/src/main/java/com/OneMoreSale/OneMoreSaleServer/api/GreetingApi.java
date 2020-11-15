@@ -3,17 +3,20 @@ package com.OneMoreSale.OneMoreSaleServer.api;
 import com.OneMoreSale.OneMoreSaleServer.HttpUtil;
 
 import com.OneMoreSale.OneMoreSaleServer.Dao.PostDao;
+
+
+import com.OneMoreSale.OneMoreSaleServer.MonkeyLearn.APIUtils;
+
 import com.OneMoreSale.OneMoreSaleServer.model.*;
 import com.OneMoreSale.OneMoreSaleServer.service.GreetingService;
 import com.OneMoreSale.OneMoreSaleServer.service.PostService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-//import org.hibernate.search.jpa.FullTextEntityManager;
-//import org.hibernate.search.jpa.FullTextQuery;
-//import org.hibernate.search.jpa.Search;
-//import org.hibernate.search.query.dsl.QueryBuilder;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +24,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
-enum status {SUCCESS, FAILED};
+
+enum Status {
+    SUCCESS,
+    FAILED
+};
 
 @RestController
 public class GreetingApi {
@@ -54,8 +61,8 @@ public class GreetingApi {
     }
 
     @GetMapping("/greetingEnum")
-    public status greeting() {
-        return status.SUCCESS;
+    public Status greeting() {
+        return Status.SUCCESS;
     }
 
 
