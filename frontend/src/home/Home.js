@@ -42,9 +42,6 @@ export default function Home() {
         </Grid>
         <Grid align="left" item xs={3}>
           <Category />
-          <br/>
-          <Condition />
-          <br/>
           <Price />
           <br/>
           <Postdate />
