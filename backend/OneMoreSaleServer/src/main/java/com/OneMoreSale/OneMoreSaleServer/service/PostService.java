@@ -15,6 +15,7 @@ public class PostService {
 
     public int savePost(Post post){
 
+
         if (post.getTransactionMethod() != null){
             for (TransactionMethod transactionMethod : post.getTransactionMethod()){
                 transactionMethod.setPost(post);
