@@ -97,6 +97,10 @@ export default function PrimarySearchAppBar() {
   // Get QueryCache from the context
   const queryCache = useQueryCache()
 
+  const onLogoClick = () => {
+    history.push("/");
+  }
+
   const onSignOutClick = async () => {
     try {
       const data = await mutate({ })
@@ -145,7 +149,9 @@ export default function PrimarySearchAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            <img src="OneMoreSaleLogo.png" height="80" width="100" />
+            <div onClick={onLogoClick}>
+              <img src="OneMoreSaleLogo.png" height="80" width="100" />
+            </div>
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
