@@ -56,14 +56,12 @@ export default function SignUp() {
   
   const [username, setUsername] = React.useState();
   const [setAddress, setaddress] = React.useState();
-  const [zipcode, setZipcode] = React.useState();
   const [setPhone, setphone] = React.useState();
   const [account, setAccount] = React.useState({
-    email : null, 
-    password : null,
-    confirmPassword : null,
-    firstname : "",
-    lastname : ""
+    email : "", 
+    password : "",
+    firstName : "",
+    lastName : ""
   });
 
   const handleUsernameChange = (event) => {
@@ -74,10 +72,6 @@ export default function SignUp() {
     setaddress(event.target.value);
   };
 
-  const handleZipcodeChange = (event) => {
-    setZipcode(event.target.value);
-  };
-
   const handlePhoneChange = (event) => {
     setphone(event.target.value);
   };
@@ -86,20 +80,15 @@ export default function SignUp() {
     setAccount({ ...account, [prop]: event.target.value });
   };
 
-  const queryCache = useQueryCache();
   const history = useHistory();
 
-  //const [failRegister, setFailRegister] = React.useState(false);
   const onRegisterClick = async() => {
     try {
-      if (account.password == account.confirmPassword){
-        const data = await mutate({username, setAddress, zipcode, setPhone, account})
-        console.log(data);
-        history.push("/");
-      }else{
-        console.log("Password not consistant");
+      const data = await mutate({username, setAddress, setPhone, account})
+      console.log(data);
+      if (data !== undefined) {
+        history.push("/Login");
       }
-      
     } catch (e) {
       console.log(e);
     }
@@ -135,36 +124,6 @@ export default function SignUp() {
                 onChange = {handleAccountChange('email')}
               />
             </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value = {account.password}
-                onChange = {handleAccountChange('password')}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="confirmPassword"
-                label="Confirm Password"
-                type="confirmPassword"
-                id="confirmPassword"
-                autoComplete="current-password"
-                value = {account.password}
-                onChange = {handleAccountChange('password')}
-              />
-            </Grid>
             
             <Grid item xs={12}>
               <TextField
@@ -181,6 +140,21 @@ export default function SignUp() {
               />
             </Grid>
 
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value = {account.password}
+                onChange = {handleAccountChange('password')}
+              />
+            </Grid>
+
             <Grid item xs={6}>
               <TextField
                 variant="outlined"
@@ -190,8 +164,8 @@ export default function SignUp() {
                 label="FirstName"
                 type="firstname"
                 id="firstname"
-                value = {account.firstname}
-                onChange = {handleAccountChange('firstname')}
+                value = {account.firstName}
+                onChange = {handleAccountChange('firstName')}
                 
               />
             </Grid>
@@ -205,13 +179,10 @@ export default function SignUp() {
                 label="LastName"
                 type="lastname"
                 id="lastname"
-                value = {account.lastname}
-                onChange = {handleAccountChange('lastname')}
+                value = {account.lastName}
+                onChange = {handleAccountChange('lastName')}
               />
             </Grid>
-
-            
-
 
             <Grid item xs={12}>
               <TextField
@@ -242,40 +213,15 @@ export default function SignUp() {
                 onChange = {handleAddressChange}
               />
             </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                autoComplete="zipcode"
-                name="zipcode"
-                variant="outlined"
-                required
-                fullWidth
-                id="zipcode"
-                label="Zipcode"
-                autoFocus
-                value = {zipcode}
-                onChange = {handleZipcodeChange}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid>
           </Grid>
           <Button
-
             fullWidth
             variant="contained"
             color = "primary"
             className={classes.submit}
             onClick={onRegisterClick}
           >
-            <Link href="/Login" variant="body2">
-              SignUp
-            </Link>
+            SignUp
           </Button>
           <Grid container justify="flex-end">
             <Grid item>

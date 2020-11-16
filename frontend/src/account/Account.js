@@ -90,7 +90,6 @@ export default function Account() {
     const [password, setPassword] = React.useState();
     const [address, setAddress] = React.useState();
     const [phone, setPhone] = React.useState();
-    
 
 
     const handleUsernameChange = (event) => {
@@ -283,13 +282,15 @@ export default function Account() {
             <Paper className={classes.paper} variant="outlined">
         
                 <List className={classes.list}>{
-                     data.postList.map((singleItem)=>(
-                        <ListItem>
+                    data.postList.map((singleItem)=>(
+                    <ListItem>
                         <Paper className={classes.paper1} elevation={0}>
                             <img src="grey_item.png" />
                         </Paper>
                     
-                        <ListItemText primary= {singleItem.postTitle} secondary= {singleItem.postCondition} />
+                        <Link to={`/item/${singleItem.postId}`}>
+                            <ListItemText primary= {singleItem.postTitle} secondary= {singleItem.postCondition} />
+                        </Link>
                         <ListItemText primary= {singleItem.postPrice} />
                         <ListItemText primary= {singleItem.postId} />
                         
@@ -303,7 +304,6 @@ export default function Account() {
                             onClick={ async ()=>{
                                 try {
                                     const postItem = await mutate2(singleItem.postId)
-                                    console.log(postItem)
                             
                                     queryCache.invalidateQueries(['UserAllInfo', 'userinfo/getUserInfo/'])
                                     } catch(e) {
