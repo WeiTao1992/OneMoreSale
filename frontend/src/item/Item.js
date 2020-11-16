@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
@@ -14,7 +14,6 @@ import Button from '@material-ui/core/Button';
 import {useParams} from 'react-router-dom'
 import defaultQueryFn from '../util/defaultQueryFn';
 import { useHistory } from "react-router-dom";
-
 
 const containerStyle = {
     width: '100%',
@@ -111,10 +110,17 @@ async function getItems(apiName, apiPath) {
 }
 
 export default function Item() {
+    let history = useHistory();
+    function handleClick() {
+        history.push(`/chatroom/${data.postOwner}${localStorage.getItem('nickname')}`);
+    }
+ 
     const { id } = useParams();
     const { isLoading, isError, data } = useQuery(['postItem', `post/getpostbyid?id=${id}`], defaultQueryFn);
 
     const classes = useStyles();
+    
+
     const space = 5;  
     if (isLoading) {
         return <span>Loading...</span>
@@ -123,13 +129,25 @@ export default function Item() {
     if (isError) {
         return <span>Error!!!</span>
     }
+
     return (
         <Container component="main" maxWidth="l">
+            {/* <button type="button" onClick={handleClick}>
+                Go home
+            </button> */}
             <div>
-                <Grid container align='left'>
+                <Grid container >
+                <Grid item  className={classes.gridInItem} align='left'>
                 <Link to="/">
                     Back to result
                 </Link>
+                </Grid>
+                <Grid item  className={classes.gridInItem}  align='right'>
+                    <Link to="/Account">
+                        Back to account
+                     </Link>
+                </Grid>
+                
                 </Grid>
                 <Divider/>
                 <br></br>
@@ -151,7 +169,7 @@ export default function Item() {
                             </Grid>
                             <Grid item className={classes.gridInItem}>
                                 
-                                <Typography color="textSecondary" variant="body2" align="left">Relaase: <Moment format="YYYY/MM/DD">{data.postDate}</Moment></Typography>
+                                <Typography color="textSecondary" variant="body2" align="left">Release: <Moment format="YYYY/MM/DD">{data.postDate}</Moment></Typography>
                                 <Typography color="textSecondary" variant="body2" align="left">Status: {data.postStatus}</Typography>
                             </Grid>
                         </Grid>
@@ -180,11 +198,22 @@ export default function Item() {
                         <Typography color="textSecondary" variant="body2" align="left">Email: {data.postEmail}</Typography>
                         <Typography color="textSecondary" variant="body2" align="left">Phone: {data.postPhone}</Typography>
                         <Typography color="textSecondary" variant="body2" align="left">Loaction: {data.postAddress} ZipCode:{data.postZipcode}</Typography>
+                        
                     </Grid>
                     <Grid item className={classes.gridItem} spacing={space}>
+                        
                          {/* <MapComponent></MapComponent> */}
                     </Grid>
                 </Grid> 
+                <Grid container >
+                {/* <Grid item  className={classes.gridInItem} align='left'>
+                    {
+                        localStorage.getItem('nickname') != null && localStorage.getItem('nickname') != '' ? <Link to={`/chatroom/${data.postOwner}${localStorage.getItem('nickname')}`} align="left">Chat to {data.postOwner}</Link> : <p></p>
+                    }  
+                </Grid> */}
+                
+                </Grid>
+               
             </div>
     
         </Container>
