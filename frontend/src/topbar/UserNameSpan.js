@@ -12,5 +12,6 @@ export function UserNameSpan() {
         return <span>Hello! Ready to sign in?</span>
     }
 
+    localStorage.setItem('nickname', data.userName);
     return <span>Hello, { data.userName }! </span> 
 }

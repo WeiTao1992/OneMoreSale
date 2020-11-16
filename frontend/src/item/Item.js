@@ -206,11 +206,11 @@ export default function Item() {
                     </Grid>
                 </Grid> 
                 <Grid container >
-                {/* <Grid item  className={classes.gridInItem} align='left'>
+                <Grid item  className={classes.gridInItem} align='left'>
                     {
-                        localStorage.getItem('nickname') != null && localStorage.getItem('nickname') != '' ? <Link to={`/chatroom/${data.postOwner}${localStorage.getItem('nickname')}`} align="left">Chat to {data.postOwner}</Link> : <p></p>
+                        localStorage.getItem('nickname') != null && localStorage.getItem('nickname') != '' && localStorage.getItem('nickname') != data.postOwner ?  <Link to={`/chatroom/${data.postOwner}${localStorage.getItem('nickname')}`} align="left">Chat to {data.postOwner}</Link> : <p></p>
                     }  
-                </Grid> */}
+                </Grid>
                 
                 </Grid>
                
