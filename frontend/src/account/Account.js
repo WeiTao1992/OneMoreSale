@@ -166,9 +166,10 @@ export default function Account() {
         fullAddress += ', ' + data.zipCode;
     }
 
-
+    localStorage.setItem('nickname', data.userName);
     return (
     <Container maxWidth="lg">
+       
 
     {/* <div>test: {data.postList[0].postPrice}</div> */}
     {/*      
@@ -180,6 +181,7 @@ export default function Account() {
 
         <Grid container direction="row" justify="space-between" alignItems="baseline">
             <Link to="/">Back to Home</Link>
+            <Link to="/roomlist">Chat Message</Link>
         </Grid>
         <Divider variant="fullWidth"/>
 
