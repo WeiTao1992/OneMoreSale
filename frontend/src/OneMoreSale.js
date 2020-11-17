@@ -10,6 +10,8 @@ import Item from "./item/Item";
 import Register from "./register/Register";
 import Login from "./login/Login";
 import Sell from "./sell/Sell";
+import RoomList from './chat/RoomList';
+import ChatRoom from './chat/ChatRoom';
 
 export default function OneMoreSale() {
   return (
@@ -38,6 +40,12 @@ export default function OneMoreSale() {
       </nav> */}
 
       <Switch>
+        <Route path="/roomlist">
+          <RoomList />
+        </Route>
+        <Route path="/chatroom/:room">
+          <ChatRoom />
+        </Route>
         <Route path="/account">
           <Account />
         </Route>

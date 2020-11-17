@@ -5,7 +5,7 @@ import defaultQueryFn from '../util/defaultQueryFn';
 export function PostItemButton(props) {
     const { isError, data } = useQuery(['username', 'userinfo/getUserInfo/'], defaultQueryFn);
 
-    if (isError) {
+    if (isError || data === undefined) {
         return ( 
         <Link to="/login">
           {props.children}
