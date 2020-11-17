@@ -21,7 +21,8 @@ export async function logout () {
     return await axios.post('oms/logout', {})
 }
 
-export async function sell( { values, trans, deliv, curTime, userName} ) {
+// sell page
+export async function sell( { values, trans, deliv, curTime, userName, postImage} ) {
     return await axios.post('oms/post/createpost', {
       deliveryType : deliv,
       transactionMethod : trans,
@@ -36,8 +37,19 @@ export async function sell( { values, trans, deliv, curTime, userName} ) {
       postEmail : values.email,
       postPhone : values.phone,
       postZipcode : values.zipcode,
-      postAddress : values.address
+      postAddress : values.address,
+      postImage : postImage
     })
+} 
+
+export async function image(picture) {
+  const formData = new FormData();
+  formData.append("file", picture);
+  return await axios.post('oms/s3/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
 } 
 
 //acount page

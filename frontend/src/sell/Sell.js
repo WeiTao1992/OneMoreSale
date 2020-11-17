@@ -18,7 +18,6 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useState } from "react";
-import ImageUploader from "react-images-upload";
 import { sell } from '../util/apis';
 import { useQueryCache } from 'react-query';
 import { useMutation } from 'react-query';
@@ -26,6 +25,10 @@ import moment from 'moment';
 import defaultQueryFn from '../util/defaultQueryFn';
 import { useQuery } from 'react-query'
 import { useHistory } from 'react-router-dom';
+import { image} from '../util/apis';
+import Paper from "@material-ui/core/Paper";
+import Carousel from 'nuka-carousel';
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 
 //------------------------------------------------------------------------------------------------------//
 
@@ -35,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     grid: {
-        marginLeft: -50,
+        marginLeft: -42,
     },
 
     form: {
@@ -63,36 +66,43 @@ const useStyles = makeStyles((theme) => ({
         padding: 6,
     },
 
-    uploadImage: {
-        margin: theme.spacing(2),
+    upload: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        marginTop: 16,
+        marginLeft: 12,
+        width: 380,
+        justifyContent: 'center',
+        '& > *': {
+          margin: theme.spacing(1),
+          width: theme.spacing(16),
+          height: theme.spacing(10),
+        },
+      },
+
+    input: {
+        display: 'none',
+    },
+
+    uploadButton: {
         marginTop: 20,
-        marginBottom: 50,
+    },
+
+    carousel: {
+        margin: theme.spacing(1),
+    },
+
+    middleGrid: {
+        marginLeft: -16,
+        marginRight: 16,
+    },     
+
+    Logo: {
+        height: '60%',
+        width: '60%'
     },
 
   }));
-
-//------------------------------------------------------------------------------------------------------//
-
-const UploadImage = props => {
-    const [pictures, setPictures] = useState([]);
-  
-    const onDrop = picture => {
-      setPictures([...pictures, picture]);
-    };
-
-    return (
-        <ImageUploader
-            {...props}
-            withIcon={true}
-            onChange={onDrop}
-            imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-            maxFileSize={5242880}
-            withPreview={true}
-
-            label="Upload your images"
-        />
-    );
-};
 
 //------------------------------------------------------------------------------------------------------//
 
@@ -100,13 +110,16 @@ export default function Sell() {
     const classes = useStyles();
     let history = useHistory();
     const [mutate, { isLoading  , isError,  error, data : d1 }, ] = useMutation(sell);
-    const { isLoading : il, isError: ie, data : d2 } = useQuery(['username', 'userinfo/getUserInfo/'], defaultQueryFn);
-    
+    const { isLoading : il, isError : ie, data : d2 } = useQuery(['username', 'userinfo/getUserInfo/'], defaultQueryFn);
+    const [mutate1, { data : d3 }, ] = useMutation(image);
+
     const userName = d2.userName;
     const defaultEmail = d2.account.email;
     const defaultPhone = d2.phone;
     const defaultZipcode = d2.zipCode;
     const defaultAddress = d2.address;
+
+    //const [pictures, setPictures] = useState([]);
 
     const [values, setValues] = React.useState({
         title: '',
@@ -132,6 +145,10 @@ export default function Sell() {
         dropoff: false,
         pickup: false,
     });
+
+    // const onDrop = picture => {
+    //     setPictures([...pictures, picture]);
+    // };
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
@@ -171,10 +188,19 @@ export default function Sell() {
 
             var curTime = moment();
 
-            const data = await mutate({ values, trans, deliv, curTime, userName})
-            console.log("data")
-            console.log(data)
-            console.log(data.data.postId)
+            let postImage = []
+            // for (var p in pictures) {
+            //     const pic = pictures[p][p];
+            //     console.log("**************" + p);
+            //     console.log(pic)
+            //     const url = await mutate1({ pic });
+            //     console.log(url);
+            //     postImage.push({
+            //         postImage: url,
+            //     });
+            // }
+            
+            const data = await mutate({ values, trans, deliv, curTime, userName, postImage})
 
             queryCache.invalidateQueries(['home', '/'])
             queryCache.invalidateQueries(['UserAllInfo', 'userinfo/getUserInfo/'])
@@ -194,6 +220,7 @@ export default function Sell() {
     }
 
 //--------------------------------------------------------------------------------------------------//
+
     return (
         
         <Container maxWidth="lg">
@@ -308,7 +335,7 @@ export default function Sell() {
                         </form>
                     </Grid>
 
-                    <Grid item xs={4}>
+                    <Grid item xs={4} className={classes.middleGrid}>
                         <form className={classes.form} noValidate autoComplete="off">
                             <TextField
                                     required id="item-email"
@@ -390,7 +417,38 @@ export default function Sell() {
                     </Grid>
 
                     <Grid item xs={4}>
-                        <UploadImage className={classes.uploadImage} />
+                        <Paper className={classes.upload} elevation={1}>
+                           <Carousel className={classes.carousel} heightMode="first">
+                                <img src="https://laiproject-bucket.s3-us-west-1.amazonaws.com/2020-11-17T20:01:35.605436_placeholder.png" />
+                                <img src="https://laiproject-bucket.s3-us-west-1.amazonaws.com/2020-11-17T20:01:35.605436_placeholder.png" />
+                            </Carousel>
+
+                            <input
+                                accept="image/*"
+                                className={classes.input}
+                                id="image-upload"
+                                multiple
+                                type="file"
+                            />
+                            <label htmlFor="image-upload">
+                                <Button 
+                                    className={classes.uploadButton} 
+                                    variant="contained" 
+                                    color="primary" 
+                                    component="span"
+                                    startIcon={<PhotoCameraIcon />}>
+                                    Upload 
+                                </Button>
+                            </label>
+                        </Paper>
+
+                        <Container fixed>
+                            <img 
+                                src="https://laiproject-bucket.s3-us-west-1.amazonaws.com/2020-11-17T20:07:30.618222_OneMoreSaleLogo.png" 
+                                className={classes.Logo}
+                            />
+                        </Container>
+                        
                     </Grid>
                 </Grid>
                 <Divider variant="fullWidth"/>
