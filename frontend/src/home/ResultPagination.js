@@ -1,18 +1,32 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { MemoryRouter, Route } from 'react-router';
+import { Link } from 'react-router-dom';
 import Pagination from '@material-ui/lab/Pagination';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      marginTop: theme.spacing(2),
-    },
-  },
-}));
+import PaginationItem from '@material-ui/lab/PaginationItem';
 
 export default function ResultPagination() {
-  const classes = useStyles();
   return (
-      <Pagination count={10} />
+    <MemoryRouter initialEntries={['/inbox']} initialIndex={0}>
+      <Route>
+        {({ location }) => {
+          const query = new URLSearchParams(location.search);
+          const page = parseInt(query.get('page') || '1', 10);
+          return (
+            <Pagination
+              color = "primary"
+              page={page}
+              count={10}
+              renderItem={(item) => (
+                <PaginationItem                  
+                  component={Link}
+                  to={`/inbox${item.page === 1 ? '' : `?page=${item.page}`}`}
+                  {...item}
+                />
+              )}
+            />
+          );
+        }}
+      </Route>
+    </MemoryRouter>
   );
 }

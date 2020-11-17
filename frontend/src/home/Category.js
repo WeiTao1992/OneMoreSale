@@ -38,15 +38,55 @@ export default function CheckboxesGroup() {
         <FormGroup>
           <FormControlLabel
             control={<Checkbox checked={gilad} onChange={handleChange} name="gilad" />}
-            label="Auto"
+            label="Automotive & industrial"
           />
           <FormControlLabel
             control={<Checkbox checked={jason} onChange={handleChange} name="jason" />}
-            label="Book"
+            label="Beauty & Health"
           />
           <FormControlLabel
             control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
-            label="Toy"
+            label="Books"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            label="Clothing, Shoes, Jewelry & Watches"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            label="Computers"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            label="Electronics"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            label="Handmade"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            label="Home, Garden & Tools"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            label="Movies, Music & Games"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            label="Outdoors"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            label="Pet Supplies"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            label="Sports"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            label="Toys, Kids & Baby"
           />
         </FormGroup>
         {/* <FormHelperText>Be careful</FormHelperText> */}
