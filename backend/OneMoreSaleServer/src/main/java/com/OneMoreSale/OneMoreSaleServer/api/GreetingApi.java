@@ -3,12 +3,19 @@ package com.OneMoreSale.OneMoreSaleServer.api;
 import com.OneMoreSale.OneMoreSaleServer.HttpUtil;
 
 import com.OneMoreSale.OneMoreSaleServer.Dao.PostDao;
-import com.OneMoreSale.OneMoreSaleServer.MonkeyLearn.APIUtils;
+
+
+
 import com.OneMoreSale.OneMoreSaleServer.model.*;
 import com.OneMoreSale.OneMoreSaleServer.service.GreetingService;
 import com.OneMoreSale.OneMoreSaleServer.service.PostService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,8 +43,12 @@ public class GreetingApi {
     @Autowired
     private PostService postService;
 
+
+
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
+
+    private static Logger logger = LoggerFactory.getLogger(AuthenticationApi.class);
 
     @GetMapping("/greeting")
     public Greetings greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
@@ -118,45 +129,22 @@ public class GreetingApi {
         return post;
     }
 
-
-
-
-//    @GetMapping("/test")
-//    public List<Keyword> fortest(){
-//        RestTemplate restTemplate = new RestTemplate();
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.set("Authorization", "Token " + "5a0e79decec05ff4bffe8509abca9449ccbf99d2");
-//        JSONObject haha = new JSONObject();
-//        ObjectMapper mapper = new ObjectMapper();
-//        Body body = new Body(Arrays.asList("Elon Musk has shared a photo of the spacesuit designed by SpaceX. This is the second image shared of the new design and " +
-//                "the first to feature the spacesuit’s full-body look."));
-//        String jsonBody;
-//        try {
-//            jsonBody = mapper.writeValueAsString(body);
-//        } catch (JsonProcessingException e) {
-//            return new ArrayList<>();
-//        }
-////        try{
-////            haha.put("data", jsonBody);
-////        }catch(JSONException E){
-////            System.out.println("GG simida");
-////        }
-//
-//        HttpEntity<String> request = new HttpEntity<String>(jsonBody, headers);
-//        MonkeyLearnResponse[] result = restTemplate.postForObject(APIUtils.url, request, MonkeyLearnResponse[].class);
-//
-//
-//        return result[0].keywords;
-//
-//    }
-
-    @GetMapping("/testagain")
-    public List<Keyword> hahah(){
-        String str = "Elon Musk has shared a photo of the spacesuit designed by SpaceX. This is the second image shared of the new design and " +
-                "the first to feature the spacesuit’s full-body look.";
-        APIUtils apiUtils = new APIUtils();
-        return apiUtils.getAllKeywords(str);
+    @GetMapping("/deleteUser")
+    public void delete() {
+        Session session = null;
+        try{
+            session = sessionFactory.openSession();
+            User user = session.get(User.class, 18);
+            session.beginTransaction();
+            session.delete(user);
+            session.getTransaction().commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            if (session != null){
+                session.close();
+            }
+        }
     }
-
 }

@@ -5,17 +5,23 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.bridge.builtin.DoubleBridge;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Entity
+@Indexed(index = "idx_post")
 @Table(name = "post")
 public class Post implements Serializable {
     private static final long serialVersionUID = 2022381782543163172L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int postId;
@@ -34,20 +40,30 @@ public class Post implements Serializable {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Keyword> keyword;
-
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
     private List<PostImage> postImage;
 
-    private Timestamp postDate;
+    @Field(name = "time")
+    @SortableField(forField = "time")
+    @DateBridge(resolution = Resolution.DAY)
+    private Date postDate;
+
+    @Field(name = "title",
+            analyzer = @Analyzer())
     private String postTitle;
+
+    @Field(name = "category")
     private String postCategory;
     private String postCondition;
+
     @Column(length = 1000)
+    @Field(name = "description",
+            analyzer = @Analyzer())
     private String postDescription;
     private String postOwner;
     private String postStatus;
+
+    @Field(name = "price")
+    @SortableField(forField = "price")
     private double postPrice;
     private String postEmail;
     private String postPhone;
@@ -69,6 +85,10 @@ public class Post implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+        this.setPostEmail(user.getAccount().getEmail());
+        this.setPostOwner(user.getUserName());
+        this.setPostZipcode(user.getZipCode());
+        this.setPostPhone(user.getPhone());
     }
 
     public List<DeliveryType> getDeliveryType() {
@@ -87,13 +107,6 @@ public class Post implements Serializable {
         this.transactionMethod = transactionMethod;
     }
 
-    public List<Keyword> getKeyword() {
-        return keyword;
-    }
-
-    public void setKeyword(List<Keyword> keyword) {
-        this.keyword = keyword;
-    }
 
     public List<PostImage> getPostImage() {
         return postImage;
@@ -103,7 +116,7 @@ public class Post implements Serializable {
         this.postImage = postImage;
     }
 
-    public Timestamp getPostDate() {
+    public Date getPostDate() {
         return postDate;
     }
 

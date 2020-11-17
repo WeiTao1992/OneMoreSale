@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useMutation, useQueryCache } from 'react-query';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,6 +14,9 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AddCircle from '@material-ui/icons/AddCircle';
 import { UserNameSpan } from './UserNameSpan';
+import { logout } from '../util/apis';
+import {AccountController} from './AccountController';
+import { PostItemButton} from './PostItemButton';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -87,6 +91,26 @@ export default function PrimarySearchAppBar() {
     setAnchorEl(null);
   };
 
+  const [ mutate, { isLoading, isError, data }, ] = useMutation(logout); 
+  const history = useHistory();
+
+  // Get QueryCache from the context
+  const queryCache = useQueryCache()
+
+  const onLogoClick = () => {
+    history.push("/");
+  }
+
+  const onSignOutClick = async () => {
+    try {
+      const data = await mutate({ })
+      queryCache.invalidateQueries(['username', 'userinfo/getUserInfo/'])
+      history.push("/");
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -102,9 +126,12 @@ export default function PrimarySearchAppBar() {
         </Link>
       </MenuItem>
       <MenuItem>
-        <Link to="/account">
-          My account
-        </Link>  
+        <AccountController />
+      </MenuItem>
+      <MenuItem>
+        <Link onClick={onSignOutClick}>
+          Logout
+        </Link>
       </MenuItem>
     </Menu>
   );
@@ -122,7 +149,9 @@ export default function PrimarySearchAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            <img src="OneMoreSaleLogo.png" height="80" width="100" />
+            <div onClick={onLogoClick}>
+              <img src="OneMoreSaleLogo.png" height="80" width="100" />
+            </div>
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -154,15 +183,15 @@ export default function PrimarySearchAppBar() {
                 fontSize="large"
               />
             </IconButton>
-                         
-            <Link to="/sell">
+
+            <PostItemButton>             
               <IconButton
                 edge="end"
                 color="white"
               > 
-                <AddCircle/> 
+                <AddCircle />
               </IconButton> 
-            </Link> 
+            </PostItemButton>
           </div>
         </Toolbar>
       </AppBar>

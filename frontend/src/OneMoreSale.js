@@ -10,11 +10,13 @@ import Item from "./item/Item";
 import Register from "./register/Register";
 import Login from "./login/Login";
 import Sell from "./sell/Sell";
+import RoomList from './chat/RoomList';
+import ChatRoom from './chat/ChatRoom';
 
 export default function OneMoreSale() {
   return (
     <div>
-      <nav>
+      {/* <nav>
         <ul>
           <li>
             <Link to="/">Home</Link>
@@ -35,9 +37,15 @@ export default function OneMoreSale() {
             <Link to="/item/3">Item</Link>
           </li>
         </ul>
-      </nav>
+      </nav> */}
 
       <Switch>
+        <Route path="/roomlist">
+          <RoomList />
+        </Route>
+        <Route path="/chatroom/:room">
+          <ChatRoom />
+        </Route>
         <Route path="/account">
           <Account />
         </Route>

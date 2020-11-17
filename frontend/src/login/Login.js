@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,16 +13,16 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryCache } from 'react-query';
 import { login } from '../util/apis';
-import { useQueryCache } from 'react-query';
+import FailLogin from './FailLogin';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        OneMoreSale
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -51,9 +52,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   const classes = useStyles();
-  const [ mutate, { isLoading, isError }, ] = useMutation(login); 
+  const [ mutate, { isLoading }, ] = useMutation(login); 
   const [email, setEmail] = React.useState();
   const [password, setPassword] = React.useState();
+  const [failLogin, setFailLogin] = React.useState(false);
+  const history = useHistory();
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -69,20 +72,26 @@ export default function Login() {
   const onSignInClick = async () => {
     try {
       const data = await mutate({ email, password })
-      console.log(data)
-
-      queryCache.invalidateQueries(['username', 'userinfo/getUserInfo/'])
+      if(data === undefined) {
+        setFailLogin(true)
+      } else {
+        queryCache.invalidateQueries(['username', 'userinfo/getUserInfo/'])
+        history.push("/");
+        setFailLogin(false)
+      }
     } catch(e) {
       console.log(e)
     }
   }
 
-  if (isLoading) {
-    return <span>Loading...</span>
+  let warning
+  if (failLogin) {
+    warning = <FailLogin />
   }
 
-  if (isError) {
-    return <span>Error!!!</span>
+  let loading
+  if (isLoading) {
+    loading = <span>Loading...</span>
   }
 
   return (
@@ -122,12 +131,8 @@ export default function Login() {
             value={password}
             onChange={handlePasswordChange}
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+          <div>{loading}</div>
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"
@@ -136,14 +141,10 @@ export default function Login() {
           >
             Sign In
           </Button>
+          {warning}
           <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/register" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

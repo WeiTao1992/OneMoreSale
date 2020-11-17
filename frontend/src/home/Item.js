@@ -15,8 +15,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Item() {
+export default function Item({
+  item,
+}) {
   const classes = useStyles();
+  console.log(item);
 
   return (
     <div className={classes.root}>
@@ -25,16 +28,16 @@ export default function Item() {
           <img src={greeting} alt="Logo" height="80" width="100"/>
         </Grid>
         <Grid item xs={5}>
-          <p> Item Name </p>
-          <p> Condition </p>
-          <p> Location </p>
-          <p> Seller </p>      
+          <p> Item Name: {item.postTitle} </p>
+          <p> Condition: {item.postCondition}</p>
+          <p> Location: {item.postAddress} </p>
+          <p> Seller: {item.postOwner} </p>      
         </Grid>
         <Grid item xs={2}>
-          <p> Price </p>
+          <p> Price: {item.postPrice} </p>
         </Grid>
         <Grid item xs={2}>
-          <p> Status </p>
+          <p> Status: {item.postStatus} </p>
         </Grid>
       </Grid>
     </div>
