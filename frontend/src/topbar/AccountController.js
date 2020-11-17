@@ -11,8 +11,7 @@ export function AccountController() {
         </Link>
     }
 
-    if (isError) {
-        console.log("error")
+    if (isError || data === undefined) {
         return ( 
         <Link to="/login">
           My Account

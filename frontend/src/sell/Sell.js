@@ -102,10 +102,10 @@ export default function Sell() {
     const [mutate, { isLoading  , isError,  error, data : d1 }, ] = useMutation(sell);
     const { isLoading : il, isError: ie, data : d2 } = useQuery(['username', 'userinfo/getUserInfo/'], defaultQueryFn);
     
-    const userName = d2.username;
+    const userName = d2.userName;
     const defaultEmail = d2.account.email;
     const defaultPhone = d2.phone;
-    const defaultZipcode = d2.zipcode;
+    const defaultZipcode = d2.zipCode;
     const defaultAddress = d2.address;
 
     const [values, setValues] = React.useState({
@@ -154,8 +154,7 @@ export default function Sell() {
             for (var t in transaction) {
                 if(transaction[t] === true) {
                     trans.push({
-                        key : "transactionMethod",
-                        value : t
+                        transactionMethod: t,
                     });
                 }
             }
@@ -165,8 +164,7 @@ export default function Sell() {
             for (var d in delivery) {
                 if(delivery[d] === true) {
                     deliv.push({
-                        key : "deliveryType",
-                        value : d
+                        deliveryType: d,
                     });
                 }
             }
@@ -289,10 +287,10 @@ export default function Sell() {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={1}>Used</MenuItem>
-                                    <MenuItem value={2}>Acceptable</MenuItem>
-                                    <MenuItem value={3}>Like New</MenuItem>
-                                    <MenuItem value={4}>Brand New</MenuItem>
+                                    <MenuItem value={"used"}>Used</MenuItem>
+                                    <MenuItem value={"acceptable"}>Acceptable</MenuItem>
+                                    <MenuItem value={"like new"}>Like New</MenuItem>
+                                    <MenuItem value={"brand new"}>Brand New</MenuItem>
                                 </Select>
                             </FormControl>
 
