@@ -6,6 +6,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
+import { capitalize } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,10 +17,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CheckboxesGroup() {
+export default function CheckboxesGroup({
+  curCategory,
+  changeCategory,
+}) {
   const classes = useStyles();
   const [state, setState] = React.useState({
-    Automotive: true,
+    Automotive: false,
     Beauty: false,
     Books: false,
     Beauty: false,
@@ -37,7 +41,20 @@ export default function CheckboxesGroup() {
   });
 
   const handleChange = (event) => {
+
     setState({ ...state, [event.target.name]: event.target.checked });
+
+    if(event.target.checked) {
+      curCategory.push(event.target.name);
+      changeCategory(curCategory);
+    } else {
+      var index = curCategory.indexOf(event.target.name);
+      if (index > -1) {
+        curCategory.splice(index, 1);
+      }
+      changeCategory(curCategory);
+    }
+    
   };
 
   return (

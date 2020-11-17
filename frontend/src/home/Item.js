@@ -31,7 +31,8 @@ export default function Item({
           <p> Item Name: {item.postTitle} </p>
           <p> Condition: {item.postCondition}</p>
           <p> Location: {item.postAddress} </p>
-          <p> Seller: {item.postOwner} </p>      
+          <p> Seller: {item.postOwner} </p>
+          <p> Category: {item.postCategory}  </p>   
         </Grid>
         <Grid item xs={2}>
           <p> Price: {item.postPrice} </p>

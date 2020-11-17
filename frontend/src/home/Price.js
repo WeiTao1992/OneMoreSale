@@ -11,9 +11,13 @@ const useStyles = makeStyles({
 
 
 
-export default function Price(props) {
+export default function Price({
+  changePrice,
+  curPrice,
+
+}) {
   function valuetext(value) {
-    props.changePrice(value);
+    changePrice(value);
     return `${value}`;
   }
   const classes = useStyles();
@@ -21,18 +25,18 @@ export default function Price(props) {
   return (
     <div className={classes.root}>
       <Typography id="discrete-slider" gutterBottom>
-        Price
+        Min Price
       </Typography>
       <Slider
       //FIXME: default
-        defaultValue={0}
+        defaultValue={curPrice}
         getAriaValueText={valuetext}
         aria-labelledby="discrete-slider"
         valueLabelDisplay="auto"
         step={10}
         marks
-        min={10}
-        max={110}
+        min={0}
+        max={100}
       />
       
     </div>
