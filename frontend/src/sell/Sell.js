@@ -2,7 +2,11 @@ import React from "react";
 import { Container } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
+<<<<<<< HEAD
 import { Link } from "react-router-dom";
+=======
+import Link from '@material-ui/core/Link';
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -18,6 +22,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useState } from "react";
+<<<<<<< HEAD
 import { sell } from '../util/apis';
 import { useQueryCache } from 'react-query';
 import { useMutation } from 'react-query';
@@ -31,6 +36,11 @@ import Carousel from 'nuka-carousel';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 
 //------------------------------------------------------------------------------------------------------//
+=======
+import ImageUploader from "react-images-upload";
+import Carousel from 'nuka-carousel';
+import Typography from '@material-ui/core/Typography';
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -38,7 +48,11 @@ const useStyles = makeStyles((theme) => ({
     },
 
     grid: {
+<<<<<<< HEAD
         marginLeft: -42,
+=======
+        marginLeft: -50,
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
     },
 
     form: {
@@ -66,6 +80,7 @@ const useStyles = makeStyles((theme) => ({
         padding: 6,
     },
 
+<<<<<<< HEAD
     upload: {
         display: 'flex',
         flexWrap: 'wrap',
@@ -135,17 +150,71 @@ export default function Sell() {
     });
 
     const [transaction, setTransaction] = React.useState({
+=======
+    carousel: {
+        margin: theme.spacing(2),
+    },
+
+    uploadImage: {
+        margin: theme.spacing(2),
+        marginTop: 50,
+        marginBottom: 50,
+    },
+
+    warning: {
+        marginLeft: 20,
+    },
+
+  }));
+
+const UploadImage = props => {
+    const [pictures, setPictures] = useState([]);
+  
+    const onDrop = picture => {
+      setPictures([...pictures, picture]);
+    };
+
+    return (
+      <ImageUploader
+        {...props}
+        withIcon={true}
+        onChange={onDrop}
+        imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+        maxFileSize={5242880}
+        label="Upload your images"
+      />
+    );
+};
+
+
+export default function Sell() {
+    const classes = useStyles();
+    const [values, setValues] = React.useState({
+        title: '',
+        price: '',
+        email: '',
+        phone: '',
+        postalcode: '',
+        address: '',
+        category: '',
+        condition: '',
+        description: '',
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
         paypal: false,
         quickpay: false,
         venmo: false,
         cash: false,
+<<<<<<< HEAD
     });
 
     const [delivery, setDelivery] = React.useState({
+=======
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
         dropoff: false,
         pickup: false,
     });
 
+<<<<<<< HEAD
     // const onDrop = picture => {
     //     setPictures([...pictures, picture]);
     // };
@@ -223,6 +292,19 @@ export default function Sell() {
 
     return (
         
+=======
+    const handleChange = (prop) => (event) => {
+        setValues({ ...values, [prop]: event.target.value });
+      };
+    
+
+    const handleCheckboxChange = (event) => {
+        setValues({ ...values, [event.target.name]: event.target.checked });
+    };
+
+
+    return (
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
         <Container maxWidth="lg">
             <div>
                 <Grid 
@@ -231,7 +313,11 @@ export default function Sell() {
                     justify="space-between" 
                     alignItems="baseline"
                 >
+<<<<<<< HEAD
                     <Link to="/" variant="body2">
+=======
+                    <Link href="#" variant="body2">
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
                         back to home
                     </Link>
         
@@ -241,7 +327,10 @@ export default function Sell() {
                         className={classes.button}
                         startIcon={<Icon>send</Icon>}
                         disableElevation
+<<<<<<< HEAD
                         onClick={onPostClick}
+=======
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
                     >
                         Post
                     </Button>
@@ -314,10 +403,17 @@ export default function Sell() {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
+<<<<<<< HEAD
                                     <MenuItem value={"used"}>Used</MenuItem>
                                     <MenuItem value={"acceptable"}>Acceptable</MenuItem>
                                     <MenuItem value={"like new"}>Like New</MenuItem>
                                     <MenuItem value={"brand new"}>Brand New</MenuItem>
+=======
+                                    <MenuItem value={1}>Used</MenuItem>
+                                    <MenuItem value={2}>Acceptable</MenuItem>
+                                    <MenuItem value={3}>Like New</MenuItem>
+                                    <MenuItem value={4}>Brand New</MenuItem>
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
                                 </Select>
                             </FormControl>
 
@@ -327,6 +423,10 @@ export default function Sell() {
                                 label="Description"
                                 multiline
                                 rows={10}
+<<<<<<< HEAD
+=======
+                                defaultValue="Describe your item here..."
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
                                 variant="outlined"
                                 value={values.description}
                                 onChange={handleChange('description')}
@@ -335,7 +435,11 @@ export default function Sell() {
                         </form>
                     </Grid>
 
+<<<<<<< HEAD
                     <Grid item xs={4} className={classes.middleGrid}>
+=======
+                    <Grid item xs={4}>
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
                         <form className={classes.form} noValidate autoComplete="off">
                             <TextField
                                     required id="item-email"
@@ -354,11 +458,19 @@ export default function Sell() {
                                 /> 
 
                             <TextField
+<<<<<<< HEAD
                                     required id="item-zipcode"
                                     label="Zip Code"
                                     variant="outlined"
                                     value={values.zipcode}
                                     onChange={handleChange('zipcode')}
+=======
+                                    required id="item-postalcode"
+                                    label="Postal Code"
+                                    variant="outlined"
+                                    value={values.postalcode}
+                                    onChange={handleChange('postalcode')}
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
                                 /> 
 
                             <TextField
@@ -376,22 +488,38 @@ export default function Sell() {
                                 <FormLabel>Transction Methods</FormLabel>
                                 <FormGroup row>
                                     <FormControlLabel
+<<<<<<< HEAD
                                         control={<Checkbox  checked={transaction.paypal} onChange={handleTransactionChange} color="primary" name="paypal" />}
+=======
+                                        control={<Checkbox  checked={values.paypal} onChange={handleCheckboxChange} color="primary" name="paypal" />}
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
                                         className={classes.check2}
                                         label="PayPal"
                                     />
                                     <FormControlLabel
+<<<<<<< HEAD
                                         control={<Checkbox checked={transaction.quickpay} onChange={handleTransactionChange} color="primary" name="quickpay" />}
+=======
+                                        control={<Checkbox checked={values.quickpay} onChange={handleCheckboxChange} color="primary" name="quickpay" />}
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
                                         className={classes.check2}
                                         label="QuickPay"
                                     /> 
                                     <FormControlLabel
+<<<<<<< HEAD
                                         control={<Checkbox checked={transaction.venmo} onChange={handleTransactionChange} color="primary" name="venmo" />}
+=======
+                                        control={<Checkbox checked={values.venmo} onChange={handleCheckboxChange} color="primary" name="venmo" />}
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
                                         className={classes.check2}
                                         label="Venmo"
                                     />                                    
                                     <FormControlLabel
+<<<<<<< HEAD
                                         control={<Checkbox checked={transaction.cash} onChange={handleTransactionChange} color="primary" name="cash" />}
+=======
+                                        control={<Checkbox checked={values.cash} onChange={handleCheckboxChange} color="primary" name="cash" />}
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
                                         className={classes.check2}
                                         label="Cash"
                                     />                                    
@@ -402,12 +530,20 @@ export default function Sell() {
                                 <FormLabel>Delivery Methods</FormLabel>
                                 <FormGroup row >
                                     <FormControlLabel
+<<<<<<< HEAD
                                         control={<Checkbox checked={delivery.dropoff} onChange={handleDeliveryChange} color="primary" name="dropoff" />}
+=======
+                                        control={<Checkbox checked={values.dropoff} onChange={handleCheckboxChange} color="primary" name="dropoff" />}
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
                                         className={classes.check1}
                                         label="Drop off"
                                     />
                                     <FormControlLabel
+<<<<<<< HEAD
                                         control={<Checkbox checked={delivery.pickup} onChange={handleDeliveryChange} color="primary" name="pickup" />}
+=======
+                                        control={<Checkbox checked={values.pickup} onChange={handleCheckboxChange} color="primary" name="pickup" />}
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
                                         className={classes.check1}
                                         label="Pick Up"
                                     />
@@ -417,6 +553,7 @@ export default function Sell() {
                     </Grid>
 
                     <Grid item xs={4}>
+<<<<<<< HEAD
                         <Paper className={classes.upload} elevation={1}>
                            <Carousel className={classes.carousel} heightMode="first">
                                 <img src="https://laiproject-bucket.s3-us-west-1.amazonaws.com/2020-11-17T20:01:35.605436_placeholder.png" />
@@ -449,6 +586,17 @@ export default function Sell() {
                             />
                         </Container>
                         
+=======
+                        <Carousel className={classes.carousel} heightMode="current">
+                            <img src="https://source.unsplash.com/aZjw7xI3QAA/1144x763" />
+                            <img src="https://source.unsplash.com/c77MgFOt7e0/1144x763" />
+                            <img src="https://source.unsplash.com/QdBHnkBdu4g/1144x763" />
+                        </Carousel>
+                        <UploadImage className={classes.uploadImage} />
+                        <Typography variant="caption" className={classes.warning}>
+                            Please make sure your information is correct.
+                        </Typography>
+>>>>>>> 4d00a8a97f5f022bbdb30929e23eb309a6da4676
                     </Grid>
                 </Grid>
                 <Divider variant="fullWidth"/>
