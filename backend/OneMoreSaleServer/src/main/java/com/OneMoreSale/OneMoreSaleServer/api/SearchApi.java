@@ -36,6 +36,7 @@ public class SearchApi {
                                  @RequestParam(value = "sortByDate", defaultValue ="false") boolean sortByDate){
 
         return searchService .searchPost(keyword, minPrice, maxPrice, category, maxPerPage, pageNumber, sortByPrice, sortByDate);
+
     }
 
 

@@ -131,10 +131,6 @@ export default function Login() {
             value={password}
             onChange={handlePasswordChange}
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
           <div>{loading}</div>
           <Button
             fullWidth
@@ -147,11 +143,6 @@ export default function Login() {
           </Button>
           {warning}
           <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
             <Grid item>
               <Link href="/register" variant="body2">
                 {"Don't have an account? Sign Up"}

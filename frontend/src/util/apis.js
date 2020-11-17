@@ -61,8 +61,3 @@ export async function accountItemDelete(postId) {
   // console.log("lalalal:" + `oms/post/deletepost?id=${postId}`)
   axios.delete(`oms/post/deletepost?id=${postId}`,)
 }
-
-
-
-
-
