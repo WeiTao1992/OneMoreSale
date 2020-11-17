@@ -19,17 +19,26 @@ const useStyles = makeStyles((theme) => ({
 export default function CheckboxesGroup() {
   const classes = useStyles();
   const [state, setState] = React.useState({
-    gilad: true,
-    jason: false,
-    antoine: false,
+    Automotive: true,
+    Beauty: false,
+    Books: false,
+    Beauty: false,
+    Books: false,
+    Clothing: false,
+    Computers: false,
+    Electronics: false,
+    Handmade: false,
+    Home: false,
+    Movies: false,
+    Outdoors: false,
+    Pet: false,
+    Sports: false,
+    Toys: false,
   });
 
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
-
-  const { gilad, jason, antoine } = state;
-  const error = [gilad, jason, antoine].filter((v) => v).length !== 2;
 
   return (
     <div className={classes.root}>
@@ -37,55 +46,55 @@ export default function CheckboxesGroup() {
         <FormLabel component="legend">Category</FormLabel>
         <FormGroup>
           <FormControlLabel
-            control={<Checkbox checked={gilad} onChange={handleChange} name="gilad" />}
+            control={<Checkbox checked={state.Automotive} onChange={handleChange} name="Automotive" />}
             label="Automotive & industrial"
           />
           <FormControlLabel
-            control={<Checkbox checked={jason} onChange={handleChange} name="jason" />}
+            control={<Checkbox checked={state.Beauty} onChange={handleChange} name="Beauty" />}
             label="Beauty & Health"
           />
           <FormControlLabel
-            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            control={<Checkbox checked={state.Books} onChange={handleChange} name="Books" />}
             label="Books"
           />
           <FormControlLabel
-            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            control={<Checkbox checked={state.Clothing} onChange={handleChange} name="Clothing" />}
             label="Clothing, Shoes, Jewelry & Watches"
           />
           <FormControlLabel
-            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            control={<Checkbox checked={state.Computers} onChange={handleChange} name="Computers" />}
             label="Computers"
           />
           <FormControlLabel
-            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            control={<Checkbox checked={state.Electronics} onChange={handleChange} name="Electronics" />}
             label="Electronics"
           />
           <FormControlLabel
-            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            control={<Checkbox checked={state.Handmade} onChange={handleChange} name="Handmade" />}
             label="Handmade"
           />
           <FormControlLabel
-            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            control={<Checkbox checked={state.Home} onChange={handleChange} name="Home" />}
             label="Home, Garden & Tools"
           />
           <FormControlLabel
-            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            control={<Checkbox checked={state.Movies} onChange={handleChange} name="Movies" />}
             label="Movies, Music & Games"
           />
           <FormControlLabel
-            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            control={<Checkbox checked={state.Outdoors} onChange={handleChange} name="Outdoors" />}
             label="Outdoors"
           />
           <FormControlLabel
-            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            control={<Checkbox checked={state.Pet} onChange={handleChange} name="Pet" />}
             label="Pet Supplies"
           />
           <FormControlLabel
-            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            control={<Checkbox checked={state.Sports} onChange={handleChange} name="Sports" />}
             label="Sports"
           />
           <FormControlLabel
-            control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
+            control={<Checkbox checked={state.Toys} onChange={handleChange} name="Toys" />}
             label="Toys, Kids & Baby"
           />
         </FormGroup>

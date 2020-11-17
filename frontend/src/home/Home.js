@@ -6,7 +6,7 @@ import Greeting from './Greeting';
 import Rank from './Rank';
 import Category from './Category';
 import Price from './Price';
-import Postdate from './Postdate';
+
 import ResultPagination from './ResultPagination';
 import ItemList from './ItemList';
 import Condition from './Condition';
@@ -76,14 +76,12 @@ export default function Home(props) {
         <Grid align="left" item xs={3}>
           <Category />
           <br/>
-          <Price />
-          <br/>
-          <Postdate />
-          <br/>
+          <Price changePrice = {setMinPrice}/>
+          
           <div>
-          <Button variant="contained" color="primary">
+          {/* <Button variant="contained" color="primary">
             ok
-          </Button>
+          </Button> */}
           </div>
         </Grid>
         <Grid item xs={9}>

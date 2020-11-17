@@ -9,11 +9,13 @@ const useStyles = makeStyles({
   },
 });
 
-function valuetext(value) {
-  return `${value}°C`;
-}
 
-export default function Price() {
+
+export default function Price(props) {
+  function valuetext(value) {
+    props.changePrice(value);
+    return `${value}`;
+  }
   const classes = useStyles();
 
   return (
@@ -22,7 +24,8 @@ export default function Price() {
         Price
       </Typography>
       <Slider
-        defaultValue={30}
+      //FIXME: default
+        defaultValue={0}
         getAriaValueText={valuetext}
         aria-labelledby="discrete-slider"
         valueLabelDisplay="auto"
