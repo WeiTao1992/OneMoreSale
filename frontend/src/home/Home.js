@@ -50,7 +50,7 @@ export default function Home(props) {
   const { isLoading, isError, data } = useQuery(
     [
       "search",
-      `index/search?keyword=${props.keyword}&minPrice=${minPrice}&maxPrice=${maxPrice}&pageNumber=${pageNumber}&sortByPrice=${sortByPrice}&sortByDate=${sortByDate}&maxPerPage=4`,
+      `index/search?keyword=${props.keyword}&category=${categoryContent}&minPrice=${minPrice}&maxPrice=${maxPrice}&pageNumber=${pageNumber}&sortByPrice=${sortByPrice}&sortByDate=${sortByDate}&maxPerPage=4`,
     ],
     defaultQueryFn
   );
