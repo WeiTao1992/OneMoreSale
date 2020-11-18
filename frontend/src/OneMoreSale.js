@@ -13,32 +13,9 @@ import Sell from "./sell/Sell";
 import RoomList from './chat/RoomList';
 import ChatRoom from './chat/ChatRoom';
 
-export default function OneMoreSale() {
+export default function OneMoreSale(props) {
   return (
     <div>
-      {/* <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/account">Account</Link>
-          </li>
-          <li>
-            <Link to="/sell">Sell</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/register">Register</Link>
-          </li>
-          <li>
-            <Link to="/item/3">Item</Link>
-          </li>
-        </ul>
-      </nav> */}
-
       <Switch>
         <Route path="/roomlist">
           <RoomList />
@@ -62,7 +39,7 @@ export default function OneMoreSale() {
           <Item />
         </Route>
         <Route path="/">
-          <Home />
+          <Home keyword={props.keyword}/>
         </Route>
       </Switch>
     </div>

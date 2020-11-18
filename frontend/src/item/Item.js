@@ -155,7 +155,7 @@ export default function Item() {
                     <Grid item  className={classes.gridImg} spacing={space} alignItems="center">
                     <Carousel  heightMode="current">
                     {                
-                        data.postImage != null ? data.postImage.map((tile) => (<img src={tile.img}/>)) : <p></p>
+                        data.postImage != null ? data.postImage.map((tile) => (<img src={tile.postImage}/>)) : <p></p>
                     }
                     </Carousel>
                     </Grid>

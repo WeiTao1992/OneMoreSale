@@ -95,10 +95,8 @@ public class SearchDao {
     }
 
     public List<Post> homepage() {
-        FullTextEntityManager fullTextEntityManager =
-                Search.getFullTextEntityManager(entityManager);
-        QueryBuilder queryBuilder =
-                fullTextEntityManager.getSearchFactory()
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
                         .buildQueryBuilder().forEntity(Post.class).get();
 
         Query finalQuery = queryBuilder.all().createQuery();

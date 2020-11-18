@@ -36,10 +36,10 @@ public class UserInfoApi {
             return null;
         }
         Integer userId = (Integer)request.getSession().getAttribute("user_id");
-        if (!userInfoService.validateUserId(userId)) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return null;
-        }
+//        if (!userInfoService.validateUserId(userId)) {
+//            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+//            return null;
+//        }
         return userInfoService.getUserById(userId);
     }
 
