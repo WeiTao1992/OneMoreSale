@@ -20,6 +20,8 @@ export default function ItemList({
 }) {
   const classes = useStyles();
 
+  console.log("itemList")
+  console.log(itemList)
 
   return (
     <div className={classes.root}>
