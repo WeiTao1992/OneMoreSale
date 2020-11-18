@@ -15,34 +15,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ItemList() {
+export default function ItemList({
+  itemList,
+}) {
   const classes = useStyles();
+
+  console.log("itemList")
+  console.log(itemList)
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>
-            <Item />       
-          </Paper>
-            
-        </Grid>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>
-            <Item />       
-          </Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>
-            <Item />       
-          </Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>
-            <Item />       
-          </Paper>
-        </Grid>
-      </Grid>
+      { itemList.map(item => (
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Paper className={classes.paper}>
+              <Item item={item} />
+            </Paper>
+          </Grid>
+        </Grid>))
+      }
     </div>
   );
 }

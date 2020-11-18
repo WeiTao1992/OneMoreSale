@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import greeting from './greeting.jpg';
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,8 +16,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Item() {
+export default function Item({
+  item,
+}) {
   const classes = useStyles();
+  console.log(item);
 
   return (
     <div className={classes.root}>
@@ -25,16 +29,20 @@ export default function Item() {
           <img src={greeting} alt="Logo" height="80" width="100"/>
         </Grid>
         <Grid item xs={5}>
-          <p> Item Name </p>
-          <p> Condition </p>
-          <p> Location </p>
-          <p> Seller </p>      
+
+        <Link to={`/item/${item.postId}`}>
+          <p> Item Name: {item.postTitle} </p>
+          </Link>
+          <p> Condition: {item.postCondition}</p>
+          <p> Location: {item.postAddress} </p>
+          <p> Seller: {item.postOwner} </p>
+          <p> Category: {item.postCategory}  </p>   
         </Grid>
         <Grid item xs={2}>
-          <p> Price </p>
+          <p> Price: {item.postPrice} </p>
         </Grid>
         <Grid item xs={2}>
-          <p> Status </p>
+          <p> Status: {item.postStatus} </p>
         </Grid>
       </Grid>
     </div>

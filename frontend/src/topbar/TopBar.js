@@ -77,11 +77,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-
   const isMenuOpen = Boolean(anchorEl);
+
+  const handleChange = (event) => {
+    props.onKeywordChange(event.target.value)
+  }
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -96,6 +99,10 @@ export default function PrimarySearchAppBar() {
 
   // Get QueryCache from the context
   const queryCache = useQueryCache()
+
+  const onLogoClick = () => {
+    history.push("/");
+  }
 
   const onSignOutClick = async () => {
     try {
@@ -145,7 +152,9 @@ export default function PrimarySearchAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            <img src="OneMoreSaleLogo.png" height="80" width="100" />
+            <div onClick={onLogoClick}>
+              <img src="OneMoreSaleLogo.png" height="80" width="100" />
+            </div>
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -158,6 +167,8 @@ export default function PrimarySearchAppBar() {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              keyword={props.keyword}
+              onChange={handleChange}
             />
           </div>
           <div className={classes.grow} />

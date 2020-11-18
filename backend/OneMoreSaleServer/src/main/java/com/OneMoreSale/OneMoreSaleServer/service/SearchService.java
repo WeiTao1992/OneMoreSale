@@ -2,7 +2,7 @@ package com.OneMoreSale.OneMoreSaleServer.service;
 
 import com.OneMoreSale.OneMoreSaleServer.Dao.SearchDao;
 import com.OneMoreSale.OneMoreSaleServer.model.Post;
-import org.jboss.logging.annotations.Pos;
+import com.OneMoreSale.OneMoreSaleServer.model.SearchBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +18,10 @@ public class SearchService {
     @Autowired
     private SearchDao searchDao;
 
-    public List<Post> searchPost(String keyword, double minPrice,
-                                 double maxPrice, String category, int maxPerPage, int pageNumber){
-        return searchDao.searchPost(keyword, minPrice,maxPrice,category,maxPerPage, pageNumber);
+    public SearchBody searchPost(String keyword, double minPrice,
+                                 double maxPrice, String category, int maxPerPage, int pageNumber,
+                                 boolean sortByPrice, boolean sortByDate){
+        return searchDao.searchPost(keyword, minPrice,maxPrice,category,maxPerPage, pageNumber, sortByPrice,sortByDate);
     }
 
     public List<Post> homePage(){

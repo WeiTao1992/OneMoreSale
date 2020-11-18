@@ -16,12 +16,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Rank() {
+export default function Rank({
+
+  changeCurSortByPrice,
+  changeCurSortByDate,
+}) {
   const classes = useStyles();
   const [age, setAge] = React.useState('');
 
   const handleChange = (event) => {
     setAge(event.target.value);
+    if(event.target.value == 20) {
+      changeCurSortByPrice(true);
+      changeCurSortByDate(false);
+    } else if(event.target.value == 10) {
+      changeCurSortByPrice(false);
+      changeCurSortByDate(true);
+    }
   };
 
   return (
@@ -37,9 +48,9 @@ export default function Rank() {
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          <MenuItem value={10}>Newest</MenuItem>
-          <MenuItem value={20}>Price Up</MenuItem>
-          <MenuItem value={30}>Price Down</MenuItem>
+          <MenuItem value={10}>Date</MenuItem>
+          <MenuItem value={20}>Price</MenuItem>
+  
         </Select>
       </FormControl>
     </div>

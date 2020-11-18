@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.search.annotations.*;
+import org.hibernate.search.bridge.builtin.DoubleBridge;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -62,6 +63,7 @@ public class Post implements Serializable {
     private String postStatus;
 
     @Field(name = "price")
+    @SortableField(forField = "price")
     private double postPrice;
     private String postEmail;
     private String postPhone;
@@ -83,6 +85,10 @@ public class Post implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+        this.setPostEmail(user.getAccount().getEmail());
+        this.setPostOwner(user.getUserName());
+        this.setPostZipcode(user.getZipCode());
+        this.setPostPhone(user.getPhone());
     }
 
     public List<DeliveryType> getDeliveryType() {
