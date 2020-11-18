@@ -15,6 +15,7 @@ import { useQuery } from "react-query";
 import defaultQueryFn from "../util/defaultQueryFn";
 import { useLayoutEffect } from "react";
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -45,19 +46,19 @@ export default function Home(props) {
     categoryContent += " ";
   });
 
-  console.log("the category content is" + categoryContent);
+  // console.log("the category content is" + categoryContent);
 
   const { isLoading, isError, data } = useQuery(
     [
       "search",
-      `index/search?keyword=${keyword}&minPrice=${minPrice}&maxPrice=${maxPrice}&pageNumber=${pageNumber}&sortByPrice=${sortByPrice}&sortByDate=${sortByDate}&maxPerPage=4`,
+      `index/search?keyword=${keyword}&category=${categoryContent}&minPrice=${minPrice}&maxPrice=${maxPrice}&pageNumber=${pageNumber}&sortByPrice=${sortByPrice}&sortByDate=${sortByDate}&maxPerPage=4`,
     ],
     defaultQueryFn
   );
 
-  console.log(
-    `index/search?keyword=${keyword}&category=${categoryContent}&minPrice=${minPrice}&maxPrice=${maxPrice}&pageNumber=${pageNumber}&sortByPrice=${sortByPrice}&sortByDate=${sortByDate}&maxPerPage=4`
-  );
+  // console.log(
+  //   `index/search?keyword=${keyword}&category=${categoryContent}&minPrice=${minPrice}&maxPrice=${maxPrice}&pageNumber=${pageNumber}&sortByPrice=${sortByPrice}&sortByDate=${sortByDate}&maxPerPage=4`
+  // );
 
   if (isLoading) {
     return <span>Loading...</span>;
@@ -76,6 +77,10 @@ export default function Home(props) {
   let pageNumbers = size % 4 == 0 ? size / 4 : Math.floor(size / 4) + 1;
 
   console.log("The totalPages is " + pageNumbers);
+  let value;
+  const handleChange = (event) => {
+    setPageNumber(event.target.value);
+  };
 
   return (
     <div className={classes.root}>
@@ -117,7 +122,7 @@ export default function Home(props) {
         </Grid>
         <Grid align="right" item xs={3}>
           <span>
-            前往 <input type="text" id="fname" name="fname" /> 页
+            前往 <TextField value={value} onChange={handleChange}/> 页
           </span>
         </Grid>
       </Grid>
