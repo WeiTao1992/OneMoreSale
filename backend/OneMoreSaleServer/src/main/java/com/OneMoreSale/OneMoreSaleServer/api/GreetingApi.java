@@ -77,18 +77,18 @@ public class GreetingApi {
     }
 
     // This request only use for testing user and account entity. Check if this value can be saved into Database
-
-    @PostMapping("/post/createtest")
-    public void savePost(@RequestBody Post post,
-                         @RequestParam (value = "id") int userId){
-        try(Session session = sessionFactory.openSession()){
-            User user = session.get(User.class, userId);
-            post.setUser(user);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        postService.savePost(post);
-    }
+//
+//    @PostMapping("/post/createtest")
+//    public void savePost(@RequestBody Post post,
+//                         @RequestParam (value = "id") int userId){
+//        try(Session session = sessionFactory.openSession()){
+//            User user = session.get(User.class, userId);
+//            post.setUser(user);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        postService.savePost(post);
+//    }
 
     @GetMapping("/delete")
     public void delete(@RequestParam(value = "id") int postId){
