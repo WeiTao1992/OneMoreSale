@@ -46,19 +46,20 @@ export default function Home(props) {
     categoryContent += " ";
   });
 
-  // console.log("the category content is" + categoryContent);
+  // console.log("the category content is" + categoryContent);  maxPerPage
 
   const { isLoading, isError, data } = useQuery(
     [
       "search",
-      `index/search?keyword=${keyword}&category=${categoryContent}&minPrice=${minPrice}&maxPrice=${maxPrice}&pageNumber=${pageNumber}&sortByPrice=${sortByPrice}&sortByDate=${sortByDate}&maxPerPage=4`,
+      `index/search?keyword=${keyword}&category=${categoryContent}&pageNumber=${pageNumber}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortByPrice=${sortByPrice}&sortByDate=${sortByDate}`,
+      // `index/search?&pageNumber=${pageNumber}`
     ],
     defaultQueryFn
   );
 
-  // console.log(
-  //   `index/search?keyword=${keyword}&category=${categoryContent}&minPrice=${minPrice}&maxPrice=${maxPrice}&pageNumber=${pageNumber}&sortByPrice=${sortByPrice}&sortByDate=${sortByDate}&maxPerPage=4`
-  // );
+  console.log(
+    `index/search?keyword=${keyword}&category=${categoryContent}&minPrice=${minPrice}&maxPrice=${maxPrice}&pageNumber=${pageNumber}&sortByPrice=${sortByPrice}&sortByDate=${sortByDate}`
+  );
 
   if (isLoading) {
     return <span>Loading...</span>;
@@ -77,7 +78,7 @@ export default function Home(props) {
   let pageNumbers = size % 4 == 0 ? size / 4 : Math.floor(size / 4) + 1;
 
   console.log("The totalPages is " + pageNumbers);
-  let value;
+  let value = 1;
   const handleChange = (event) => {
     setPageNumber(event.target.value);
   };
