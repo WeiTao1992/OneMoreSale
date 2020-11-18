@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home(props) {
   const classes = useStyles();
-  const [keyword, setKeyWord] = useState("");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(10000);
   const [category, setCategory] = useState([]);
@@ -51,13 +50,13 @@ export default function Home(props) {
   const { isLoading, isError, data } = useQuery(
     [
       "search",
-      `index/search?keyword=${keyword}&category=${categoryContent}&minPrice=${minPrice}&maxPrice=${maxPrice}&pageNumber=${pageNumber}&sortByPrice=${sortByPrice}&sortByDate=${sortByDate}&maxPerPage=4`,
+      `index/search?keyword=${props.keyword}&minPrice=${minPrice}&maxPrice=${maxPrice}&pageNumber=${pageNumber}&sortByPrice=${sortByPrice}&sortByDate=${sortByDate}&maxPerPage=4`,
     ],
     defaultQueryFn
   );
 
   // console.log(
-  //   `index/search?keyword=${keyword}&category=${categoryContent}&minPrice=${minPrice}&maxPrice=${maxPrice}&pageNumber=${pageNumber}&sortByPrice=${sortByPrice}&sortByDate=${sortByDate}&maxPerPage=4`
+  //   `index/search?keyword=${props.keyword}&category=${categoryContent}&minPrice=${minPrice}&maxPrice=${maxPrice}&pageNumber=${pageNumber}&sortByPrice=${sortByPrice}&sortByDate=${sortByDate}&maxPerPage=4`
   // );
 
   if (isLoading) {
