@@ -1,3 +1,4 @@
+import React from 'react';
 import './App.css';
 import { QueryCache, ReactQueryCacheProvider } from 'react-query';
 import Box from '@material-ui/core/Box';
@@ -16,13 +17,19 @@ import OneMoreSale from './OneMoreSale';
 })
 
 function App() {
+  const [keyword, setKeyword] = React.useState("");
+
+  const handleKeywordChange = (keyword) => {
+    setKeyword(keyword)
+  }
+
   return (
     <div className="App">
       <ReactQueryCacheProvider queryCache={queryCache}>
         <Router>
-          <TopBar position = "sticky" />
+          <TopBar position = "sticky" keyword={keyword} onKeywordChange={handleKeywordChange} />
           <Box m={6} />
-          <OneMoreSale />
+          <OneMoreSale keyword={keyword}/>
         </Router>
       </ReactQueryCacheProvider>
     </div>
