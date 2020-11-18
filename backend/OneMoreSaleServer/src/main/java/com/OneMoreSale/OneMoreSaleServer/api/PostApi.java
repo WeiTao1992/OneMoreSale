@@ -29,18 +29,22 @@ public class PostApi {
     @PostMapping("/post/createpost")
     public SavePostResponse savePost(@RequestBody @NonNull Post post, HttpServletRequest httpServletRequest,
                                      HttpServletResponse httpServletResponse) throws IOException {
-        
+        if (post == null) {
+            httpServletResponse.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return new SavePostResponse(-1, "post cannot be NULL");
+        }
         //TODO: legal Input
         if (!HttpUtil.sessionInvalid(httpServletRequest)){ // already logged in
 
             int userId = (int)httpServletRequest.getSession().getAttribute("user_id");
             User user = userInfoService.getUserById(userId);
             post.setUser(user);
-            int id =  postService.savePost(post);
+            int id =  postService.savePost(user, post);
             logger.info("[Post] post was created with Title = {} ", post.getPostTitle());
+
             return new SavePostResponse(id, "save successfully");
         }
-        httpServletResponse.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
         return new SavePostResponse(-1, "Please log in first");
     }
 
@@ -68,7 +72,16 @@ public class PostApi {
 //    }
 
     @DeleteMapping("/post/deletepost")
-    public void deletePost(@RequestParam (value = "id") int postId){
-        postService.deletePost(postId);
+    public void deletePost(HttpServletRequest httpServletRequest,
+                           HttpServletResponse httpServletResponse,
+                           @RequestParam (value = "id") int postId) throws IOException {
+
+        if (HttpUtil.sessionInvalid(httpServletRequest)){ // already logged in
+            httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+        int userId = (int)httpServletRequest.getSession().getAttribute("user_id");
+        User user = userInfoService.getUserById(userId);
+        postService.deletePost(user, postId);
     }
 }

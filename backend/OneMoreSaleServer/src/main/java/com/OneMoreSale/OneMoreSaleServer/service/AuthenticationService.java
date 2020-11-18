@@ -22,7 +22,7 @@ public class AuthenticationService {
 
     @Autowired
     private AuthenticationDao authenticationDao;
-    private static final Logger LOGGER = LoggerFactory.getLogger(AWSS3DaoImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationService.class);
 
     private final int evictTime = 48;
 
@@ -48,7 +48,7 @@ public class AuthenticationService {
             return idCache.getIfPresent(email).intValue();
         }
         int id = authenticationDao.getUserIdByEmail(email);
-        if (id != 1) {
+        if (id != -1) { // user exists
             idCache.put(email, id);
         }
         return id;

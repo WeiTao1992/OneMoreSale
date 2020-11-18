@@ -4,6 +4,7 @@ package com.OneMoreSale.OneMoreSaleServer.Dao;
 import com.OneMoreSale.OneMoreSaleServer.model.Post;
 import com.OneMoreSale.OneMoreSaleServer.model.PostImage;
 import com.OneMoreSale.OneMoreSaleServer.model.User;
+import com.OneMoreSale.OneMoreSaleServer.service.UserInfoService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,12 +39,15 @@ public class PostDao {
         return post.getPostId();
     }
 
-    public void deletePost(int postId){
+    public Post deletePost(int postId){
         Session session = null;
+        Post post = null;
         try{
             session = sessionFactory.openSession();
-            Post post = session.get(Post.class, postId);
-            if (post == null) return;
+            post = session.get(Post.class, postId);
+            if (post == null) {
+                return null;
+            }
             User user = post.getUser();
             if (user != null){
                 List<Post> postList = user.getPostList();
@@ -67,6 +71,7 @@ public class PostDao {
                 session.close();
             }
         }
+        return post;
     }
 
     public void editPost(Post post){
