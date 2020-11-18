@@ -307,7 +307,7 @@ export default function Account() {
                                 try {
                                     const postItem = await mutate2(singleItem.postId)
                             
-                                    queryCache.invalidateQueries(['UserAllInfo', 'userinfo/getUserInfo/'])
+                                    queryCache.invalidateQueries(['username', 'userinfo/getUserInfo/'])
                                     } catch(e) {
                                     console.log(e)
                                     } 
