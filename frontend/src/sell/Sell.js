@@ -26,6 +26,7 @@ import moment from 'moment';
 import defaultQueryFn from '../util/defaultQueryFn';
 import { useQuery } from 'react-query'
 import { useHistory } from 'react-router-dom';
+import axios from "axios";
 
 //------------------------------------------------------------------------------------------------------//
 
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     grid: {
-        marginLeft: -50,
+        marginLeft: -32,
     },
 
     form: {
@@ -69,57 +70,42 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: 50,
     },
 
+    middleGrid: {
+        marginLeft: -16,
+        marginRight: 16,
+    },
+
   }));
 
-//------------------------------------------------------------------------------------------------------//
-
-const UploadImage = props => {
-    const [pictures, setPictures] = useState([]);
-  
-    const onDrop = picture => {
-      setPictures([...pictures, picture]);
-    };
-
-    return (
-        <ImageUploader
-            {...props}
-            withIcon={true}
-            onChange={onDrop}
-            imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-            maxFileSize={5242880}
-            withPreview={true}
-
-            label="Upload your images"
-        />
-    );
-};
-
-//------------------------------------------------------------------------------------------------------//
-
-export default function Sell() {
+export default function Sell(props) {
     const classes = useStyles();
     let history = useHistory();
     const [mutate, { isLoading  , isError,  error, data : d1 }, ] = useMutation(sell);
     const { isLoading : il, isError: ie, data : d2 } = useQuery(['username', 'userinfo/getUserInfo/'], defaultQueryFn);
-    
-    const userName = d2.userName;
-    const defaultEmail = d2.account.email;
-    const defaultPhone = d2.phone;
-    const defaultZipcode = d2.zipCode;
-    const defaultAddress = d2.address;
+//------------------------------------------------------------------------------------------------------//
 
+    const [pictures, setPictures] = useState([]);
+    
+    const onDrop = pics => {
+        setPictures(pics);
+    };
+    
     const [values, setValues] = React.useState({
         title: '',
         price: '',
-        email: defaultEmail,
-        phone: defaultPhone,
-        zipcode: defaultZipcode,
-        address: defaultAddress,
+        email: '',
+        phone: '',
+        zipcode: '',
+        address: '',
         category: '',
         condition: '',
         description: '',
         status: 'On Sale',
     });
+
+    const handleChange = (prop) => (event) => {
+        setValues({ ...values, [prop]: event.target.value });
+    };
 
     const [transaction, setTransaction] = React.useState({
         paypal: false,
@@ -132,10 +118,6 @@ export default function Sell() {
         dropoff: false,
         pickup: false,
     });
-
-    const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
     
     const handleTransactionChange = (event) => {
         setTransaction({ ...transaction, [event.target.name]: event.target.checked });
@@ -147,6 +129,12 @@ export default function Sell() {
     
     // Get QueryCache from the context
     const queryCache = useQueryCache();
+
+    if (isLoading || il) {
+        return <span>Loading</span>;
+    }
+    
+    const userName = d2.userName;
 
     const onPostClick = async () => {
         try {
@@ -169,9 +157,34 @@ export default function Sell() {
                 }
             }
 
+            let imageUrl = [];
+            for (var picture of pictures) {
+                let pictFormData = new FormData();
+                // console.log("picture");
+                // console.log(picture);
+                pictFormData.append('file', picture, picture.name);
+                // console.log("formdata");
+                // console.log(pictFormData);
+
+                // console.log("imageUrl");
+                // console.log(imageUrl);
+
+                let currUrl = await axios({
+                    method: 'post',
+                    url: 'oms/s3/upload/',
+                    data: pictFormData,
+                    headers: {'Content-Type': 'multipart/form-data' } 
+                })
+                imageUrl.push ({
+                    postImage: currUrl.data
+                });
+                console.log(imageUrl);
+            }   
+
+
             var curTime = moment();
 
-            const data = await mutate({ values, trans, deliv, curTime, userName})
+            const data = await mutate({ values, trans, deliv, curTime, userName, imageUrl})
             console.log("data")
             console.log(data)
             console.log(data.data.postId)
@@ -185,7 +198,7 @@ export default function Sell() {
     }
 
     if (isLoading || il) {
-        console.log("Loading")
+        return <span>Loading</span>;
     }
 
     if (isError || ie) {
@@ -194,6 +207,7 @@ export default function Sell() {
     }
 
 //--------------------------------------------------------------------------------------------------//
+
     return (
         
         <Container maxWidth="lg">
@@ -308,7 +322,7 @@ export default function Sell() {
                         </form>
                     </Grid>
 
-                    <Grid item xs={4}>
+                    <Grid item xs={4} className={classes.middleGrid}>
                         <form className={classes.form} noValidate autoComplete="off">
                             <TextField
                                     required id="item-email"
@@ -390,7 +404,15 @@ export default function Sell() {
                     </Grid>
 
                     <Grid item xs={4}>
-                        <UploadImage className={classes.uploadImage} />
+                        <ImageUploader
+                            {...props}
+                            withIcon={true}
+                            onChange={onDrop}
+                            imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                            maxFileSize={5242880}
+                            withPreview={true}
+                            label="Upload your images"
+                        />
                     </Grid>
                 </Grid>
                 <Divider variant="fullWidth"/>
