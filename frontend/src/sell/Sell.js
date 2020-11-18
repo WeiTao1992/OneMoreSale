@@ -178,7 +178,7 @@ export default function Sell(props) {
                 imageUrl.push ({
                     postImage: currUrl.data
                 });
-                // console.log(imageUrl);
+                console.log(imageUrl);
             }   
 
 
