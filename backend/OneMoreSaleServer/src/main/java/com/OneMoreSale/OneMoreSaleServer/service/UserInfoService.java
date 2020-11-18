@@ -14,6 +14,7 @@ public class UserInfoService {
 
     @Autowired
     private UserInfoDao userInfoDao;
+    private AuthenticationService authenticationService;
 
     public User getUserById(int userId) {
         return userInfoDao.getUser(userId);
@@ -23,6 +24,7 @@ public class UserInfoService {
         userInfoDao.updateAddress(email,phone,address);
     }
     public void updatePassword(String email, String username, String password) {
+        authenticationService.invalidateIdCache(email); // clear cache
         userInfoDao.updatePassword(email, username, password);
     }
     public boolean validateUserId(int userId){
