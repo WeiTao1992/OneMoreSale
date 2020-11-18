@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     grid: {
-        marginLeft: -50,
+        marginLeft: -32,
     },
 
     form: {
@@ -70,6 +70,11 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: 50,
     },
 
+    middleGrid: {
+        marginLeft: -16,
+        marginRight: 16,
+    },
+
   }));
 
 export default function Sell(props) {
@@ -85,7 +90,6 @@ export default function Sell(props) {
         setPictures(pics);
     };
     
-//------------------------------------------------------------------------------------------------------//
     const [values, setValues] = React.useState({
         title: '',
         price: '',
@@ -99,6 +103,10 @@ export default function Sell(props) {
         status: 'On Sale',
     });
 
+    const handleChange = (prop) => (event) => {
+        setValues({ ...values, [prop]: event.target.value });
+    };
+
     const [transaction, setTransaction] = React.useState({
         paypal: false,
         quickpay: false,
@@ -110,10 +118,6 @@ export default function Sell(props) {
         dropoff: false,
         pickup: false,
     });
-
-    const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
     
     const handleTransactionChange = (event) => {
         setTransaction({ ...transaction, [event.target.name]: event.target.checked });
@@ -153,17 +157,17 @@ export default function Sell(props) {
                 }
             }
 
-            let imageUrl = []
+            let imageUrl = [];
             for (var picture of pictures) {
                 let pictFormData = new FormData();
-                console.log("picture");
-                console.log(picture);
+                // console.log("picture");
+                // console.log(picture);
                 pictFormData.append('file', picture, picture.name);
-                console.log("formdata");
-                console.log(pictFormData);
+                // console.log("formdata");
+                // console.log(pictFormData);
 
-                console.log("imageUrl");
-                console.log(imageUrl);
+                // console.log("imageUrl");
+                // console.log(imageUrl);
 
                 let currUrl = await axios({
                     method: 'post',
@@ -171,12 +175,16 @@ export default function Sell(props) {
                     data: pictFormData,
                     headers: {'Content-Type': 'multipart/form-data' } 
                 })
-                imageUrl.push (currUrl.data);
+                imageUrl.push ({
+                    postImage: currUrl.data
+                });
+                console.log(imageUrl);
             }   
+
 
             var curTime = moment();
 
-            const data = await mutate({ values, trans, deliv, curTime, userName})
+            const data = await mutate({ values, trans, deliv, curTime, userName, imageUrl})
             console.log("data")
             console.log(data)
             console.log(data.data.postId)
@@ -199,6 +207,7 @@ export default function Sell(props) {
     }
 
 //--------------------------------------------------------------------------------------------------//
+
     return (
         
         <Container maxWidth="lg">
@@ -313,7 +322,7 @@ export default function Sell(props) {
                         </form>
                     </Grid>
 
-                    <Grid item xs={4}>
+                    <Grid item xs={4} className={classes.middleGrid}>
                         <form className={classes.form} noValidate autoComplete="off">
                             <TextField
                                     required id="item-email"
@@ -402,7 +411,6 @@ export default function Sell(props) {
                             imgExtension={[".jpg", ".gif", ".png", ".gif"]}
                             maxFileSize={5242880}
                             withPreview={true}
-                
                             label="Upload your images"
                         />
                     </Grid>
