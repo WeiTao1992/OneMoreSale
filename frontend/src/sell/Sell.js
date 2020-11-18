@@ -153,6 +153,7 @@ export default function Sell(props) {
                 }
             }
 
+            let imageUrl = []
             for (var picture of pictures) {
                 let pictFormData = new FormData();
                 console.log("picture");
@@ -160,12 +161,17 @@ export default function Sell(props) {
                 pictFormData.append('file', picture, picture.name);
                 console.log("formdata");
                 console.log(pictFormData);
-                await axios({
+
+                console.log("imageUrl");
+                console.log(imageUrl);
+
+                let currUrl = await axios({
                     method: 'post',
                     url: 'oms/s3/upload/',
                     data: pictFormData,
-                    headers: {'Content-Type': 'multipart/form-data' }
-                });
+                    headers: {'Content-Type': 'multipart/form-data' } 
+                })
+                imageUrl.push (currUrl.data);
             }   
 
             var curTime = moment();
